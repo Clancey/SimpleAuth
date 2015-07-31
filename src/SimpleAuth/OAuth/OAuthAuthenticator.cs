@@ -20,7 +20,7 @@ namespace SimpleAuth.OAuth
 		public string Identifier { get; set; }
 
 		public string TokenUrl { get; set; }
-		public override string BaseUrl { get; }
-	    public override Uri RedirectUrl { get; }
+		public override string BaseUrl { get; set;}
+		public override Uri RedirectUrl { get; set;}
     }
 }

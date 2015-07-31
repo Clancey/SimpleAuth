@@ -10,8 +10,8 @@ namespace SimpleAuth
 {
     public abstract class Authenticator
     {
-	    public abstract string BaseUrl { get; }
-	    public abstract Uri RedirectUrl { get; }
+		public abstract string BaseUrl { get; set;}
+		public abstract Uri RedirectUrl { get; set;}
 
 	    public string AuthCode { get; private set; }
 
