@@ -48,6 +48,7 @@ namespace SimpleAuth
 				{
 					Authenticator = authenticator,
 				};
+				i.SetFlags(Android.Content.ActivityFlags.NewTask);
 				i.PutExtra("StateKey", WebAuthenticatorActivity.StateRepo.Add(state));
 				context.StartActivity(i);
 			};
