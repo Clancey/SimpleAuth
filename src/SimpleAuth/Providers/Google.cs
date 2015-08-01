@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SimpleAuth.Providers
 {
@@ -22,6 +23,20 @@ namespace SimpleAuth.Providers
 				Scope = scope.ToList(),
 				ClientId = ClientId,
 			};
+		}
+
+		public async Task<GoogleUserProfile> GetUserInfo(bool forceRefresh = false)
+		{
+			string userInfoJson;
+			if (!CurrentAccount.UserData.TryGetValue("userInfo", out userInfoJson))
+			{
+				CurrentAccount.UserData["userInfo"] =
+					userInfoJson = await GetString("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
+				SaveAccount(CurrentAccount);
+			}
+
+			return Deserialize<GoogleUserProfile>(userInfoJson);
+
 		}
 	}
 
@@ -45,6 +60,87 @@ namespace SimpleAuth.Providers
 			var data = await base.GetTokenPostData(clientSecret);
 			data["scope"] = string.Join(" ", Scope);
 			return data;
+		}
+	}
+
+
+	public class GoogleUserProfile
+	{
+		[JsonProperty("id")]
+		public string Id
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("email")]
+		public string Email
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("verified_email")]
+		public bool VerifiedEmail
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("name")]
+		public string Name
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("given_name")]
+		public string GivenName
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("family_name")]
+		public string FamilyName
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("link")]
+		public string Link
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("picture")]
+		public string Picture
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("gender")]
+		public string Gender
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("locale")]
+		public string Locale
+		{
+			get;
+			set;
+		}
+
+		[JsonProperty("hd")]
+		public string Hd
+		{
+			get;
+			set;
 		}
 	}
 
