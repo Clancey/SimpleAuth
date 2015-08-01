@@ -14,6 +14,7 @@ namespace SimpleAuth
 			this.authenticator = authenticator;
 			TokenUrl = authenticator.TokenUrl;
 		}
+
 		protected OAuthApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, handler)
 		{
 			this.ClientId = clientId;
@@ -62,9 +63,11 @@ namespace SimpleAuth
 
 		public string TokenUrl { get; set; }
 
+		public string[] Scopes { get; set; }
+
 		public override Task<Account> Authenticate()
 		{
-			return Authenticate(new string[] { "clouddrive:read", "clouddrive:write" });
+			return Authenticate(Scopes);
 		}
 
 		protected override async Task<Account> PerformAuthenticate(string[] scope)
