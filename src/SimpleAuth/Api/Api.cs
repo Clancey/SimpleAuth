@@ -199,7 +199,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
+				Debug.WriteLine(ex);
 			}
 			return default(T);
 		}

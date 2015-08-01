@@ -50,7 +50,7 @@ namespace SimpleAuth.Providers
 		{
 			if (cookies.Length == 0)
 				return;
-			var cookie = cookies.FirstOrDefault(x => x.Name.IndexOf("oauth_code", StringComparison.InvariantCultureIgnoreCase) == 0);
+			var cookie = cookies.FirstOrDefault(x => x.Name.IndexOf("oauth_code", StringComparison.CurrentCultureIgnoreCase) == 0);
 			if (!string.IsNullOrWhiteSpace(cookie?.Value))
 				FoundAuthCode(cookie.Value);
 		}

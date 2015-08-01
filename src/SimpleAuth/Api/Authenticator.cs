@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -60,7 +61,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
+				Debug.WriteLine(ex);
 			}
 		}
 
@@ -83,7 +84,7 @@ namespace SimpleAuth
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 		{
 			var scope = string.Join("%20", Scope.Select(HttpUtility.UrlEncode));
-			var url = $"{BaseUrl}?client_id={ClientId}&scope={scope}&response_type=code&redirect_uri={RedirectUrl.AbsoluteUri}";
+			var url = $"{BaseUrl}client_id={ClientId}&scope={scope}&response_type=code&redirect_uri={RedirectUrl.AbsoluteUri}";
 			return new Uri(url);
 		}
 
