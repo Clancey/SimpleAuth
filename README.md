@@ -32,3 +32,23 @@ Api Requests couldnt be simpler
 ```cs
 var myRequest = await api.Get<Foo>("http://myapi");
 ```
+
+
+Webview Authentication
+================
+
+The webview is automatically displayed for you.  If you want to handle displaying it your self you can!
+
+```cs
+Api.ShowAuthenticator = (authenticator) =>
+{
+	var invoker = new Foundation.NSObject();
+	invoker.BeginInvokeOnMainThread(() =>
+	{
+		var vc = new iOS.WebAuthenticator(authenticator);
+		//TODO: Present View Controller
+	});
+};
+```
+
+
