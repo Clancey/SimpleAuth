@@ -18,5 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OauthResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Amazon.cs" />
   </ItemGroup>
 </Project>
