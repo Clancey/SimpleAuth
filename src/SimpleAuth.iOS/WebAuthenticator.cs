@@ -231,7 +231,7 @@ namespace SimpleAuth.iOS
 
 				webView.UserInteractionEnabled = true;
 
-				//Controller.Authenticator.OnError (error.LocalizedDescription);
+				Controller.Authenticator.OnError (error.LocalizedDescription);
 			}
 
 			public override void LoadingFinished (UIWebView webView)
