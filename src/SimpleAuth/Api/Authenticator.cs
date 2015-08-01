@@ -45,24 +45,27 @@ namespace SimpleAuth
 			tokenTask.TrySetCanceled();
 		}
 
-		public virtual void CheckUrl(Uri url, Cookie[] cookies)
+		public virtual bool CheckUrl(Uri url, Cookie[] cookies)
 		{
 			try
 			{
 				if (url == null || string.IsNullOrWhiteSpace(url.Query))
-					return;
+					return false;
 				if (url.Host != RedirectUrl.Host)
-					return;
+					return false;
 				var parts = HttpUtility.ParseQueryString(url.Query);
 				var code = parts["code"];
-				if (!string.IsNullOrWhiteSpace(code) && tokenTask != null)
+				if (!string.IsNullOrWhiteSpace(code) && tokenTask != null){
 					FoundAuthCode(code);
+					return true;
+				}
 
 			}
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
 			}
+			return false;
 		}
 
 	    protected void FoundAuthCode(string authCode)
@@ -74,7 +77,8 @@ namespace SimpleAuth
 
 	    public void OnError(string error)
 		{
-			tokenTask.TrySetException(new Exception(error));
+			if(!HasCompleted)
+				tokenTask.TrySetException(new Exception(error));
 		}
 		public string ClientId { get; set; }
 		public List<string> Scope { get; set; }

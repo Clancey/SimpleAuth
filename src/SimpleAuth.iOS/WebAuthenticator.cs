@@ -207,7 +207,8 @@ namespace SimpleAuth.iOS
 				if (nsUrl != null && !Controller.Authenticator.HasCompleted) {
 					Uri url;
 					if (Uri.TryCreate (nsUrl.AbsoluteString, UriKind.Absolute, out url)) {
-						Controller.Authenticator.CheckUrl (url, GetCookies (url));
+						if (Controller.Authenticator.CheckUrl (url, GetCookies (url)))
+							return false;
 					}
 				}
 
