@@ -115,7 +115,7 @@ namespace SimpleAuth
 			var resp = await reply.Content.ReadAsStringAsync();
 			var result = Deserialize<OauthResponse>(resp);
 			if (!string.IsNullOrEmpty(result.Error))
-				throw new Exception(result.ErrorDescription);
+ 				throw new Exception(result.ErrorDescription);
 
 			var account = new OAuthAccount()
 			{

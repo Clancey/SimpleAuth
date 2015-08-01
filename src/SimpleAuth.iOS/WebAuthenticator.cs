@@ -207,7 +207,8 @@ namespace SimpleAuth.iOS
 				if (nsUrl != null && !Controller.Authenticator.HasCompleted) {
 					Uri url;
 					if (Uri.TryCreate (nsUrl.AbsoluteString, UriKind.Absolute, out url)) {
-						Controller.Authenticator.CheckUrl (url, GetCookies (url));
+						if (Controller.Authenticator.CheckUrl (url, GetCookies (url)))
+							return false;
 					}
 				}
 
@@ -230,7 +231,7 @@ namespace SimpleAuth.iOS
 
 				webView.UserInteractionEnabled = true;
 
-				Controller.Authenticator.OnError (error.LocalizedDescription);
+				//Controller.Authenticator.OnError (error.LocalizedDescription);
 			}
 
 			public override void LoadingFinished (UIWebView webView)

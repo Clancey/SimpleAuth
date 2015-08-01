@@ -45,20 +45,11 @@ namespace SimpleAuth.Providers
 		public override string BaseUrl { get; set; } = "https://accounts.google.com/o/oauth2/auth";
 		public override Uri RedirectUrl { get;set; } =  new Uri("http://localhost");
 	
-
-		public override void CheckUrl(Uri url, Cookie[] cookies)
-		{
-			if (cookies.Length == 0)
-				return;
-			var cookie = cookies.FirstOrDefault(x => x.Name.IndexOf("oauth_code", StringComparison.InvariantCultureIgnoreCase) == 0);
-			if (!string.IsNullOrWhiteSpace(cookie?.Value))
-				FoundAuthCode(cookie.Value);
-		}
-
 		public override async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 		{
 			var data = await base.GetTokenPostData(clientSecret);
 			data["scope"] = string.Join(" ", Scope);
+			data ["redirect_uri"] = RedirectUrl.AbsoluteUri;
 			return data;
 		}
 	}
