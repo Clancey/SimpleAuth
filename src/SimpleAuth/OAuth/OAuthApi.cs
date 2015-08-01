@@ -67,6 +67,8 @@ namespace SimpleAuth
 
 		public override Task<Account> Authenticate()
 		{
+			if(Scopes == null || Scopes.Length == 0)
+				throw new Exception("Scopes must be set on the API or passed into Authenticate");
 			return Authenticate(Scopes);
 		}
 

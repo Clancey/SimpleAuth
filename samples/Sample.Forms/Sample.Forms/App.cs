@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleAuth;
 using SimpleAuth.OAuth;
+using SimpleAuth.Providers;
 using Xamarin.Forms;
 
 namespace Sample.Forms
@@ -15,12 +16,17 @@ namespace Sample.Forms
 		OAuthApi api;
 		public App ()
 		{
-			api = new OAuthApi("google", new OAuthAuthenticator(
-				   "https://accounts.google.com/o/oauth2/auth", //Auth Url
-				   "https://accounts.google.com/o/oauth2/token", //Token Url
-				   "http://localhost",
+			var scopes = new[]
+			{
+				"https://www.googleapis.com/auth/userinfo.email",
+				"https://www.googleapis.com/auth/userinfo.profile"
+			};
+			api = new GoogleApi("google",
 				   "clientid",
-				   "clientsecret"));
+				   "clientsecret")
+			{
+				Scopes = scopes,
+			};
 			var button = new Button
 			{
 				Text = "Login",
