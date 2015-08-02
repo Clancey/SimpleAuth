@@ -140,7 +140,7 @@ namespace SimpleAuth
 		public virtual async Task<T> Get<T>(string path, string id = "")
 		{
 			var data = await GetString(Path.Combine(path, id));
-			return await Task.Factory.StartNew(() => Deserialize<T>(data));
+			return await Task.Run(() => Deserialize<T>(data));
 
 		}
 
@@ -150,7 +150,7 @@ namespace SimpleAuth
 			var data = await PostUrl(path, content);
 			if(Verbose)
 				Debug.WriteLine(data);
-			return await Task.Factory.StartNew(() => Deserialize<T>(data));
+			return await Task.Run(() => Deserialize<T>(data));
 
 		}
 		public virtual async Task<T> Post<T>(string path, HttpContent content)
@@ -160,7 +160,7 @@ namespace SimpleAuth
 			var data = await resp.Content.ReadAsStringAsync();
 			if(Verbose)
 				Debug.WriteLine(data);
-			return await Task.Factory.StartNew(() => Deserialize<T>(data));
+			return await Task.Run(() => Deserialize<T>(data));
 
 		}
 		public async Task<HttpResponseMessage> PostMessage(string path, HttpContent content)
