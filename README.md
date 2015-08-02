@@ -35,7 +35,7 @@ Restful Api Requests
 Restful Api Requests couldnt be simpler
 
 ```cs
-var song = await api.Get<Song>("http://myapi/Song/songId");
+var song = await api.Get<Song>("http://myapi/Song/",songId);
 ```
 
 
