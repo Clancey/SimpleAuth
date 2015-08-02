@@ -1,22 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
-        <id>SimpleAuth</id>
-        <version>1.0.2</version>
+        <id>Clancey.SimpleAuth</id>
+        <version>1.0.3</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Simplest OAuth client for Xamarin</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it. Most importantly it works great wit</summary>
+        <releaseNotes>Fixed an issue with the AmazonProvider</releaseNotes>
         <copyright>James Clancey</copyright>
-		<dependencies>
-			<dependency id="Newtonsoft.Json" />
-		</dependencies>
+        <dependencies>
+            <dependency id="Newtonsoft.Json" />
+        </dependencies>
     </metadata>
     <files>
-        <file src="src\SimpleAuth.iOS\bin\iPhone\Release\SimpleAuth.iOS.dll" target="lib\Xamarin.iOS10\SimpleAuth.iOS.dll" />
         <file src="src\SimpleAuth.Droid\bin\Release\SimpleAuth.Droid.dll" target="lib\MonoAndroid\SimpleAuth.Droid.dll" />
         <file src="src\SimpleAuth.Portable\bin\Release\SimpleAuth.Portable.dll" target="lib\Portable-Net45+WinRT45+WP8+WPA81\SimpleAuth.Portable.dll" />
+        <file src="src\SimpleAuth.iOS\bin\iPhone\Release\SimpleAuth.iOS.dll" target="lib\Xamarin.iOS10\SimpleAuth.iOS.dll" />
     </files>
 </package>
