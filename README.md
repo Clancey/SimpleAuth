@@ -29,13 +29,13 @@ var account = await api.Authenticate();
 ```
 
 
-Api Requests
+Restful Api Requests
 ================
 
-Api Requests couldnt be simpler
+Restful Api Requests couldnt be simpler
 
 ```cs
-var myRequest = await api.Get<Foo>("http://myapi");
+var song = await api.Get<Song>("http://myapi/Song/songId");
 ```
 
 
