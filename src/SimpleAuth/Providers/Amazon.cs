@@ -27,7 +27,7 @@ namespace SimpleAuth.Providers
 
 	public class AmazonAuthenticator : Authenticator
 	{
-		public override string BaseUrl { get; set; } = "https://www.amazon.com/ap/oa?";
+		public override string BaseUrl { get; set; } = "https://www.amazon.com/ap/oa";
 		public override Uri RedirectUrl { get; set; } = new Uri("http://localhost");
 		public override async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 		{

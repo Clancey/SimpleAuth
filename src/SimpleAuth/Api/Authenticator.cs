@@ -88,7 +88,8 @@ namespace SimpleAuth
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 		{
 			var scope = string.Join("%20", Scope.Select(HttpUtility.UrlEncode));
-			var url = $"{BaseUrl}?client_id={ClientId}&scope={scope}&response_type=code&redirect_uri={RedirectUrl.AbsoluteUri}";
+			var delimiter = BaseUrl.EndsWith ("?", StringComparison.CurrentCultureIgnoreCase) ? "" : "?";
+			var url = $"{BaseUrl}{delimiter}client_id={ClientId}&scope={scope}&response_type=code&redirect_uri={RedirectUrl.AbsoluteUri}";
 			return new Uri(url);
 		}
 
