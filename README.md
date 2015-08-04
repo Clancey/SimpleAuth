@@ -56,4 +56,15 @@ Api.ShowAuthenticator = (authenticator) =>
 };
 ```
 
+OnePassword Support
+=============
 
+On password support is for iOS Only.  
+Simply add the project or the Nuget
+
+https://www.nuget.org/packages/Clancey.SimpleAuth.OnePassword/
+
+Then call the following line in your iOS project
+```cs
+SimpleAuth.OnePassword.Activate();
+```
