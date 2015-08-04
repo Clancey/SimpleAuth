@@ -72,7 +72,7 @@ namespace SimpleAuth
 	    {
 			HasCompleted = !string.IsNullOrWhiteSpace(authCode);
 			AuthCode = authCode;
-            tokenTask.TrySetResult(authCode);
+            tokenTask?.TrySetResult(authCode);
 		}
 
 	    public void OnError(string error)

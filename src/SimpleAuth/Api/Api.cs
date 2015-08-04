@@ -22,9 +22,12 @@ namespace SimpleAuth
 		
 		protected HttpClient Client;
 
+		public readonly HttpMessageHandler Handler;
+
 		public Api(string identifier, HttpMessageHandler handler = null)
 		{
 			Identifier = identifier;
+			Handler = handler;
 			Client = handler == null ? new HttpClient() : new HttpClient(handler);
 		}
 
