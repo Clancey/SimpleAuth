@@ -15,7 +15,7 @@ namespace SimpleAuth.iOS
 		public readonly Authenticator Authenticator;
 		public static UIBarButtonItem RightButtonItem { get; set; }
 
-		UIWebView webView;
+		internal UIWebView webView;
 		UIActivityIndicatorView activity;
 		UIView authenticatingView;
 		ProgressLabel progress;
@@ -24,9 +24,10 @@ namespace SimpleAuth.iOS
 		const double TransitionTime = 0.25;
 
 		bool keepTryingAfterError = true;
-
+		internal static WebAuthenticator Shared { get; set; }
 		public WebAuthenticator (Authenticator authenticator)
 		{
+			Shared = this;
 			this.Authenticator = authenticator;
 			MonitorAuthenticator ();
 			//
