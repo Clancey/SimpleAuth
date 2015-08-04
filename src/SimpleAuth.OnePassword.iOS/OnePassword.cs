@@ -22,9 +22,9 @@ namespace SimpleAuth
 						(success, error) =>
 						{
 							Console.WriteLine("Error");
+							if(tintColor != null)
+								UIApplication.SharedApplication.KeyWindow.TintColor = tintColor;
 						});
-					if(tintColor != null)
-						UIApplication.SharedApplication.KeyWindow.TintColor = tintColor;
 				});
 		}
 	}
