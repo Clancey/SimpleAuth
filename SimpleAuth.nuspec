@@ -12,7 +12,7 @@
         <releaseNotes>Made changes to allow OnePassword Extension for iOS.</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-            <dependency id="Newtonsoft.Json" />
+            <dependency id="Newtonsoft.Json" version="7.0.1"/>
         </dependencies>
     </metadata>
     <files>
