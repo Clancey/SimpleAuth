@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UIKit;
 using CoreGraphics;
 using Foundation;
@@ -12,7 +13,7 @@ namespace SimpleAuth.iOS
 	{
 
 		public readonly Authenticator Authenticator;
-
+		public static UIBarButtonItem RightButtonItem { get; set; }
 
 		UIWebView webView;
 		UIActivityIndicatorView activity;
@@ -46,13 +47,16 @@ namespace SimpleAuth.iOS
 				activityStyle = UIActivityIndicatorViewStyle.Gray;
 
 			activity = new UIActivityIndicatorView (activityStyle);
-			NavigationItem.RightBarButtonItems = new [] {
-
+			var rightBarButtonItems = new List<UIBarButtonItem> {
 				#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 				new UIBarButtonItem (UIBarButtonSystemItem.Refresh, (s, e) => BeginLoadingInitialUrl ()),
 				#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 				new UIBarButtonItem (activity),
 			};
+			if(RightButtonItem != null)
+				rightBarButtonItems.Insert(0,RightButtonItem);
+
+			NavigationItem.RightBarButtonItems = rightBarButtonItems.ToArray();
 
 			webView = new UIWebView (View.Bounds) {
 				Delegate = new WebViewDelegate (this),
