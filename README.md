@@ -64,7 +64,7 @@ Simply add the project or the Nuget
 
 https://www.nuget.org/packages/Clancey.SimpleAuth.OnePassword/
 
-Then call the following line in your iOS project
+Then call the following line in your iOS project prior to calling api.Authenticate();
 ```cs
 SimpleAuth.OnePassword.Activate();
 ```
