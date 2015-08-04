@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Simplest OAuth client for Xamarin</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it. Most importantly it works great wit</summary>
-        <releaseNotes>Fixed an issue with the AmazonProvider</releaseNotes>
+        <releaseNotes>Made changes to allow OnePassword Extension for iOS.</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
             <dependency id="Newtonsoft.Json" />

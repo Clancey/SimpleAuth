@@ -21,10 +21,11 @@ namespace SimpleAuth
                     AgileBits.OnePasswordExtension.SharedExtension.FillLoginIntoWebView(iOS.WebAuthenticator.Shared.webView, iOS.WebAuthenticator.Shared,SimpleAuth.iOS.WebAuthenticator.RightButtonItem,
 						(success, error) =>
 						{
-							Console.WriteLine("Error");
+							if(error != null)
+							Console.WriteLine(error);
+							if (tintColor != null)
+								UIApplication.SharedApplication.KeyWindow.TintColor = tintColor;
 						});
-					if(tintColor != null)
-						UIApplication.SharedApplication.KeyWindow.TintColor = tintColor;
 				});
 		}
 	}
