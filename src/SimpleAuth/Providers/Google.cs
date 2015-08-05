@@ -22,6 +22,7 @@ namespace SimpleAuth.Providers
 			{
 				Scope = scope.ToList(),
 				ClientId = ClientId,
+				ClearCookiesBeforeLogin = CalledReset,
 			};
 		}
 

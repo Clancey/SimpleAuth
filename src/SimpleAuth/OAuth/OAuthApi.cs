@@ -73,6 +73,13 @@ namespace SimpleAuth
 			return Authenticate(Scopes);
 		}
 
+		public override void ResetData()
+		{
+			base.ResetData();
+			if (authenticator != null)
+				authenticator.ClearCookiesBeforeLogin = true;
+		}
+
 		protected override async Task<Account> PerformAuthenticate(string[] scope)
 		{
 			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);

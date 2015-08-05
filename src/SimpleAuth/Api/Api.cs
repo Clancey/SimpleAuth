@@ -87,6 +87,13 @@ namespace SimpleAuth
 
 		}
 
+		protected bool CalledReset = false;
+		public virtual void ResetData()
+		{
+			CalledReset = true;
+			Utility.SetSecured(Identifier,"",ClientId,ClientSecret);
+		}
+
 		protected virtual void SaveAccount(Account account)
 		{
 			Utility.SetSecured(account.Identifier, SerializeObject(account),ClientId, ClientSecret);
