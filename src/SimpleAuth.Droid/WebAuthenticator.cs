@@ -207,17 +207,27 @@ namespace SimpleAuth
 			System.Net.Cookie[] GetCookies(string url)
 			{
 				Android.Webkit.CookieSyncManager.CreateInstance(this.activity);
-				var cookiePairs = CookieManager.Instance.GetCookie(url)?.Split('&') ?? new string[0];
+				var cookies = CookieManager.Instance.GetCookie (url);
+				var cookiePairs = cookies?.Split('&') ?? new string[0];
 
 				return cookiePairs.Select(x =>
 				{
-					var parts = x.Split(':');
-					return new Cookie
+					var parts = x.Split('=');
+					if (parts[0].Contains(":"))
+						parts[0] = parts[0].Substring(0, parts[0].IndexOf(":"));
+					try{
+						return new Cookie
+						{
+							Name = parts[0],
+							Value = parts[1],
+						};
+					}
+					catch(Exception ex)
 					{
-						Name = parts[0],
-						Value = parts[1],
-					};
-					})?.ToArray() ?? new Cookie[0];
+						Console.WriteLine(ex);
+							return null;
+					}
+				})?.Where(x=> x != null).ToArray() ?? new Cookie[0];
 			}
 
 			class SslCertificateEqualityComparer
