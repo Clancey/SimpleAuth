@@ -6,9 +6,9 @@
     <ProjectGuid>{2C2264A6-2534-485E-8772-623D1ABEEFFF}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>SimpleAuth.iOS</RootNamespace>
+    <RootNamespace>SimpleAuth</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>SimpleAuth.iOS</AssemblyName>
+    <AssemblyName>SimpleAuth</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("SimpleAuth.Droid.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("SimpleAuth.Resource", IsApplication=false)]
 
-namespace SimpleAuth.Droid
+namespace SimpleAuth
 {
 	
 	
