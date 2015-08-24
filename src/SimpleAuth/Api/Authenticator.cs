@@ -9,27 +9,44 @@ using System.Web;
 
 namespace SimpleAuth
 {
-    public abstract class Authenticator
-    {
-		public abstract string BaseUrl { get; set;}
-		public abstract Uri RedirectUrl { get; set;}
+	public abstract class Authenticator
+	{
+		public abstract string BaseUrl
+		{
+			get;
+			set;
+		}
 
-	    public string AuthCode { get; private set; }
+		public abstract Uri RedirectUrl
+		{
+			get;
+			set;
+		}
 
-	    public Authenticator()
+		public string AuthCode
+		{
+			get;
+			private set;
+		}
+
+		public Authenticator()
 		{
 			AllowsCancel = true;
 			Title = "Sign in";
 			Scope = new List<string>();
 		}
 
-		public string Title { get; set; }
+		public string Title
+		{
+			get;
+			set;
+		}
 
 		TaskCompletionSource<string> tokenTask;
 
 		public async Task<string> GetAuthCode()
 		{
-			if (tokenTask != null && !tokenTask.Task.IsCompleted)
+			if(tokenTask != null && !tokenTask.Task.IsCompleted)
 			{
 				return await tokenTask.Task;
 			}
@@ -37,7 +54,11 @@ namespace SimpleAuth
 			return await tokenTask.Task;
 		}
 
-		public bool AllowsCancel { get; set; }
+		public bool AllowsCancel
+		{
+			get;
+			set;
+		}
 
 		public void OnCancelled()
 		{
@@ -49,66 +70,93 @@ namespace SimpleAuth
 		{
 			try
 			{
-				if (url == null || string.IsNullOrWhiteSpace(url.Query))
+				if(url == null || string.IsNullOrWhiteSpace(url.Query))
 					return false;
-				if (url.Host != RedirectUrl.Host)
+				if(url.Host != RedirectUrl.Host)
 					return false;
 				var parts = HttpUtility.ParseQueryString(url.Query);
 				var code = parts["code"];
-				if (!string.IsNullOrWhiteSpace(code) && tokenTask != null){
+				if(!string.IsNullOrWhiteSpace(code) && tokenTask != null)
+				{
 					FoundAuthCode(code);
 					return true;
 				}
 
 			}
-			catch (Exception ex)
+			catch(Exception ex)
 			{
 				Debug.WriteLine(ex);
 			}
 			return false;
 		}
 
-	    protected void FoundAuthCode(string authCode)
-	    {
+		protected void FoundAuthCode(string authCode)
+		{
 			HasCompleted = !string.IsNullOrWhiteSpace(authCode);
 			AuthCode = authCode;
-            tokenTask?.TrySetResult(authCode);
+			tokenTask?.TrySetResult(authCode);
 		}
 
-	    public void OnError(string error)
+		public void OnError(string error)
 		{
 			if(!HasCompleted)
 				tokenTask.TrySetException(new Exception(error));
 		}
-		public string ClientId { get; set; }
-		public List<string> Scope { get; set; }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+		public string ClientId
+		{
+			get;
+			set;
+		}
+
+		public List<string> Scope
+		{
+			get;
+			set;
+		}
+
+		#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 		public virtual async Task<Uri> GetInitialUrl()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run s
 		{
 			var scope = string.Join("%20", Scope.Select(HttpUtility.UrlEncode));
-			var delimiter = BaseUrl.EndsWith ("?", StringComparison.CurrentCultureIgnoreCase) ? "" : "?";
+			var delimiter = BaseUrl.EndsWith("?", StringComparison.CurrentCultureIgnoreCase) ? "" : "?";
 			var url = $"{BaseUrl}{delimiter}client_id={ClientId}&scope={scope}&response_type=code&redirect_uri={RedirectUrl.AbsoluteUri}";
 			return new Uri(url);
 		}
 
-#pragma warning disable 1998
-	    public virtual async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
+		#pragma warning disable 1998
+		public virtual async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 #pragma warning restore 1998
 	    {
-			return new Dictionary<string,string>
-		    {
-			    {"grant_type","authorization_code"},
-				{"code",AuthCode},
-				{"client_id",ClientId},
-				{"client_secret",clientSecret},
-		    };
-	    }
+			return new Dictionary<string,string> {
+				{
+					"grant_type",
+					"authorization_code"
+				}, {
+					"code",
+					AuthCode
+				}, {
+					"client_id",
+					ClientId
+				}, {
+					"client_secret",
+					clientSecret
+				},
+			};
+		}
 
-	    public bool ClearCookiesBeforeLogin { get; set; }
+		public bool ClearCookiesBeforeLogin
+		{
+			get;
+			set;
+		}
 
-		public bool HasCompleted { get; private set; }
+		public bool HasCompleted
+		{
+			get;
+			private set;
+		}
 
 	}
 	

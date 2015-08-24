@@ -61,6 +61,12 @@ namespace SimpleAuth.Providers
 			data["redirect_uri"] = RedirectUrl.AbsoluteUri;
 			return data;
 		}
+
+		public override async Task<Uri> GetInitialUrl()
+		{
+			var uri = await base.GetInitialUrl();
+			return new Uri(uri.AbsoluteUri + "&access_type=offline");
+		}
 	}
 
 
