@@ -11,14 +11,14 @@ namespace SimpleAuth
 	public static class Utility
 	{
 		static Dictionary<string,KeyStore> keyStores = new Dictionary<string, KeyStore>();
-		static internal void SetSecured(string key,string value,string clientId,string service)
+		static internal void SetSecured(string key,string value,string clientId,string service, string sharedGroup)
 		{
 			var ks = LoadKeyStore(clientId, service);
 			ks.SetEntry($"{clientId} - {key}", new KeyStore.SecretKeyEntry(new SecretAccount(value)), new KeyStore.PasswordProtection(service.ToCharArray()));
 			Save(clientId,service,ks);
 		}
 
-		static internal string GetSecured(string id,string clientId, string service)
+		static internal string GetSecured(string id,string clientId, string service,string sharedGroup)
 		{
 			var key = $"{clientId} - {id}";
 			var prot = new KeyStore.PasswordProtection(service.ToCharArray());

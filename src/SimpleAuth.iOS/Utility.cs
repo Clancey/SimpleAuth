@@ -6,9 +6,7 @@ namespace SimpleAuth
 {
 	public static class Utility
 	{
-		private static NSUserDefaults prefs = NSUserDefaults.StandardUserDefaults;
-
-		static internal void SetSecured(string key, string value, string clientId, string service)
+		static internal void SetSecured(string key, string value, string clientId, string service, string sharedGroupId)
 		{
 			var s = new SecRecord(SecKind.GenericPassword)
 			{
@@ -19,13 +17,18 @@ namespace SimpleAuth
 			var match = SecKeyChain.QueryAsRecord(s, out res);
 			if (res == SecStatusCode.Success)
 			{
-				var remStatus = SecKeyChain.Remove(s);
+				var remStatus = SecKeyChain.Remove(match);
 			}
 
 			s.ValueData = NSData.FromString(value);
+
+			if (!string.IsNullOrWhiteSpace (sharedGroupId) && ObjCRuntime.Runtime.Arch != ObjCRuntime.Arch.SIMULATOR) {
+				s.AccessGroup = sharedGroupId;
+			}
 			var err = SecKeyChain.Add(s);
+			Console.WriteLine (err);
 		}
-		static internal string GetSecured(string id, string clientId, string service)
+		static internal string GetSecured(string id, string clientId, string service, string sharedGroupId)
 		{
 			var rec = new SecRecord(SecKind.GenericPassword)
 			{

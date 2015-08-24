@@ -14,6 +14,8 @@ namespace SimpleAuth
 		public bool Verbose { get; set; } = false;
 		public string Identifier {get; private set;}
 
+		public string SharedGroupAccess { get; set; }
+
 		public virtual string ExtraDataString { get; set; }
 
 		protected string ClientSecret;
@@ -91,19 +93,19 @@ namespace SimpleAuth
 		public virtual void ResetData()
 		{
 			CalledReset = true;
-			Utility.SetSecured(Identifier,"",ClientId,ClientSecret);
+			Utility.SetSecured(Identifier,"",ClientId,ClientSecret,SharedGroupAccess);
 		}
 
 		protected virtual void SaveAccount(Account account)
 		{
-			Utility.SetSecured(account.Identifier, SerializeObject(account),ClientId, ClientSecret);
+			Utility.SetSecured(account.Identifier, SerializeObject(account),ClientId, ClientSecret,SharedGroupAccess);
 		}
 
 		protected virtual T GetAccount<T>(string identifier) where T : Account
 		{
 			try
 			{
-				var data = Utility.GetSecured(identifier, ClientId, ClientSecret);
+				var data = Utility.GetSecured(identifier, ClientId, ClientSecret,SharedGroupAccess);
 				return string.IsNullOrWhiteSpace(data) ? null : Deserialize<T>(data);
 			}
 			catch (Exception ex)
