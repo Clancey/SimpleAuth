@@ -18,8 +18,7 @@ namespace SimpleAuth.Providers
 
 		protected override Authenticator CreateAuthenticator(string[] scope)
 		{
-			return new GoogleAuthenticator
-			{
+			return new GoogleAuthenticator {
 				Scope = scope.ToList(),
 				ClientId = ClientId,
 				ClearCookiesBeforeLogin = CalledReset,
@@ -29,7 +28,7 @@ namespace SimpleAuth.Providers
 		public async Task<GoogleUserProfile> GetUserInfo(bool forceRefresh = false)
 		{
 			string userInfoJson;
-			if (forceRefresh || !CurrentAccount.UserData.TryGetValue("userInfo", out userInfoJson))
+			if(forceRefresh || !CurrentAccount.UserData.TryGetValue("userInfo", out userInfoJson))
 			{
 				CurrentAccount.UserData["userInfo"] =
 					userInfoJson = await GetString("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
@@ -41,17 +40,32 @@ namespace SimpleAuth.Providers
 		}
 	}
 
-	class GoogleAuthenticator : Authenticator
+	public class GoogleAuthenticator : Authenticator
 	{
-		public override string BaseUrl { get; set; } = "https://accounts.google.com/o/oauth2/auth";
-		public override Uri RedirectUrl { get;set; } =  new Uri("http://localhost");
-	
+		public override string BaseUrl
+		{
+			get;
+			set;
+		} = "https://accounts.google.com/o/oauth2/auth";
+
+		public override Uri RedirectUrl
+		{
+			get;
+			set;
+		} =  new Uri("http://localhost");
+
 		public override async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 		{
 			var data = await base.GetTokenPostData(clientSecret);
 			data["scope"] = string.Join(" ", Scope);
-			data ["redirect_uri"] = RedirectUrl.AbsoluteUri;
+			data["redirect_uri"] = RedirectUrl.AbsoluteUri;
 			return data;
+		}
+
+		public override async Task<Uri> GetInitialUrl()
+		{
+			var uri = await base.GetInitialUrl();
+			return new Uri(uri.AbsoluteUri + "&access_type=offline");
 		}
 	}
 
