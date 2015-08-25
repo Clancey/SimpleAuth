@@ -17,7 +17,7 @@ namespace SimpleAuth
 			var match = SecKeyChain.QueryAsRecord(s, out res);
 			if (res == SecStatusCode.Success)
 			{
-				var remStatus = SecKeyChain.Remove(match);
+				var remStatus = SecKeyChain.Remove(s);
 			}
 
 			s.ValueData = NSData.FromString(value);
