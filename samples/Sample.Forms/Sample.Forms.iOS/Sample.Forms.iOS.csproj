@@ -128,6 +128,9 @@
     <Reference Include="Xamarin.Forms.Xaml, Version=1.3.3.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\packages\Xamarin.Forms.1.3.3.6323\lib\Xamarin.iOS10\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\..\packages\modernhttpclient.2.4.2\lib\Xamarin.iOS10\ModernHttpClient.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\SimpleAuth.iOS\SimpleAuth.iOS.csproj">

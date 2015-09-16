@@ -23,10 +23,11 @@ namespace Sample.Forms
 			};
 			api = new GoogleApi("google",
 				   "clientid",
-				   "clientsecret")
+				"clientsecret",new ModernHttpClient.NativeMessageHandler())
 			{
 				Scopes = scopes,
 			};
+
 			var button = new Button
 			{
 				Text = "Login",
@@ -36,6 +37,7 @@ namespace Sample.Forms
 				try
 				{
 					var account = await api.Authenticate();
+
 					Console.WriteLine(account.Identifier);
 				}
 				catch (TaskCanceledException ex)
