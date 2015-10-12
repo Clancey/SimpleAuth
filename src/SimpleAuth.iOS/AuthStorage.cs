@@ -4,9 +4,9 @@ using Security;
 
 namespace SimpleAuth
 {
-	public static class Utility
+	public class AuthStorage : IAuthStorage
 	{
-		static internal void SetSecured(string key, string value, string clientId, string service, string sharedGroupId)
+		public void SetSecured(string key, string value, string clientId, string service, string sharedGroupId)
 		{
 			var s = new SecRecord(SecKind.GenericPassword)
 			{
@@ -28,7 +28,7 @@ namespace SimpleAuth
 			var err = SecKeyChain.Add(s);
 			Console.WriteLine (err);
 		}
-		static internal string GetSecured(string id, string clientId, string service, string sharedGroupId)
+		public string GetSecured(string id, string clientId, string service, string sharedGroupId)
 		{
 			var rec = new SecRecord(SecKind.GenericPassword)
 			{

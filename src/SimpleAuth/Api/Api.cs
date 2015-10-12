@@ -88,24 +88,28 @@ namespace SimpleAuth
 		{
 
 		}
-
+		public virtual IAuthStorage AuthStorage {
+			get {
+				return Resolver.GetObject<IAuthStorage> ();
+			}
+		}
 		protected bool CalledReset = false;
 		public virtual void ResetData()
 		{
 			CalledReset = true;
-			Utility.SetSecured(Identifier,"",ClientId,ClientSecret,SharedGroupAccess);
+			AuthStorage.SetSecured(Identifier,"",ClientId,ClientSecret,SharedGroupAccess);
 		}
 
 		protected virtual void SaveAccount(Account account)
 		{
-			Utility.SetSecured(account.Identifier, SerializeObject(account),ClientId, ClientSecret,SharedGroupAccess);
+			AuthStorage.SetSecured(account.Identifier, SerializeObject(account),ClientId, ClientSecret,SharedGroupAccess);
 		}
 
 		protected virtual T GetAccount<T>(string identifier) where T : Account
 		{
 			try
 			{
-				var data = Utility.GetSecured(identifier, ClientId, ClientSecret,SharedGroupAccess);
+				var data = AuthStorage.GetSecured(identifier, ClientId, ClientSecret,SharedGroupAccess);
 				return string.IsNullOrWhiteSpace(data) ? null : Deserialize<T>(data);
 			}
 			catch (Exception ex)
@@ -170,7 +174,7 @@ namespace SimpleAuth
 			Debug.WriteLine("{0} - {1}", path, await content.ReadAsStringAsync());
 			var resp = await PostMessage(path, content);
 			var data = await resp.Content.ReadAsStringAsync();
-			if(Verbose)
+			//if(Verbose)
 				Debug.WriteLine(data);
 			return await Task.Run(() => Deserialize<T>(data));
 
