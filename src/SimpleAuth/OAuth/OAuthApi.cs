@@ -54,6 +54,16 @@ namespace SimpleAuth
 				i.PutExtra("StateKey", WebAuthenticatorActivity.StateRepo.Add(state));
 				context.StartActivity(i);
 			};
+#elif __OSX__
+			Api.ShowAuthenticator = (authenticator) =>
+			{
+				var invoker = new Foundation.NSObject();
+				invoker.BeginInvokeOnMainThread(() =>
+				{
+					var vc = new SimpleAuth.Mac.WebAuthenticator(authenticator);
+					SimpleAuth.Mac.WebAuthenticator.ShowWebivew(vc);
+				});
+			};
 #endif
 
 
