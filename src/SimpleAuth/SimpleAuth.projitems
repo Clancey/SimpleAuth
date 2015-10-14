@@ -22,8 +22,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Google.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Resolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IAuthStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Properties\" />
   </ItemGroup>
 </Project>

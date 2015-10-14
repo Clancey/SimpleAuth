@@ -56,9 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AuthStorage.cs" />
     <Compile Include="WebAuthenticator.cs" />
   </ItemGroup>
