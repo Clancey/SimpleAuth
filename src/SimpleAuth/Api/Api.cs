@@ -79,7 +79,7 @@ namespace SimpleAuth
 
 		protected abstract Task<Account> PerformAuthenticate(string[] scope);
 
-		protected abstract Task RefreshAccount(Account account);
+		protected abstract Task<bool> RefreshAccount(Account account);
 
 		public static Action<Authenticator> ShowAuthenticator { get; set; }
 		public string DeviceId { get; set; }

@@ -153,7 +153,7 @@ namespace SimpleAuth
 		{
 			return authenticator;
 		}
-		protected async Task RefreshToken(Account accaccount)
+		protected async Task<bool> RefreshToken(Account accaccount)
 		{
 			try
 			{
@@ -178,8 +178,7 @@ namespace SimpleAuth
 						account.RefreshToken = "";
 						account.ExpiresIn = 1;
 						SaveAccount(account);
-						await Authenticate();
-						return;
+						return await Authenticate() != null;
 					}
 					else
 						throw new Exception(result.ErrorDescription);
@@ -194,19 +193,21 @@ namespace SimpleAuth
 					await OnAccountUpdated(account);
 				CurrentAccount = account;
 				SaveAccount(account);
+				return true;
 			}
 			catch (Exception ex)
 			{
 				Debug.WriteLine(ex);
 			}
+			return false;
 		}
 
-		Task refreshTask;
-		protected override async Task RefreshAccount(Account account)
+		Task<bool> refreshTask;
+		protected override async Task<bool> RefreshAccount(Account account)
 		{
 			if (refreshTask == null || refreshTask.IsCompleted)
 				refreshTask = RefreshToken(account);
-			await refreshTask;
+			return await refreshTask;
 		}
 
 		public override async Task PrepareClient(HttpClient client)
