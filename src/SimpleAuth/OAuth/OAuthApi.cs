@@ -69,7 +69,7 @@ namespace SimpleAuth
 
 		}
 
-		Authenticator authenticator;
+		protected Authenticator authenticator;
 		public OAuthAccount CurrentOAuthAccount => CurrentAccount as OAuthAccount;
 
 		public string TokenUrl { get; set; }
@@ -108,7 +108,8 @@ namespace SimpleAuth
 					return account;
 				}
 			}
-			var authenticator = CreateAuthenticator(scope);
+
+			authenticator = CreateAuthenticator(scope);
 
 			ShowAuthenticator(authenticator);
 

@@ -96,6 +96,7 @@ namespace SimpleAuth
 		protected bool CalledReset = false;
 		public virtual void ResetData()
 		{
+			CurrentAccount = null;
 			CalledReset = true;
 			AuthStorage.SetSecured(Identifier,"",ClientId,ClientSecret,SharedGroupAccess);
 		}
