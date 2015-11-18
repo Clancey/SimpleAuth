@@ -15,7 +15,24 @@ namespace SimpleAuth.Mac
 		public WebAuthenticator(Authenticator authenticator)
 		{
 			this.Authenticator = authenticator;
+			MonitorAuthenticator ();
 			this.FrameLoadDelegate = this;
+		}
+		async Task MonitorAuthenticator ()
+		{
+			try{
+				await Authenticator.GetAuthCode ();
+				if (!Authenticator.HasCompleted)
+					return;
+				BeginInvokeOnMainThread(()=>{
+					var app = NSApplication.SharedApplication;
+					app.EndSheet(Window);
+					window.OrderOut(this);
+				});
+			}
+			catch(Exception ex) {
+				Console.WriteLine (ex);
+			}
 		}
 
 		Task loadingTask;
