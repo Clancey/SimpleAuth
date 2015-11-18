@@ -98,7 +98,7 @@ namespace SimpleAuth
 				var valid = account.IsValid();
 				if (!valid)
 				{
-					await RefreshToken(account);
+					await RefreshAccount(account);
 				}
 
 				if (account.IsValid())
