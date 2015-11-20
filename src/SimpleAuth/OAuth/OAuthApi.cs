@@ -89,14 +89,14 @@ namespace SimpleAuth
 			if (authenticator != null)
 				authenticator.ClearCookiesBeforeLogin = true;
 		}
-
+		public bool ForceRefresh { get; set; }
 		protected override async Task<Account> PerformAuthenticate(string[] scope)
 		{
 			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
 			if (account != null && !string.IsNullOrWhiteSpace(account.RefreshToken))
 			{
 				var valid = account.IsValid();
-				if (!valid)
+				if (!valid || ForceRefresh)
 				{
 					await RefreshAccount(account);
 				}
