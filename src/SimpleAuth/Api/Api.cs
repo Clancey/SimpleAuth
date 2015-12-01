@@ -33,6 +33,11 @@ namespace SimpleAuth
 			Client = handler == null ? new HttpClient() : new HttpClient(handler);
 		}
 
+		public Uri BaseAddress {
+			get { return Client.BaseAddress; }
+			set { Client.BaseAddress = value; }
+		}
+
 		public bool HasAuthenticated { get; private set; }
 
 		TaskCompletionSource<bool> authenticatingTask = new TaskCompletionSource<bool>(); 

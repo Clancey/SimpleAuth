@@ -12,6 +12,7 @@ namespace SimpleAuth
 		{
 			AuthLocation = authLocation;
 			AuthKey = authKey;
+			CurrentAccount = new Account{ Identifier = apiKey };
 		}
 
 		public AuthLocation AuthLocation { get; protected set; }
@@ -36,14 +37,19 @@ namespace SimpleAuth
 		{
 			if (AuthLocation != AuthLocation.Query || !authenticated)
 				return await base.PrepareUrl(path, authenticated);
-			var url = new Uri(path);
+			Uri url;
+			if (BaseAddress != null)
+				url = new Uri (BaseAddress, path.TrimStart ('/'));
+			else
+				url = new Uri(path);
 			var query = url.Query;
-			var simplePath = url.AbsolutePath.Replace(query,"");
+			var simplePath = string.IsNullOrWhiteSpace(query) ? path : path.Replace(query,"");
 
-			var parameters =  HttpUtility.ParseQueryString(query);
+			var parameters = HttpUtility.ParseQueryString (query);
 			parameters[AuthKey] = Identifier;
 			var newQuery = parameters.ToString();
-			return $"{simplePath}?{newQuery}";
+			var newPath = $"{simplePath}?{newQuery}";
+			return newPath;
 
 		}
 
