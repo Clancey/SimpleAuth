@@ -1,5 +1,10 @@
 ﻿using Foundation;
 using UIKit;
+using MonoTouch.Dialog;
+using System;
+using SimpleAuth.Providers;
+using System.Threading.Tasks;
+using SimpleAuth;
 
 namespace Sample.iOS
 {
@@ -15,14 +20,34 @@ namespace Sample.iOS
 			get;
 			set;
 		}
-
+		GoogleApi googleApi = new GoogleApi("google","clientid","clientsecret");
+		ApiKeyApi apiKeyApi = new ApiKeyApi ("myapikey", "api_key", AuthLocation.Query){
+			BaseAddress = new Uri("http://petstore.swagger.io/v2"),
+		};
 		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
 		{
 			// create a new window instance based on the screen size
 			Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
-			// If you have defined a root view controller, set it here:
-			// Window.RootViewController = myViewController;
+			Window.RootViewController = new DialogViewController (new RootElement ("Simple Auth") {
+				new Section("Google Api"){
+					new StringElement("Authenticate",async () => {
+						await RunWithSpinner("Authenticating",async ()=>{
+							var account = googleApi.Authenticate();
+							ShowAlert("Success","Authenticate");
+						});
+					}),
+				},
+				new Section("Api Key Api")
+				{
+					new StringElement("Get",async () => {
+						await RunWithSpinner("Querying",async()=>{
+							var account =  await apiKeyApi.GetString("http://petstore.swagger.io/v2/store/inventory?test=test1");
+							ShowAlert("Success","Querying");
+						});
+					}),
+				}
+			});
 
 			// make the window visible
 			Window.MakeKeyAndVisible();
@@ -30,6 +55,32 @@ namespace Sample.iOS
 			return true;
 		}
 
+		async Task RunWithSpinner(string status,Func<Task> task)
+		{
+			try{
+				using(new Spinner(status)){
+					await task.Invoke();
+					ShowAlert("Success","");
+				}
+			}
+			catch(TaskCanceledException){
+				ShowAlert("Canceled","");
+			}
+			catch(Exception ex)
+			{
+				ShowAlert("Error",ex.ToString());
+			}
+		}
+		void ShowAlert(string title, string message)
+		{
+			var alert = UIAlertController.Create (title, message, UIAlertControllerStyle.Alert);
+
+			alert.AddAction(UIAlertAction.Create("Ok",UIAlertActionStyle.Default,(a)=>{
+
+			}));
+			Window.RootViewController.PresentViewControllerAsync (alert, true);
+
+		}
 		public override void OnResignActivation(UIApplication application)
 		{
 			// Invoked when the application is about to move from active to inactive state.
