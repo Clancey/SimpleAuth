@@ -204,10 +204,13 @@ namespace SimpleAuth
 		}
 
 		Task<bool> refreshTask;
+		object locker = new object();
 		protected override async Task<bool> RefreshAccount(Account account)
 		{
-			if (refreshTask == null || refreshTask.IsCompleted)
-				refreshTask = RefreshToken(account);
+			lock (locker) {
+				if (refreshTask == null || refreshTask.IsCompleted)
+					refreshTask = RefreshToken (account);
+			}
 			return await refreshTask;
 		}
 
