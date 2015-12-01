@@ -9,6 +9,8 @@
     <Import_RootNamespace>SimpleAuth</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApiKey\ApiKeyApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApiKey\AuthLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\Account.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\Api.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\ApiResponse.cs" />
@@ -26,6 +28,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Properties\" />
   </ItemGroup>
 </Project>

@@ -119,82 +119,87 @@ namespace SimpleAuth
 				return null;
 			}
 		}
-
-
-		public async virtual Task<List<T>> GetGenericList<T>(string path)
-		{
-			var items = await Get<List<T>>(path);
-
-			return items;
-		}
-
+		
 		public virtual async Task PrepareClient(HttpClient client)
 		{
 			await VerifyCredentials();
 		}
 
-		public async virtual Task<Stream> GetUrlStream(string path)
+		public async virtual Task<List<T>> GetGenericList<T>(string path, bool authenticated = true)
 		{
-			//			var resp = await GetMessage (path);
-			//			return await resp.Content.ReadAsStreamAsync ();
+			var items = await Get<List<T>>(path,authenticated: authenticated);
+
+			return items;
+		}
+
+		public async virtual Task<Stream> GetUrlStream(string path, bool authenticated = true)
+		{
+			if (authenticated)
+				await VerifyCredentials();
+			path = await PrepareUrl(path);
 			return await Client.GetStreamAsync(new Uri(path));
 		}
 
 
-		public async virtual Task<string> GetString(string path)
+		public async virtual Task<string> GetString(string path, bool authenticated = true)
 		{
-			var resp = await GetMessage(path);
+			var resp = await GetMessage(path,authenticated);
 			return await resp.Content.ReadAsStringAsync();
 		}
 
-		public virtual async Task<string> PostUrl(string path, string content, string mediaType = "text/json")
+		public virtual async Task<string> PostUrl(string path, string content, string mediaType = "text/json", bool authenticated = true)
 		{
-			var message = await Client.PostAsync(path, new StringContent(content, System.Text.Encoding.UTF8, mediaType));
+			var message = await PostMessage(path,new StringContent(content, System.Text.Encoding.UTF8, mediaType),authenticated);
 			return await message.Content.ReadAsStringAsync();
 		}
 
 
-		public virtual async Task<T> Get<T>(string path, string id = "")
+		public virtual async Task<T> Get<T>(string path, string id = "", bool authenticated = true)
 		{
-			var data = await GetString(Path.Combine(path, id));
+			var data = await GetString(Path.Combine(path, id),authenticated);
 			return await Task.Run(() => Deserialize<T>(data));
 
 		}
 
-		public virtual async Task<T> Post<T>(string path, string content)
+		public virtual async Task<T> Post<T>(string path, string content, bool authenticated = true)
 		{
 			Debug.WriteLine("{0} - {1}", path, content);
-			var data = await PostUrl(path, content);
+			var data = await PostUrl(path, content, authenticated: authenticated);
 			if(Verbose)
 				Debug.WriteLine(data);
 			return await Task.Run(() => Deserialize<T>(data));
 
 		}
-		public virtual async Task<T> Post<T>(string path, HttpContent content)
+		public virtual async Task<T> Post<T>(string path, HttpContent content, bool authenticated = true)
 		{
 			Debug.WriteLine("{0} - {1}", path, await content.ReadAsStringAsync());
-			var resp = await PostMessage(path, content);
+			var resp = await PostMessage(path, content,authenticated);
 			var data = await resp.Content.ReadAsStringAsync();
-			//if(Verbose)
-				Debug.WriteLine(data);
+			Debug.WriteLine(data);
 			return await Task.Run(() => Deserialize<T>(data));
 
 		}
-		public async Task<HttpResponseMessage> PostMessage(string path, HttpContent content)
+		public async Task<HttpResponseMessage> PostMessage(string path, HttpContent content, bool authenticated = true)
 		{
-			await VerifyCredentials();
+			if(authenticated)
+				await VerifyCredentials();
+			path = await PrepareUrl(path);
 			return await Client.PostAsync(path, content);
 		}
 
-		public async Task<HttpResponseMessage> PutMessage(string path, HttpContent content)
+		public async Task<HttpResponseMessage> PutMessage(string path, HttpContent content, bool authenticated = true)
 		{
-			await VerifyCredentials();
+			if (authenticated)
+				await VerifyCredentials();
+			path = await PrepareUrl(path);
 			return await Client.PutAsync(path, content);
 		}
 
-		public async Task<HttpResponseMessage> GetMessage(string path)
+		public async Task<HttpResponseMessage> GetMessage(string path, bool authenticated = true)
 		{
-			await VerifyCredentials();
+			if (authenticated)
+				await VerifyCredentials();
+			path = await PrepareUrl(path);
             return await Client.GetAsync(path);
 		}
 
@@ -206,6 +211,11 @@ namespace SimpleAuth
 			}
 			if (!CurrentAccount.IsValid())
 				await RefreshAccount(CurrentAccount);
+		}
+
+		protected virtual async Task<string> PrepareUrl(string path, bool authenticated = true)
+		{
+			return path;
 		}
 
 		protected virtual T Deserialize<T>(string data)
