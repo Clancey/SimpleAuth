@@ -67,5 +67,11 @@ namespace SimpleAuth
 		    return true;
 	    }
 
+		public override async Task PrepareClient (HttpClient client)
+		{
+			await base.PrepareClient (client);
+			Client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue ("Basic", CurrentBasicAccount?.Key);
+		}
+
 	}
 }

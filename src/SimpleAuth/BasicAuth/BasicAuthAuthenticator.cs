@@ -25,8 +25,9 @@ namespace SimpleAuth
 				throw new Exception("Invalid Password");
 
 			var key = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}"));
-
+			client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic" , key);
 		    var response = await client.GetAsync(loginUrl);
+			var respString = await response.Content.ReadAsStringAsync ();
 		    response.EnsureSuccessStatusCode();
 			FoundAuthCode(key);
 			return true;
