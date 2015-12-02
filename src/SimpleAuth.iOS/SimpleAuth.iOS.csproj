@@ -38,6 +38,7 @@
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BasicAuthController.cs" />
     <Compile Include="WebAuthenticatorViewController.cs" />
     <Compile Include="AuthStorage.cs" />
   </ItemGroup>

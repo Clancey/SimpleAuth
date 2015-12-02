@@ -13,6 +13,19 @@ namespace SimpleAuth.BasicAuth
 	    {
 		    LoginUrl = loginUrl;
 			authenticator = new BasicAuthAuthenticator(Client,loginUrl);
+
+#if __IOS__
+		    ShowAuthenticator = (auth) =>
+		    {
+				var invoker = new Foundation.NSObject();
+				invoker.BeginInvokeOnMainThread(() =>
+				{
+					var controller = new BasicAuthController(auth);
+					controller.Show();
+				});
+				
+            };
+#endif
 	    }
 
 	    protected BasicAuthAuthenticator authenticator;
