@@ -27,6 +27,17 @@ namespace SimpleAuth
 
 		public readonly HttpMessageHandler Handler;
 
+		string userAgent;
+		public string UserAgent {
+			get {
+				return userAgent;
+			}
+			set {
+				userAgent = value;
+				Client.DefaultRequestHeaders.Add ("User-Agent", UserAgent);
+			}
+		}
+
 		public Api(string identifier, HttpMessageHandler handler = null)
 		{
 			Identifier = identifier;
@@ -121,6 +132,8 @@ namespace SimpleAuth
 		public virtual async Task PrepareClient(HttpClient client)
 		{
 			await VerifyCredentials();
+			if (!string.IsNullOrWhiteSpace (UserAgent))
+				client.DefaultRequestHeaders.Add ("User-Agent", UserAgent);
 		}
 
 		public async virtual Task<List<T>> GetGenericList<T>(string path, bool authenticated = true)
