@@ -24,6 +24,7 @@ namespace Sample.iOS
 		ApiKeyApi apiKeyApi = new ApiKeyApi ("myapikey", "api_key", AuthLocation.Query){
 			BaseAddress = new Uri("http://petstore.swagger.io/v2"),
 		};
+		BasicAuthApi basicApi = new BasicAuthApi ("github","https://api.github.com"){UserAgent = "SimpleAuthDemo"};
 		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
 		{
 			// create a new window instance based on the screen size
@@ -31,20 +32,32 @@ namespace Sample.iOS
 
 			Window.RootViewController = new DialogViewController (new RootElement ("Simple Auth") {
 				new Section("Google Api"){
-					new StringElement("Authenticate",async () => {
-						await RunWithSpinner("Authenticating",async ()=>{
-							var account = googleApi.Authenticate();
+					new StringElement("Authenticate", () => {
+						RunWithSpinner("Authenticating",async ()=>{
+							var account = await googleApi.Authenticate();
 							ShowAlert("Success","Authenticate");
 						});
+					}),
+					new StringElement("Log out", async () => {
+						googleApi.ResetData();
+						ShowAlert ("Success", "Logged out");
 					}),
 				},
 				new Section("Api Key Api")
 				{
-					new StringElement("Get",async () => {
-						await RunWithSpinner("Querying",async()=>{
-							var account =  await apiKeyApi.GetString("http://petstore.swagger.io/v2/store/inventory?test=test1");
-							ShowAlert("Success","Querying");
-						});
+					new StringElement("Get", async () => await RunWithSpinner ("Querying", async () => {
+						var account = await apiKeyApi.GetString ("http://petstore.swagger.io/v2/store/inventory?test=test1");
+						ShowAlert ("Success", "Querying");
+					})),
+				},
+				new Section("Basic Auth"){
+					new StringElement("Login to Github", async () => {
+						var account = await basicApi.Authenticate();
+						ShowAlert ("Success", "Authenticated");
+					}),
+					new StringElement("Log out", async () => {
+						basicApi.ResetData();
+						ShowAlert ("Success", "Logged out");
 					}),
 				}
 			});
