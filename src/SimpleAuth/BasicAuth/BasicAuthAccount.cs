@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimpleAuth.BasicAuth
+namespace SimpleAuth
 {
     public class BasicAuthAccount : Account
     {
