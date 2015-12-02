@@ -17,13 +17,8 @@ namespace SimpleAuth
 
 		public AuthLocation AuthLocation { get; protected set; }
 		public string AuthKey { get; protected set; }
-
-		public override async Task<Account> Authenticate()
-		{
-			return new Account {Identifier = Identifier};
-		}
-
-		protected override async Task<Account> PerformAuthenticate(string[] scope)
+		
+		protected override async Task<Account> PerformAuthenticate()
 		{
 			return new Account {Identifier = Identifier};
 		}

@@ -16,12 +16,14 @@ namespace SimpleAuth
 			TokenUrl = authenticator.TokenUrl;
 		}
 
+
+		public static Action<WebAuthenticator> ShowAuthenticator { get; set; }
 		protected OAuthApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, handler)
 		{
 			this.ClientId = clientId;
 			this.ClientSecret = clientSecret;
 #if __IOS__
-			Api.ShowAuthenticator = (authenticator) =>
+			OAuthApi.ShowAuthenticator = (authenticator) =>
 			{
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
@@ -42,7 +44,7 @@ namespace SimpleAuth
 			};
 
 #elif __ANDROID__
-			Api.ShowAuthenticator = (authenticator) =>
+			OAuthApi.ShowAuthenticator = (authenticator) =>
 			{
 				var context = Android.App.Application.Context;
 				var i = new global::Android.Content.Intent(context, typeof(WebAuthenticatorActivity));
@@ -55,7 +57,7 @@ namespace SimpleAuth
 				context.StartActivity(i);
 			};
 #elif __OSX__
-			Api.ShowAuthenticator = (authenticator) =>
+			OAuthApi.ShowAuthenticator = (authenticator) =>
 			{
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
@@ -69,19 +71,12 @@ namespace SimpleAuth
 
 		}
 
-		protected Authenticator authenticator;
+		protected WebAuthenticator authenticator;
 		public OAuthAccount CurrentOAuthAccount => CurrentAccount as OAuthAccount;
 
 		public string TokenUrl { get; set; }
 
 		public string[] Scopes { get; set; }
-
-		public override Task<Account> Authenticate()
-		{
-			if(Scopes == null || Scopes.Length == 0)
-				throw new Exception("Scopes must be set on the API or passed into Authenticate");
-			return Authenticate(Scopes);
-		}
 
 		public override void ResetData()
 		{
@@ -90,8 +85,11 @@ namespace SimpleAuth
 				authenticator.ClearCookiesBeforeLogin = true;
 		}
 		public bool ForceRefresh { get; set; }
-		protected override async Task<Account> PerformAuthenticate(string[] scope)
+		protected override async Task<Account> PerformAuthenticate()
 		{
+
+			if (Scopes == null || Scopes.Length == 0)
+				throw new Exception("Scopes must be set on the API or passed into Authenticate");
 			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
 			if (account != null && !string.IsNullOrWhiteSpace(account.RefreshToken))
 			{
@@ -109,7 +107,7 @@ namespace SimpleAuth
 				}
 			}
 
-			authenticator = CreateAuthenticator(scope);
+			authenticator = CreateAuthenticator();
 
 			ShowAuthenticator(authenticator);
 
@@ -125,7 +123,7 @@ namespace SimpleAuth
 			return account;
 		}
 
-		protected virtual async Task<OAuthAccount> GetAccountFromAuthCode(Authenticator authenticator, string identifier)
+		protected virtual async Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
 		{
 			var postData = await authenticator.GetTokenPostData(ClientSecret);
 			if (string.IsNullOrWhiteSpace(TokenUrl))
@@ -150,7 +148,7 @@ namespace SimpleAuth
 			return account;
 		}
 
-		protected virtual Authenticator CreateAuthenticator(string[] scope)
+		protected virtual WebAuthenticator CreateAuthenticator()
 		{
 			return authenticator;
 		}

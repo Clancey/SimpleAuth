@@ -4,8 +4,8 @@ using System.Text;
 
 namespace SimpleAuth.OAuth
 {
-    public class OAuthAuthenticator : Authenticator
-    {
+    public class OAuthAuthenticator : WebAuthenticator
+	{
 	    public string ClientSecret { get; set; }
 
 	    public OAuthAuthenticator(string authUrl, string tokenUrl,string redirectUrl, string clientId, string clientSecret)

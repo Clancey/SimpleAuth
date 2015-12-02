@@ -16,10 +16,10 @@ namespace SimpleAuth.Providers
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
 		}
 
-		protected override Authenticator CreateAuthenticator(string[] scope)
+		protected override WebAuthenticator CreateAuthenticator()
 		{
 			return new GoogleAuthenticator {
-				Scope = scope.ToList(),
+				Scope = Scopes.ToList(),
 				ClientId = ClientId,
 				ClearCookiesBeforeLogin = CalledReset,
 			};
@@ -40,7 +40,7 @@ namespace SimpleAuth.Providers
 		}
 	}
 
-	public class GoogleAuthenticator : Authenticator
+	public class GoogleAuthenticator : WebAuthenticator
 	{
 		public override string BaseUrl
 		{

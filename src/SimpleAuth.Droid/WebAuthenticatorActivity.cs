@@ -37,7 +37,7 @@ namespace SimpleAuth
 
 		internal class State : Java.Lang.Object
 		{
-			public Authenticator Authenticator;
+			public WebAuthenticator Authenticator;
 		}
 		internal static readonly ActivityStateRepository<State> StateRepo = new ActivityStateRepository<State>();
 

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SimpleAuth
@@ -40,8 +41,6 @@ namespace SimpleAuth
 
 		public bool HasAuthenticated { get; private set; }
 
-		TaskCompletionSource<bool> authenticatingTask = new TaskCompletionSource<bool>(); 
-
 
 
 		protected Account currentAccount;
@@ -58,35 +57,29 @@ namespace SimpleAuth
 				HasAuthenticated = true;
 #pragma warning disable 4014
 				PrepareClient(Client);
-				authenticatingTask.TrySetResult(true);
 				OnAccountUpdated(currentAccount);
 #pragma warning restore 4014
 			}
 		}
 
+		readonly object authenticationLocker = new object();
 		Task<Account> authenticateTask;
-		public async Task<Account> Authenticate(string[] scope)
+		public async Task<Account> Authenticate()
 		{
-			if (authenticateTask != null && !authenticateTask.IsCompleted)
+			lock (authenticationLocker)
 			{
-				return await authenticateTask;
+				if (authenticateTask == null || authenticateTask.IsCompleted)
+				{
+					authenticateTask = PerformAuthenticate();
+				}
 			}
-			authenticateTask = PerformAuthenticate(scope);
-			var result = await authenticateTask;
-			if (result == null)
-			{
-				authenticatingTask.TrySetResult(false);
-			}
-			return result;
+			return await authenticateTask;
 		}
-
-		public abstract Task<Account> Authenticate();
-
-		protected abstract Task<Account> PerformAuthenticate(string[] scope);
+		
+		protected abstract Task<Account> PerformAuthenticate();
 
 		protected abstract Task<bool> RefreshAccount(Account account);
 
-		public static Action<Authenticator> ShowAuthenticator { get; set; }
 		public string DeviceId { get; set; }
 
 		protected virtual async Task OnAccountUpdated(Account account)

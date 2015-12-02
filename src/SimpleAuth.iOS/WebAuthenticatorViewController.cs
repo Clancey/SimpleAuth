@@ -12,7 +12,7 @@ namespace SimpleAuth.iOS
 	public class WebAuthenticatorViewController : UIViewController
 	{
 
-		public readonly Authenticator Authenticator;
+		public readonly WebAuthenticator Authenticator;
 		public static UIBarButtonItem RightButtonItem { get; set; }
 
 		internal UIWebView webView;
@@ -25,7 +25,7 @@ namespace SimpleAuth.iOS
 
 		bool keepTryingAfterError = true;
 		internal static WebAuthenticatorViewController Shared { get; set; }
-		public WebAuthenticatorViewController (Authenticator authenticator)
+		public WebAuthenticatorViewController (WebAuthenticator authenticator)
 		{
 			Shared = this;
 			this.Authenticator = authenticator;
