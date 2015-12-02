@@ -37,11 +37,9 @@ namespace SimpleAuth
 		{
 			if (AuthLocation != AuthLocation.Query || !authenticated)
 				return await base.PrepareUrl(path, authenticated);
-			Uri url;
-			if (BaseAddress != null)
-				url = new Uri (BaseAddress, path.TrimStart ('/'));
-			else
-				url = new Uri(path);
+
+			var url = BaseAddress != null ? new Uri (BaseAddress, path.TrimStart ('/')) : new Uri(path);
+
 			var query = url.Query;
 			var simplePath = string.IsNullOrWhiteSpace(query) ? path : path.Replace(query,"");
 
