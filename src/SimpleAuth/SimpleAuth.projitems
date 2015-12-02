@@ -17,6 +17,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Api\Authenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\JSonExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\WebAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthenticator.cs" />
