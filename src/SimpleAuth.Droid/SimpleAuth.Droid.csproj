@@ -52,7 +52,7 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="AuthStorage.cs" />
-    <Compile Include="WebAuthenticator.cs" />
+    <Compile Include="WebAuthenticatorActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

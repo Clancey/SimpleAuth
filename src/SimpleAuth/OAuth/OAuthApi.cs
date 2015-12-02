@@ -26,7 +26,7 @@ namespace SimpleAuth
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
 				{
-					var vc = new iOS.WebAuthenticator(authenticator);
+					var vc = new iOS.WebAuthenticatorViewController(authenticator);
 					var window = UIKit.UIApplication.SharedApplication.KeyWindow;
 					var root = window.RootViewController;
 					if (root != null)
