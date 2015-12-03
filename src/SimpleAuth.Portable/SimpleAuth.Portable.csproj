@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="HttpUtility.cs" />
     <Compile Include="AuthStorage.cs" />
+    <Compile Include="ReflectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Net.Http">
