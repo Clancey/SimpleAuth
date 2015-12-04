@@ -13,7 +13,7 @@ using System.Web;
 
 namespace SimpleAuth
 {
-	public abstract class Api
+	public class Api
 	{
 		public bool Verbose { get; set; } = false;
 		public string Identifier {get; private set;}
@@ -53,46 +53,6 @@ namespace SimpleAuth
 			set { Client.BaseAddress = value; }
 		}
 
-		public bool HasAuthenticated { get; private set; }
-
-
-
-		protected Account currentAccount;
-
-		public Account CurrentAccount
-		{
-			get
-			{
-				return currentAccount;
-			}
-			protected set
-			{
-				currentAccount = value;
-				HasAuthenticated = true;
-#pragma warning disable 4014
-				PrepareClient(Client);
-				OnAccountUpdated(currentAccount);
-#pragma warning restore 4014
-			}
-		}
-
-		readonly object authenticationLocker = new object();
-		Task<Account> authenticateTask;
-		public async Task<Account> Authenticate()
-		{
-			lock (authenticationLocker)
-			{
-				if (authenticateTask == null || authenticateTask.IsCompleted)
-				{
-					authenticateTask = PerformAuthenticate();
-				}
-			}
-			return await authenticateTask;
-		}
-		
-		protected abstract Task<Account> PerformAuthenticate();
-
-		protected abstract Task<bool> RefreshAccount(Account account);
 
 		public string DeviceId { get; set; }
 
@@ -108,30 +68,10 @@ namespace SimpleAuth
 		protected bool CalledReset = false;
 		public virtual void ResetData()
 		{
-			CurrentAccount = null;
 			CalledReset = true;
 			AuthStorage.SetSecured(Identifier,"",ClientId,ClientSecret,SharedGroupAccess);
 		}
 
-		protected virtual void SaveAccount(Account account)
-		{
-			AuthStorage.SetSecured(account.Identifier, SerializeObject(account),ClientId, ClientSecret,SharedGroupAccess);
-		}
-
-		protected virtual T GetAccount<T>(string identifier) where T : Account
-		{
-			try
-			{
-				var data = AuthStorage.GetSecured(identifier, ClientId, ClientSecret,SharedGroupAccess);
-				return string.IsNullOrWhiteSpace(data) ? null : Deserialize<T>(data);
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-				return null;
-			}
-		}
-		
 		public virtual async Task PrepareClient(HttpClient client)
 		{
 			await VerifyCredentials();
@@ -359,12 +299,7 @@ namespace SimpleAuth
 
 		protected virtual async Task VerifyCredentials()
 		{
-			if (CurrentAccount == null)
-			{
-				throw new Exception("Not Authenticated");
-			}
-			if (!CurrentAccount.IsValid())
-				await RefreshAccount(CurrentAccount);
+
 		}
 
 		protected virtual async Task<string> PrepareUrl(string path, bool authenticated = true)

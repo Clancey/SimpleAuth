@@ -12,21 +12,10 @@ namespace SimpleAuth
 		{
 			AuthLocation = authLocation;
 			AuthKey = authKey;
-			CurrentAccount = new Account{ Identifier = apiKey };
 		}
 
 		public AuthLocation AuthLocation { get; protected set; }
 		public string AuthKey { get; protected set; }
-		
-		protected override async Task<Account> PerformAuthenticate()
-		{
-			return new Account {Identifier = Identifier};
-		}
-
-		protected override async Task<bool> RefreshAccount(Account account)
-		{
-			return true;
-		}
 
 		protected override async Task<string> PrepareUrl(string path, bool authenticated = true)
 		{

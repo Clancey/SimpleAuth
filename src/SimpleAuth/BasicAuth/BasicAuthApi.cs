@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace SimpleAuth
 {
-    public class BasicAuthApi : Api
-    {
+    public class BasicAuthApi : AuthenticatedApi
+	{
 		protected string LoginUrl { get; set; }
 	    public BasicAuthApi(string identifier,string loginUrl, HttpMessageHandler handler = null) : base(identifier, handler)
 	    {

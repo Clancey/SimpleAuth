@@ -8,7 +8,7 @@ using SimpleAuth.OAuth;
 
 namespace SimpleAuth
 {
-	public class OAuthApi : Api
+	public class OAuthApi : AuthenticatedApi
 	{
 		public OAuthApi(string identifier, OAuthAuthenticator authenticator, HttpMessageHandler handler = null) : this(identifier, authenticator.ClientId, authenticator.ClientSecret, handler)
 		{
