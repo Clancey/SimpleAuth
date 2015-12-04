@@ -10,7 +10,6 @@ namespace SimpleAuth.Mac
 {
 	public class WebAuthenticatorWebView : WebKit.WebView, IWebFrameLoadDelegate
 	{
-
 		public readonly WebAuthenticator Authenticator;
 		public WebAuthenticatorWebView(WebAuthenticator authenticator)
 		{
@@ -18,28 +17,33 @@ namespace SimpleAuth.Mac
 			MonitorAuthenticator ();
 			this.FrameLoadDelegate = this;
 		}
+
 		async Task MonitorAuthenticator ()
 		{
-			try{
+			try {
 				await Authenticator.GetAuthCode ();
 				if (!Authenticator.HasCompleted)
 					return;
-				BeginInvokeOnMainThread(()=>{
-					var app = NSApplication.SharedApplication;
-					app.EndSheet(Window);
-					window.OrderOut(this);
+				BeginInvokeOnMainThread (() => {
+					try {
+						var app = NSApplication.SharedApplication;
+						app.EndSheet (shownInWindow);
+						window.OrderOut (this);
+					} catch (Exception ex) {
+						Console.WriteLine (ex);
+					}
 				});
-			}
-			catch(Exception ex) {
+			} catch (Exception ex) {
 				Console.WriteLine (ex);
 			}
 		}
 
 		Task loadingTask;
-		public async void BeginLoadingInitialUrl()
+
+		public async void BeginLoadingInitialUrl ()
 		{
 			if (this.Authenticator.ClearCookiesBeforeLogin)
-					ClearCookies ();
+				ClearCookies ();
 			if (loadingTask == null || loadingTask.IsCompleted) {
 				loadingTask = RealLoading ();
 			}
@@ -62,7 +66,7 @@ namespace SimpleAuth.Mac
 					return;
 				var request = new NSUrlRequest (new NSUrl (url.AbsoluteUri));
 				NSUrlCache.SharedCache.RemoveCachedResponse (request);
-				this.MainFrame.LoadRequest(request);
+				this.MainFrame.LoadRequest (request);
 			} catch (Exception ex) {
 				Console.WriteLine (ex);
 				return;
@@ -71,18 +75,20 @@ namespace SimpleAuth.Mac
 			}
 		}
 
-		void ClearCookies()
+		void ClearCookies ()
 		{
 
 		}
+
 		private Cookie[] GetCookies (string url)
 		{
 			var store = NSHttpCookieStorage.SharedStorage;
 			var cookies = store.CookiesForUrl (new NSUrl (url)).Select (x => new Cookie (x.Name, x.Value, x.Path, x.Domain)).ToArray ();
 			return cookies;
 		}
-		[Export("webView:didStartProvisionalLoadForFrame:")]
-		public void StartedProvisionalLoad(WebKit.WebView sender, WebKit.WebFrame forFrame)
+
+		[Export ("webView:didStartProvisionalLoadForFrame:")]
+		public void StartedProvisionalLoad (WebKit.WebView sender, WebKit.WebFrame forFrame)
 		{
 			var url = sender.MainFrameUrl;
 
@@ -94,8 +100,9 @@ namespace SimpleAuth.Mac
 				}
 			}
 		}
-		[Foundation.Export("webView:didFinishLoadForFrame:")]
-		public void FinishedLoad(WebView sender, WebFrame forFrame)
+
+		[Foundation.Export ("webView:didFinishLoadForFrame:")]
+		public void FinishedLoad (WebView sender, WebFrame forFrame)
 		{
 			var url = sender.MainFrameUrl;
 
@@ -107,57 +114,66 @@ namespace SimpleAuth.Mac
 				}
 			}
 		}
-		[Foundation.Export("webView:didFailLoadWithError:forFrame:")]
-		public void FailedLoadWithError(WebView sender, NSError error, WebFrame forFrame)
+
+		[Foundation.Export ("webView:didFailLoadWithError:forFrame:")]
+		public void FailedLoadWithError (WebView sender, NSError error, WebFrame forFrame)
 		{
 			Authenticator.OnError (error.LocalizedDescription);
 		}
-		[Foundation.Export("webView:didFailProvisionalLoadWithError:forFrame:")]
-		public void FailedProvisionalLoad(WebView sender, NSError error, WebFrame forFrame)
+
+		[Foundation.Export ("webView:didFailProvisionalLoadWithError:forFrame:")]
+		public void FailedProvisionalLoad (WebView sender, NSError error, WebFrame forFrame)
 		{
 			var url = sender.MainFrameUrl;
 
 			if (!Authenticator.HasCompleted) {
 				Uri uri;
-				if (Uri.TryCreate(url, UriKind.Absolute, out uri)) {
-					if (Authenticator.CheckUrl(uri, GetCookies(url))) {
-						forFrame.StopLoading();
+				if (Uri.TryCreate (url, UriKind.Absolute, out uri)) {
+					if (Authenticator.CheckUrl (uri, GetCookies (url))) {
+						forFrame.StopLoading ();
 						return;
 					}
 				}
 			}
 			Authenticator.OnError (error.LocalizedDescription);
 		}
-		[Export("webView:willPerformClientRedirectToURL:delay:fireDate:forFrame:")]
-		public void WillPerformClientRedirect(WebKit.WebView sender, Foundation.NSUrl toUrl, double secondsDelay, Foundation.NSDate fireDate, WebKit.WebFrame forFrame)
+
+		[Export ("webView:willPerformClientRedirectToURL:delay:fireDate:forFrame:")]
+		public void WillPerformClientRedirect (WebKit.WebView sender, Foundation.NSUrl toUrl, double secondsDelay, Foundation.NSDate fireDate, WebKit.WebFrame forFrame)
 		{
 			var url = sender.MainFrameUrl;
 
 			if (!Authenticator.HasCompleted) {
 				Uri uri;
-				if (Uri.TryCreate(url, UriKind.Absolute, out uri)) {
-					if (Authenticator.CheckUrl(uri, GetCookies(url))) {
-						forFrame.StopLoading();
+				if (Uri.TryCreate (url, UriKind.Absolute, out uri)) {
+					if (Authenticator.CheckUrl (uri, GetCookies (url))) {
+						forFrame.StopLoading ();
 						return;
 					}
 				}
 			} else {
-				forFrame.StopLoading();
+				forFrame.StopLoading ();
 			}
 		}
+
 		static NSWindow window;
-		public static void ShowWebivew(WebAuthenticatorWebView webview)
+		static NSWindow shownInWindow;
+		public static async void ShowWebivew(WebAuthenticatorWebView webview)
 		{
 			var app = NSApplication.SharedApplication;
-			var rect = new CoreGraphics.CGRect(0,0,400,600);
+			var rect = new CoreGraphics.CGRect (0, 0, 400, 600);
 			webview.Frame = rect;
-			window = new NSWindow(rect, NSWindowStyle.Closable | NSWindowStyle.Titled, NSBackingStore.Buffered, false);
+			window = new NSWindow (rect, NSWindowStyle.Closable | NSWindowStyle.Titled, NSBackingStore.Buffered, false);
 			window.ContentView = webview;
 			window.IsVisible = false;
 			window.Title = webview.Authenticator.Title;
-
-			app.BeginSheet(window,app.MainWindow);
-			webview.BeginLoadingInitialUrl();
+			while (shownInWindow == null) {
+				shownInWindow = app.MainWindow;
+				if (shownInWindow == null)
+					await Task.Delay (1000);
+			}
+			app.BeginSheet (window, shownInWindow);
+			webview.BeginLoadingInitialUrl ();
 		}
 	}
 }
