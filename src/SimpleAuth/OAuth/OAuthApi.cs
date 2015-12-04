@@ -62,8 +62,8 @@ namespace SimpleAuth
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
 				{
-					var vc = new SimpleAuth.Mac.WebAuthenticator(authenticator);
-					SimpleAuth.Mac.WebAuthenticator.ShowWebivew(vc);
+					var vc = new SimpleAuth.Mac.WebAuthenticatorWebView(authenticator);
+					SimpleAuth.Mac.WebAuthenticatorWebView.ShowWebivew(vc);
 				});
 			};
 #endif

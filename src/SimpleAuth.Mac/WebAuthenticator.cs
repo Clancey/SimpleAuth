@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace SimpleAuth.Mac
 {
-	public class WebAuthenticator : WebKit.WebView, IWebFrameLoadDelegate
+	public class WebAuthenticatorWebView : WebKit.WebView, IWebFrameLoadDelegate
 	{
 
-		public readonly Authenticator Authenticator;
-		public WebAuthenticator(Authenticator authenticator)
+		public readonly WebAuthenticator Authenticator;
+		public WebAuthenticatorWebView(WebAuthenticator authenticator)
 		{
 			this.Authenticator = authenticator;
 			MonitorAuthenticator ();
@@ -146,7 +146,7 @@ namespace SimpleAuth.Mac
 			}
 		}
 		static NSWindow window;
-		public static void ShowWebivew(WebAuthenticator webview)
+		public static void ShowWebivew(WebAuthenticatorWebView webview)
 		{
 			var app = NSApplication.SharedApplication;
 			var rect = new CoreGraphics.CGRect(0,0,400,600);
