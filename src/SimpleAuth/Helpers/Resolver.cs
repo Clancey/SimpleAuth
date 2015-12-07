@@ -9,7 +9,7 @@ namespace SimpleAuth
 		};
 		static readonly Dictionary<Type,object> Singletons = new Dictionary<Type, object>();
 
-		public static void Register<TType, TType1>() where TType : TType1
+		public static void Register<TType, TType1>() where TType1 : TType
 		{
 			RegisteredTypes[typeof (TType)] = typeof (TType1);
 		}

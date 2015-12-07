@@ -62,8 +62,8 @@ namespace SimpleAuth
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
 				{
-					var vc = new SimpleAuth.Mac.WebAuthenticator(authenticator);
-					SimpleAuth.Mac.WebAuthenticator.ShowWebivew(vc);
+					var vc = new SimpleAuth.Mac.WebAuthenticatorWebView(authenticator);
+					SimpleAuth.Mac.WebAuthenticatorWebView.ShowWebivew(vc);
 				});
 			};
 #endif
@@ -202,10 +202,13 @@ namespace SimpleAuth
 		}
 
 		Task<bool> refreshTask;
+		object locker = new object();
 		protected override async Task<bool> RefreshAccount(Account account)
 		{
-			if (refreshTask == null || refreshTask.IsCompleted)
-				refreshTask = RefreshToken(account);
+			lock (locker) {
+				if (refreshTask == null || refreshTask.IsCompleted)
+					refreshTask = RefreshToken (account);
+			}
 			return await refreshTask;
 		}
 
