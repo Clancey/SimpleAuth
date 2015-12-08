@@ -218,18 +218,54 @@ namespace SimpleAuth
 			var data = await Put(body, queryParameters, headers, authenticated, methodName);
 			return await Task.Run(() => Deserialize<T>(data, body));
 		}
+
 		public virtual async Task<T> Put<T>(HttpContent content, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 			var data = await Put(content, queryParameters, headers, authenticated, methodName);
 			return await Task.Run(() => Deserialize<T>(data));
 		}
+
 		public virtual Task<string> Put (HttpContent content, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 			return SendObjectMessage(content, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
 		}
+
 		public virtual Task<string> Put(object body, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 			return SendObjectMessage(body, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
+		}
+		//delete
+		public virtual Task<T> Delete<T>(object body, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			return Delete<T>(body, null, authenticated, methodName);
+		}
+
+		public virtual Task<T> Delete<T>(object body, Dictionary<string, string> queryParameters, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var headers = GetHeadersFromMethod(GetType().GetMethod(methodName));
+			return Delete<T>(body, queryParameters, headers, authenticated, methodName);
+		}
+
+		public virtual async Task<T> Delete<T>(object body, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var data = await Delete(body, queryParameters, headers, authenticated, methodName);
+			return await Task.Run(() => Deserialize<T>(data, body));
+		}
+
+		public virtual async Task<T> Delete<T>(HttpContent content, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var data = await Delete(content, queryParameters, headers, authenticated, methodName);
+			return await Task.Run(() => Deserialize<T>(data));
+		}
+
+		public virtual Task<string> Delete(HttpContent content, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			return SendObjectMessage(content, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
+		}
+
+		public virtual Task<string> Delete(object body, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			return SendObjectMessage(body, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
 		}
 
 		public virtual async Task<string> PostUrl(string path, string content, string mediaType = "text/json", bool authenticated = true)
