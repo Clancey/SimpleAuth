@@ -180,16 +180,27 @@ namespace SimpleAuth
 			var headers = GetHeadersFromMethod(GetType().GetMethod(methodName));
 			return Post<T>(body,queryParameters, headers, authenticated, methodName);
 		}
+
 		public virtual async Task<T> Post<T>(object body, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 			var data = await Post(body, queryParameters, headers, authenticated, methodName);
 			return await Task.Run(() => Deserialize<T>(data,body));
 		}
+
 		public virtual Task<string> Post(object body, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 			return SendObjectMessage(body, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
 		}
+		public virtual async Task<T> Post<T>(HttpContent content, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var data = await Post(content, queryParameters, headers, authenticated, methodName);
+			return await Task.Run(() => Deserialize<T>(data));
+		}
 
+		public virtual Task<string> Post(HttpContent content, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			return SendObjectMessage(content, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
+		}
 
 		public virtual Task<T> Put<T>(object body, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
@@ -201,17 +212,25 @@ namespace SimpleAuth
 			var headers = GetHeadersFromMethod(GetType().GetMethod(methodName));
 			return Put<T>(body, queryParameters, headers, authenticated, methodName);
 		}
+
 		public virtual async Task<T> Put<T>(object body, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 			var data = await Put(body, queryParameters, headers, authenticated, methodName);
 			return await Task.Run(() => Deserialize<T>(data, body));
 		}
+		public virtual async Task<T> Put<T>(HttpContent content, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var data = await Put(content, queryParameters, headers, authenticated, methodName);
+			return await Task.Run(() => Deserialize<T>(data));
+		}
+		public virtual Task<string> Put (HttpContent content, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			return SendObjectMessage(content, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
+		}
 		public virtual Task<string> Put(object body, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 			return SendObjectMessage(body, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
 		}
-
-
 
 		public virtual async Task<string> PostUrl(string path, string content, string mediaType = "text/json", bool authenticated = true)
 		{
@@ -252,15 +271,9 @@ namespace SimpleAuth
 			path = await PrepareUrl(path);
 			return await Client.PutAsync(path, content);
 		}
-
-
-		public virtual async Task<string> SendObjectMessage(object body, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		public virtual Task<string> SendObjectMessage(object body, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var path = GetValueFromAttribute<PathAttribute>(GetType().GetMethod(methodName));
-			if (string.IsNullOrWhiteSpace(path))
-				throw new Exception("Missing Path Attribute");
 
-			path = CombineUrl(path, queryParameters);
 
 			var mediaType = "text/json";
 			headers?.TryGetValue("Content-Type", out mediaType);
@@ -268,7 +281,20 @@ namespace SimpleAuth
 			var bodyJson = body.ToJson();
 			var content = new StringContent(bodyJson, System.Text.Encoding.UTF8, mediaType);
 
+			return SendObjectMessage(content, method, queryParameters, headers, authenticated, methodName);
+		}
+
+		public virtual async Task<string> SendObjectMessage(HttpContent content, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var path = GetValueFromAttribute<PathAttribute>(GetType().GetMethod(methodName));
+			if (string.IsNullOrWhiteSpace(path))
+				throw new Exception("Missing Path Attribute");
+
+			path = CombineUrl(path, queryParameters);
+
+	
 			var message = await SendMessage(path, content, method, headers, authenticated);
+			message.EnsureSuccessStatusCode();
 			var data = await message.Content.ReadAsStringAsync();
 			return data;
 		}
