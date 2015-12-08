@@ -158,6 +158,7 @@ namespace SimpleAuth
 		public async virtual Task<string> GetString(string path, bool authenticated = true)
 		{
 			var resp = await SendMessage(path,null,HttpMethod.Get,authenticated: authenticated);
+			resp.EnsureSuccessStatusCode();
 			return await resp.Content.ReadAsStringAsync();
 		}
 
@@ -165,6 +166,7 @@ namespace SimpleAuth
 			Dictionary<string, string> headers, bool authenticated = true)
 		{
 			var resp = await SendMessage(path,null, HttpMethod.Get,headers, authenticated: authenticated);
+			resp.EnsureSuccessStatusCode();
 			return await resp.Content.ReadAsStringAsync();
 		}
 
