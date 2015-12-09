@@ -108,7 +108,7 @@ namespace SimpleAuth
 		}
 		public virtual Task<string> Post(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			return SendObjectMessage(path,null, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
+			return SendObjectMessage(path,body, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
 		}
 
 		public virtual async Task<T> Post<T>(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
