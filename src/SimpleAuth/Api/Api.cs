@@ -91,7 +91,7 @@ namespace SimpleAuth
 			Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 
-			return SendObjectMessage(path, null, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
+			return SendObjectMessage(path, null, HttpMethod.Get, queryParameters, headers, authenticated, methodName);
 		}
         public virtual async Task<T> Get<T>(string path = null, Dictionary<string, string> queryParameters = null,
 			Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
