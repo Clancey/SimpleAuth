@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimpleAuth.OAuth
+namespace SimpleAuth
 {
     public class OAuthAuthenticator : WebAuthenticator
 	{

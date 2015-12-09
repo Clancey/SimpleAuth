@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OauthApiKeyApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OauthResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Amazon.cs" />

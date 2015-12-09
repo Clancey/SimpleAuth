@@ -17,24 +17,28 @@ namespace SimpleAuth
 		public AuthLocation AuthLocation { get; protected set; }
 		public string AuthKey { get; protected set; }
 
-		protected override async Task<string> PrepareUrl(string path, bool authenticated = true)
+		protected override  Task<string> PrepareUrl(string path, bool authenticated = true)
 		{
-			if (AuthLocation != AuthLocation.Query || !authenticated)
-				return await base.PrepareUrl(path, authenticated);
 
-			var url = BaseAddress != null ? new Uri (BaseAddress, path.TrimStart ('/')) : new Uri(path);
+			if (AuthLocation != AuthLocation.Query || !authenticated)
+				return base.PrepareUrl(path, authenticated);
+			return PrepareUrl(BaseAddress,path,Identifier,AuthKey,AuthLocation);
+
+		}
+		public static async Task<string> PrepareUrl(Uri baseAddress, string path,string apiKey, string authKey, AuthLocation authLocation)
+		{
+			var url = baseAddress != null ? new Uri(baseAddress, path.TrimStart('/')) : new Uri(path);
 
 			var query = url.Query;
-			var simplePath = string.IsNullOrWhiteSpace(query) ? path : path.Replace(query,"");
+			var simplePath = string.IsNullOrWhiteSpace(query) ? path : path.Replace(query, "");
 
-			var parameters = HttpUtility.ParseQueryString (query);
-			parameters[AuthKey] = Identifier;
+			var parameters = HttpUtility.ParseQueryString(query);
+			parameters[authKey] = apiKey;
 			var newQuery = parameters.ToString();
 			var newPath = $"{simplePath}?{newQuery}";
 			return newPath;
 
 		}
-
 		public override async Task PrepareClient(HttpClient client)
 		{
 			await base.PrepareClient(client);
