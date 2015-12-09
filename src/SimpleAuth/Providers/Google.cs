@@ -31,7 +31,7 @@ namespace SimpleAuth.Providers
 			if(forceRefresh || !CurrentAccount.UserData.TryGetValue("userInfo", out userInfoJson))
 			{
 				CurrentAccount.UserData["userInfo"] =
-					userInfoJson = await GetString("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
+					userInfoJson = await Get("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
 				SaveAccount(CurrentAccount);
 			}
 
