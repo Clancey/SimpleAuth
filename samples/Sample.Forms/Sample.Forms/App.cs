@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleAuth;
-using SimpleAuth.OAuth;
+using SimpleAuth;
 using SimpleAuth.Providers;
 using Xamarin.Forms;
 

@@ -46,7 +46,7 @@ namespace Sample.iOS
 				new Section("Api Key Api")
 				{
 					new StringElement("Get", async () => await RunWithSpinner ("Querying", async () => {
-						var account = await apiKeyApi.GetString ("http://petstore.swagger.io/v2/store/inventory?test=test1");
+						var account = await apiKeyApi.Get ("http://petstore.swagger.io/v2/store/inventory?test=test1");
 						ShowAlert ("Success", "Querying");
 					})),
 				},
