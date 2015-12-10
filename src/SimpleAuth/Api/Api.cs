@@ -357,6 +357,8 @@ namespace SimpleAuth
 		public virtual Dictionary<string, string> GetHeadersFromMethod(MethodInfo method)
 		{
 			var headers = new Dictionary<string,string>();
+			if (method == null)
+				return headers;
 			var accepts = GetValueFromAttribute<AcceptsAttribute>(method);
 			if (!string.IsNullOrWhiteSpace(accepts))
 				headers["Accept"] = accepts;
@@ -368,7 +370,7 @@ namespace SimpleAuth
 
 		public string GetValueFromAttribute<T>(MethodInfo method) where T : StringValueAttribute
 		{
-			return method.GetCustomAttributes(true).OfType<T>().FirstOrDefault()?.Value;
+			return method?.GetCustomAttributes(true).OfType<T>().FirstOrDefault()?.Value;
 		}
 
 		public static void MergeHeaders(HttpRequestHeaders inHeaders, Dictionary<string, string> newHeaders)
