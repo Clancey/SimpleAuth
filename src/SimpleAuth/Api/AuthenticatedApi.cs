@@ -9,7 +9,10 @@ namespace SimpleAuth
 {
     public abstract class AuthenticatedApi : Api
     {
-
+		/// <summary>
+		/// With this enabled, no need to call Authenticate. It will be automatically called when an Authenticated api call is made
+		/// </summary>
+		public bool AutoAuthenticate { get; set; }
 
 		public AuthenticatedApi(string identifier, HttpMessageHandler handler = null) : base(identifier, handler)
 		{
@@ -87,7 +90,10 @@ namespace SimpleAuth
 		{
 			if (CurrentAccount == null)
 			{
-				throw new Exception("Not Authenticated");
+				if (AutoAuthenticate)
+					await Authenticate();
+				else
+					throw new Exception("Not Authenticated");
 			}
 			if (!CurrentAccount.IsValid())
 				await RefreshAccount(CurrentAccount);
