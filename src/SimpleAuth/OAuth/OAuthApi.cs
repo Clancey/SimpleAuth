@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,12 @@ namespace SimpleAuth
 {
 	public class OAuthApi : AuthenticatedApi
 	{
+		public OAuthApi(string identifier, string clientId, string clientSecret,string tokenUrl,string authorizationUrl,string redirectUrl = "http://localhost", HttpMessageHandler handler = null) : this(identifier, clientId, clientSecret, handler)
+		{
+			this.TokenUrl = tokenUrl;
+			authenticator = new OAuthAuthenticator(authorizationUrl,tokenUrl,redirectUrl,clientId,clientSecret);
+		}
+		
 		public OAuthApi(string identifier, OAuthAuthenticator authenticator, HttpMessageHandler handler = null) : this(identifier, authenticator.ClientId, authenticator.ClientSecret, handler)
 		{
 			this.authenticator = authenticator;
@@ -149,6 +156,7 @@ namespace SimpleAuth
 
 		protected virtual WebAuthenticator CreateAuthenticator()
 		{
+			authenticator.Scope = Scopes.ToList();
 			return authenticator;
 		}
 		protected async Task<bool> RefreshToken(Account accaccount)

@@ -8,7 +8,16 @@ namespace SimpleAuth
 {
     public class OauthApiKeyApi : OAuthApi
     {
-	    public OauthApiKeyApi(string identifier, string apiKey, string authKey, AuthLocation authLocation , OAuthAuthenticator authenticator, HttpMessageHandler handler = null) : base(identifier, authenticator, handler)
+		public OauthApiKeyApi(string identifier,string apiKey,string authKey, AuthLocation authLocation, string clientId, string clientSecret, string tokenUrl, string authorizationUrl, string redirectUrl = "http://localhost", HttpMessageHandler handler = null) : base(identifier, clientId, clientSecret, handler)
+		{
+			this.TokenUrl = tokenUrl;
+			authenticator = new OAuthAuthenticator(authorizationUrl, tokenUrl, redirectUrl, clientId, clientSecret);
+
+			AuthLocation = authLocation;
+			AuthKey = authKey;
+			ApiKey = apiKey;
+		}
+		public OauthApiKeyApi(string identifier, string apiKey, string authKey, AuthLocation authLocation , OAuthAuthenticator authenticator, HttpMessageHandler handler = null) : base(identifier, authenticator, handler)
 	    {
 
 			AuthLocation = authLocation;
