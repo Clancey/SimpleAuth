@@ -41,6 +41,8 @@ namespace SimpleAuth
 			}
 		}
 
+		public string DefaultAccepts { get; set; }
+
 		public Api(string identifier, HttpMessageHandler handler = null)
 		{
 			Identifier = identifier;
@@ -360,6 +362,8 @@ namespace SimpleAuth
 			var accepts = GetValueFromAttribute<AcceptsAttribute>(method);
 			if (!string.IsNullOrWhiteSpace(accepts))
 				headers["Accept"] = accepts;
+			else if (!string.IsNullOrWhiteSpace(DefaultAccepts))
+				headers["Accept"] = DefaultAccepts;
 			var contentType = GetValueFromAttribute<ContentTypeAttribute>(method);
 			if (!string.IsNullOrWhiteSpace(contentType))
 				headers["Content-Type"] = contentType;
