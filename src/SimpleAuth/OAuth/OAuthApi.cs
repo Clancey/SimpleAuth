@@ -102,6 +102,8 @@ namespace SimpleAuth
 				var valid = account.IsValid();
 				if (!valid || ForceRefresh)
 				{
+					if (!(await Ping(TokenUrl)))
+						return account;
 					await RefreshAccount(account);
 				}
 

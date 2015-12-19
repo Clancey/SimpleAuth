@@ -388,6 +388,25 @@ namespace SimpleAuth
 				inHeaders.Add(header.Key,header.Value);
 			}
 		}
+
+		public async Task<bool> Ping(string url)
+		{
+			try{
+				var request = new HttpRequestMessage(HttpMethod.Get, url);
+				await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+				return true;
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine(ex);
+			}
+			return false;
+		}
+
+		public Task<bool> Ping()
+		{
+			return Ping(BaseAddress.AbsoluteUri);
+		}
 	}
 }
 
