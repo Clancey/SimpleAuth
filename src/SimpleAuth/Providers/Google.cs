@@ -40,7 +40,7 @@ namespace SimpleAuth.Providers
 		}
 	}
 
-	public class GoogleAuthenticator : WebAuthenticator
+	public class GoogleAuthenticator : OAuthAuthenticator
 	{
 		public override string BaseUrl
 		{

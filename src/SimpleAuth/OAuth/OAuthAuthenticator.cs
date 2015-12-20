@@ -8,6 +8,11 @@ namespace SimpleAuth
 	{
 	    public string ClientSecret { get; set; }
 
+		protected OAuthAuthenticator()
+		{
+
+		}
+
 	    public OAuthAuthenticator(string authUrl, string tokenUrl,string redirectUrl, string clientId, string clientSecret)
 	    {
 		    this.ClientId = clientId;
