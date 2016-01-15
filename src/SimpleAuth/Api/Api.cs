@@ -22,6 +22,10 @@ namespace SimpleAuth
 
 		public virtual string ExtraDataString { get; set; }
 
+		public bool EnsureApiStatusCode { get; set; } = true;
+
+		public string DefaultMediaType { get; set; } = "application/json";
+
 		protected string ClientSecret;
 
 		protected string ClientId;
@@ -172,9 +176,10 @@ namespace SimpleAuth
 			return SendObjectMessage(path,body, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
 		}
 
-		public virtual async Task<string> PostUrl(string path, string content, string mediaType = "text/json", bool authenticated = true)
+		public virtual async Task<string> PostUrl(string path, string content, string mediaType = "", bool authenticated = true)
 		{
-			var message = await PostMessage(path,new StringContent(content, System.Text.Encoding.UTF8, mediaType),authenticated);
+			var dataType = string.IsNullOrWhiteSpace (mediaType) ? DefaultMediaType : mediaType;
+			var message = await PostMessage(path,new StringContent(content, System.Text.Encoding.UTF8, dataType),authenticated);
 			return await message.Content.ReadAsStringAsync();
 		}
 
@@ -213,7 +218,7 @@ namespace SimpleAuth
 		}
 		public virtual Task<string> SendObjectMessage(string path, object body, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var mediaType = "text/json";
+			var mediaType = DefaultMediaType;
 			headers?.TryGetValue("Content-Type", out mediaType);
 
 			var bodyJson = body.ToJson();
@@ -248,7 +253,8 @@ namespace SimpleAuth
             
 
 			var message = await SendMessage(path, content, method, headers, authenticated);
-			message.EnsureSuccessStatusCode();
+			if(EnsureApiStatusCode)
+				message.EnsureSuccessStatusCode();
 			var data = await message.Content.ReadAsStringAsync();
 			return data;
 		}
@@ -398,7 +404,7 @@ namespace SimpleAuth
 			}
 			catch(Exception ex)
 			{
-				Console.WriteLine(ex);
+				Debug.WriteLine(ex);
 			}
 			return false;
 		}
