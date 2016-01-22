@@ -260,7 +260,7 @@ namespace SimpleAuth
 		}
 
 
-		public async Task<HttpResponseMessage> SendMessage(string path, HttpContent content, HttpMethod method , Dictionary<string, string> headers = null, bool authenticated = true)
+		public async Task<HttpResponseMessage> SendMessage(string path, HttpContent content, HttpMethod method , Dictionary<string, string> headers = null, bool authenticated = true,HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
 		{
 			if (authenticated)
 				await VerifyCredentials();
@@ -278,11 +278,11 @@ namespace SimpleAuth
 			return await SendMessage(request, authenticated);
 		}
 
-		public async Task<HttpResponseMessage> SendMessage(HttpRequestMessage message, bool authenticated = true)
+		public async Task<HttpResponseMessage> SendMessage(HttpRequestMessage message, bool authenticated = true,HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
 		{
 			if (authenticated)
 				await VerifyCredentials();
-			return await Client.SendAsync(message);
+			return await Client.SendAsync(message,completionOption);
 		}
 
 		protected virtual async Task VerifyCredentials()
