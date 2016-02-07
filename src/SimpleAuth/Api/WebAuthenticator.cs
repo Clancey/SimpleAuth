@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -49,11 +50,24 @@ namespace SimpleAuth
 		public virtual async Task<Uri> GetInitialUrl()
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run s
 		{
-			var scope = string.Join("%20", Scope.Select(HttpUtility.UrlEncode));
-			var delimiter = BaseUrl.EndsWith("?", StringComparison.CurrentCultureIgnoreCase) ? "" : "?";
-			var url = $"{BaseUrl}{delimiter}client_id={ClientId}&scope={scope}&response_type=code&redirect_uri={RedirectUrl.AbsoluteUri}";
-			return new Uri(url);
+			var uri = new Uri(BaseUrl);
+			var collection = GetInitialUrlQueryParameters();
+			return uri.AddParameters(collection);
 		}
+
+	    public virtual NameValueCollection GetInitialUrlQueryParameters()
+	    {
+
+			var scope = string.Join(" ", Scope);
+			return new NameValueCollection()
+			{
+				{"client_id",ClientId},
+				{"scope",scope},
+				{"response_type","code"},
+				{"redirect_uri",RedirectUrl.AbsoluteUri}
+			};
+
+	    }
 
 #pragma warning disable 1998
 		public virtual async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
