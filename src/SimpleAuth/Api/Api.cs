@@ -102,15 +102,15 @@ namespace SimpleAuth
         public virtual async Task<T> Get<T>(string path = null, Dictionary<string, string> queryParameters = null,
 			Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
         {
-	        var data = await Get(path, queryParameters, headers, authenticated, methodName);
-			return await Task.Run(() => Deserialize<T>(data));
+			var data = await Get(path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data);
 		}
 
 		
 		public virtual async Task<T> Post<T>(object body,string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var data = await Post(body,path, queryParameters, headers, authenticated, methodName);
-			return await Task.Run(() => Deserialize<T>(data,body));
+			var data = await Post(body,path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data,body);
 		}
 		public virtual Task<string> Post(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
@@ -119,8 +119,8 @@ namespace SimpleAuth
 
 		public virtual async Task<T> Post<T>(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var data = await Post(content,path,  queryParameters,  headers, authenticated, methodName);
-			return await Task.Run(() => Deserialize<T>(data));
+			var data = await Post(content,path,  queryParameters,  headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data);
 		}
 
 		public virtual Task<string> Post(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null,
@@ -133,8 +133,8 @@ namespace SimpleAuth
 
 		public virtual async Task<T> Put<T>(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var data = await Put(content,path, queryParameters, headers, authenticated, methodName);
-			return await Task.Run(() => Deserialize<T>(data));
+			var data = await Put(content,path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data);
 		}
 
 		public virtual Task<string> Put (HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
@@ -144,8 +144,8 @@ namespace SimpleAuth
 
 		public virtual async Task<T> Put<T>(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var data = await Put(body,path, queryParameters, headers, authenticated, methodName);
-			return await Task.Run(() => Deserialize<T>(data, body));
+			var data = await Put(body,path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data, body);
 		}
 
 
@@ -156,14 +156,14 @@ namespace SimpleAuth
 
 		public virtual async Task<T> Delete<T>(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var data = await Delete(body,path, queryParameters, headers, authenticated, methodName);
-			return await Task.Run(() => Deserialize<T>(data, body));
+			var data = await Delete(body,path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data, body);
 		}
 
 		public virtual async Task<T> Delete<T>(HttpContent content = null, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var data = await Delete(content,path, queryParameters, headers, authenticated, methodName);
-			return await Task.Run(() => Deserialize<T>(data));
+			var data = await Delete(content,path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data);
 		}
 
 		public virtual Task<string> Delete(HttpContent content = null, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
@@ -186,19 +186,21 @@ namespace SimpleAuth
 		public virtual async Task<T> Post<T>(string path, string content, bool authenticated = true)
 		{
 			Debug.WriteLine("{0} - {1}", path, content);
-			var data = await PostUrl(path, content, authenticated: authenticated);
+			var data = await PostUrl(path, content, authenticated: authenticated).ConfigureAwait(false);
 			if(Verbose)
 				Debug.WriteLine(data);
-			return await Task.Run(() => Deserialize<T>(data));
+			return Deserialize<T>(data);
 
 		}
 		public virtual async Task<T> Post<T>(string path, HttpContent content, bool authenticated = true)
 		{
-			Debug.WriteLine("{0} - {1}", path, await content.ReadAsStringAsync());
-			var resp = await PostMessage(path, content,authenticated);
-			var data = await resp.Content.ReadAsStringAsync();
-			Debug.WriteLine(data);
-			return await Task.Run(() => Deserialize<T>(data));
+			if(Verbose)
+				Debug.WriteLine("{0} - {1}", path, await content.ReadAsStringAsync());
+			var resp = await PostMessage(path, content,authenticated).ConfigureAwait(false);
+			var data = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
+			if(Verbose)
+				Debug.WriteLine(data);
+			return Deserialize<T>(data);
 
 		}
 		public async Task<HttpResponseMessage> PostMessage(string path, HttpContent content, bool authenticated = true)
@@ -229,8 +231,10 @@ namespace SimpleAuth
 
 		public virtual async Task<string> SendObjectMessage(string path, HttpContent content, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			if(string.IsNullOrWhiteSpace(path))
-				path = GetValueFromAttribute<PathAttribute>(GetType().GetMethod(methodName));
+			if (string.IsNullOrWhiteSpace(path))
+			{
+				path = GetType().GetMethods().Where(x=> x.Name == methodName).Select(x => GetValueFromAttribute<PathAttribute>(x)).Where(x => !string.IsNullOrWhiteSpace(x)).FirstOrDefault();
+			}
 
 			if (string.IsNullOrWhiteSpace(path))
 				throw new Exception("Missing Path Attribute");
@@ -240,8 +244,8 @@ namespace SimpleAuth
 
 			//Merge attributes with passed in headers.
 			//Passed in headers overwrite attributes
-			var attributeHeaders = GetHeadersFromMethod(GetType().GetMethod(methodName));
-			if (attributeHeaders.Any())
+			var attributeHeaders = GetType().GetMethods().Where(x=> x.Name == methodName).Select(x => GetHeadersFromMethod(x)).Where(x => x?.Any() ?? false).FirstOrDefault();
+			if (attributeHeaders?.Any() ?? false)
 			{
 				if(headers != null)
 					foreach (var header in headers)
