@@ -55,11 +55,11 @@ namespace SimpleAuth
 			return uri.AddParameters(collection);
 		}
 
-	    public virtual NameValueCollection GetInitialUrlQueryParameters()
+	    public virtual Dictionary<string, string> GetInitialUrlQueryParameters()
 	    {
 
 			var scope = string.Join(" ", Scope);
-			return new NameValueCollection()
+			return new Dictionary<string, string>()
 			{
 				{"client_id",ClientId},
 				{"scope",scope},
