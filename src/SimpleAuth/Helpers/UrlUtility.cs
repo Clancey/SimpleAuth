@@ -25,7 +25,7 @@ namespace SimpleAuth
 		   var existingParams = HttpUtility.ParseQueryString(query);
 		   foreach (var key in parameters)
 		   {
-			   existingParams[key.Key] = parameters[key.Value];
+				existingParams[key.Key] = key.Value;
 		   }
 		   var newQuery = existingParams.ToString();
 			var newPath = $"{simplePath}?{newQuery}";
