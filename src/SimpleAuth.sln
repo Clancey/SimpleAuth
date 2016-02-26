@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.iOS", "SimpleAuth.iOS\SimpleAuth.iOS.csproj", "{2C2264A6-2534-485E-8772-623D1ABEEFFF}"
 EndProject
@@ -12,6 +12,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Portable", "SimpleAuth.Portable\SimpleAuth.Portable.csproj", "{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.OnePassword.iOS", "SimpleAuth.OnePassword.iOS\SimpleAuth.OnePassword.iOS.csproj", "{3978F9A7-1AD2-4550-A0FE-86793CA912CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2836C1E8-054E-43A9-A832-29086375CDA0}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
