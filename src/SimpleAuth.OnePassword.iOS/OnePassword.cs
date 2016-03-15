@@ -14,14 +14,14 @@ namespace SimpleAuth
 		{
 			if (!AgileBits.OnePasswordExtension.SharedExtension.IsAppExtensionAvailable)
 				return;
-			SimpleAuth.iOS.WebAuthenticator.RightButtonItem = new UIBarButtonItem(UIImage.FromBundle("onepassword-navbar.png"),UIBarButtonItemStyle.Plain,
+			SimpleAuth.iOS.WebAuthenticatorViewController.RightButtonItem = new UIBarButtonItem(UIImage.FromBundle("onepassword-navbar.png"),UIBarButtonItemStyle.Plain,
 				async (s, e) =>
 				{
 					await WaitForLoadingToEnd();
 					//iOS has a horrible crash and burn issue that this fixes
 					var tintColor = UIApplication.SharedApplication.KeyWindow.TintColor;
 					UIApplication.SharedApplication.KeyWindow.TintColor = null;
-                    AgileBits.OnePasswordExtension.SharedExtension.FillLoginIntoWebView(iOS.WebAuthenticator.Shared.webView, iOS.WebAuthenticator.Shared,SimpleAuth.iOS.WebAuthenticator.RightButtonItem,
+                    AgileBits.OnePasswordExtension.SharedExtension.FillLoginIntoWebView(iOS.WebAuthenticatorViewController.Shared.webView, iOS.WebAuthenticatorViewController.Shared,SimpleAuth.iOS.WebAuthenticatorViewController.RightButtonItem,
 						(success, error) =>
 						{
 							if(error != null)
@@ -34,7 +34,7 @@ namespace SimpleAuth
 
 		static async Task WaitForLoadingToEnd()
 		{
-			var webView = iOS.WebAuthenticator.Shared.webView;
+			var webView = iOS.WebAuthenticatorViewController.Shared.webView;
 			if (webView.IsLoading)
 				return;
 			await Task.Run(async () =>

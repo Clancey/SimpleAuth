@@ -15,18 +15,18 @@ namespace SimpleAuth.Providers
 		}
 
 
-		protected override Authenticator CreateAuthenticator(string[] scope)
+		protected override WebAuthenticator CreateAuthenticator()
 		{
 			return new AmazonAuthenticator
 			{
-				Scope = scope.ToList(),
+				Scope = Scopes.ToList(),
 				ClientId = ClientId,
 				ClearCookiesBeforeLogin = CalledReset,
 			};
 		}
 	}
 
-	public class AmazonAuthenticator : Authenticator
+	public class AmazonAuthenticator : WebAuthenticator
 	{
 		public override string BaseUrl { get; set; } = "https://www.amazon.com/ap/oa";
 		public override Uri RedirectUrl { get; set; } = new Uri("http://localhost");

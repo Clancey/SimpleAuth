@@ -90,12 +90,30 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
     <Content Include="Entitlements.plist" />
+    <Compile Include="Spinner.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="BTProgressHUD">
+      <HintPath>..\Components\btprogresshud-1.19\lib\ios-unified\BTProgressHUD.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="MonoTouch.Dialog-1" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <XamarinComponentReference Include="btprogresshud">
+      <Version>1.19</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SimpleAuth.iOS\SimpleAuth.iOS.csproj">
+      <Project>{2C2264A6-2534-485E-8772-623D1ABEEFFF}</Project>
+      <Name>SimpleAuth.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

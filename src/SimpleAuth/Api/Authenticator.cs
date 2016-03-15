@@ -11,17 +11,6 @@ namespace SimpleAuth
 {
 	public abstract class Authenticator
 	{
-		public abstract string BaseUrl
-		{
-			get;
-			set;
-		}
-
-		public abstract Uri RedirectUrl
-		{
-			get;
-			set;
-		}
 
 		public string AuthCode
 		{
@@ -33,7 +22,6 @@ namespace SimpleAuth
 		{
 			AllowsCancel = true;
 			Title = "Sign in";
-			Scope = new List<string>();
 		}
 
 		public string Title
@@ -42,7 +30,7 @@ namespace SimpleAuth
 			set;
 		}
 
-		TaskCompletionSource<string> tokenTask;
+		protected TaskCompletionSource<string> tokenTask;
 
 		public async Task<string> GetAuthCode()
 		{
@@ -65,31 +53,7 @@ namespace SimpleAuth
 			HasCompleted = true;
 			tokenTask.TrySetCanceled();
 		}
-
-		public virtual bool CheckUrl(Uri url, Cookie[] cookies)
-		{
-			try
-			{
-				if(url == null || string.IsNullOrWhiteSpace(url.Query))
-					return false;
-				if(url.Host != RedirectUrl.Host)
-					return false;
-				var parts = HttpUtility.ParseQueryString(url.Query);
-				var code = parts["code"];
-				if(!string.IsNullOrWhiteSpace(code) && tokenTask != null)
-				{
-					FoundAuthCode(code);
-					return true;
-				}
-
-			}
-			catch(Exception ex)
-			{
-				Debug.WriteLine(ex);
-			}
-			return false;
-		}
-
+		
 		protected void FoundAuthCode(string authCode)
 		{
 			HasCompleted = !string.IsNullOrWhiteSpace(authCode);
@@ -104,49 +68,6 @@ namespace SimpleAuth
 		}
 
 		public string ClientId
-		{
-			get;
-			set;
-		}
-
-		public List<string> Scope
-		{
-			get;
-			set;
-		}
-
-		#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-		public virtual async Task<Uri> GetInitialUrl()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run s
-		{
-			var scope = string.Join("%20", Scope.Select(HttpUtility.UrlEncode));
-			var delimiter = BaseUrl.EndsWith("?", StringComparison.CurrentCultureIgnoreCase) ? "" : "?";
-			var url = $"{BaseUrl}{delimiter}client_id={ClientId}&scope={scope}&response_type=code&redirect_uri={RedirectUrl.AbsoluteUri}";
-			return new Uri(url);
-		}
-
-		#pragma warning disable 1998
-		public virtual async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
-#pragma warning restore 1998
-	    {
-			return new Dictionary<string,string> {
-				{
-					"grant_type",
-					"authorization_code"
-				}, {
-					"code",
-					AuthCode
-				}, {
-					"client_id",
-					ClientId
-				}, {
-					"client_secret",
-					clientSecret
-				},
-			};
-		}
-
-		public bool ClearCookiesBeforeLogin
 		{
 			get;
 			set;

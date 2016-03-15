@@ -1,32 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using SimpleAuth.OAuth;
 
 namespace SimpleAuth
 {
-	public class OAuthApi : Api
+	public class OAuthApi : AuthenticatedApi
 	{
+		public OAuthApi(string identifier, string clientId, string clientSecret,string tokenUrl,string authorizationUrl,string redirectUrl = "http://localhost", HttpMessageHandler handler = null) : this(identifier, clientId, clientSecret, handler)
+		{
+			this.TokenUrl = tokenUrl;
+			authenticator = new OAuthAuthenticator(authorizationUrl,tokenUrl,redirectUrl,clientId,clientSecret);
+		}
+		
 		public OAuthApi(string identifier, OAuthAuthenticator authenticator, HttpMessageHandler handler = null) : this(identifier, authenticator.ClientId, authenticator.ClientSecret, handler)
 		{
 			this.authenticator = authenticator;
 			TokenUrl = authenticator.TokenUrl;
 		}
 
+
+		public static Action<WebAuthenticator> ShowAuthenticator { get; set; }
 		protected OAuthApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, handler)
 		{
 			this.ClientId = clientId;
 			this.ClientSecret = clientSecret;
 #if __IOS__
-			Api.ShowAuthenticator = (authenticator) =>
+			OAuthApi.ShowAuthenticator = (authenticator) =>
 			{
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
 				{
-					var vc = new iOS.WebAuthenticator(authenticator);
+					var vc = new iOS.WebAuthenticatorViewController(authenticator);
 					var window = UIKit.UIApplication.SharedApplication.KeyWindow;
 					var root = window.RootViewController;
 					if (root != null)
@@ -42,7 +50,7 @@ namespace SimpleAuth
 			};
 
 #elif __ANDROID__
-			Api.ShowAuthenticator = (authenticator) =>
+			OAuthApi.ShowAuthenticator = (authenticator) =>
 			{
 				var context = Android.App.Application.Context;
 				var i = new global::Android.Content.Intent(context, typeof(WebAuthenticatorActivity));
@@ -55,13 +63,13 @@ namespace SimpleAuth
 				context.StartActivity(i);
 			};
 #elif __OSX__
-			Api.ShowAuthenticator = (authenticator) =>
+			OAuthApi.ShowAuthenticator = (authenticator) =>
 			{
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
 				{
-					var vc = new SimpleAuth.Mac.WebAuthenticator(authenticator);
-					SimpleAuth.Mac.WebAuthenticator.ShowWebivew(vc);
+					var vc = new SimpleAuth.Mac.WebAuthenticatorWebView(authenticator);
+					SimpleAuth.Mac.WebAuthenticatorWebView.ShowWebivew(vc);
 				});
 			};
 #endif
@@ -69,19 +77,12 @@ namespace SimpleAuth
 
 		}
 
-		protected Authenticator authenticator;
+		protected WebAuthenticator authenticator;
 		public OAuthAccount CurrentOAuthAccount => CurrentAccount as OAuthAccount;
 
 		public string TokenUrl { get; set; }
 
 		public string[] Scopes { get; set; }
-
-		public override Task<Account> Authenticate()
-		{
-			if(Scopes == null || Scopes.Length == 0)
-				throw new Exception("Scopes must be set on the API or passed into Authenticate");
-			return Authenticate(Scopes);
-		}
 
 		public override void ResetData()
 		{
@@ -90,14 +91,19 @@ namespace SimpleAuth
 				authenticator.ClearCookiesBeforeLogin = true;
 		}
 		public bool ForceRefresh { get; set; }
-		protected override async Task<Account> PerformAuthenticate(string[] scope)
+		protected override async Task<Account> PerformAuthenticate()
 		{
+
+			if (Scopes == null || Scopes.Length == 0)
+				throw new Exception("Scopes must be set on the API or passed into Authenticate");
 			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
 			if (account != null && !string.IsNullOrWhiteSpace(account.RefreshToken))
 			{
 				var valid = account.IsValid();
 				if (!valid || ForceRefresh)
 				{
+					if (!(await Ping(TokenUrl)))
+						return account;
 					await RefreshAccount(account);
 				}
 
@@ -109,7 +115,7 @@ namespace SimpleAuth
 				}
 			}
 
-			authenticator = CreateAuthenticator(scope);
+			authenticator = CreateAuthenticator();
 
 			ShowAuthenticator(authenticator);
 
@@ -125,7 +131,7 @@ namespace SimpleAuth
 			return account;
 		}
 
-		protected virtual async Task<OAuthAccount> GetAccountFromAuthCode(Authenticator authenticator, string identifier)
+		protected virtual async Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
 		{
 			var postData = await authenticator.GetTokenPostData(ClientSecret);
 			if (string.IsNullOrWhiteSpace(TokenUrl))
@@ -150,8 +156,9 @@ namespace SimpleAuth
 			return account;
 		}
 
-		protected virtual Authenticator CreateAuthenticator(string[] scope)
+		protected virtual WebAuthenticator CreateAuthenticator()
 		{
+			authenticator.Scope = Scopes.ToList();
 			return authenticator;
 		}
 		protected async Task<bool> RefreshToken(Account accaccount)

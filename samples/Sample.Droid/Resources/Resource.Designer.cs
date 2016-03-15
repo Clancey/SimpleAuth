@@ -26,8 +26,8 @@ namespace Sample.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::SimpleAuth.Droid.Resource.String.ApplicationName = global::Sample.Droid.Resource.String.ApplicationName;
-			global::SimpleAuth.Droid.Resource.String.Hello = global::Sample.Droid.Resource.String.Hello;
+			global::SimpleAuth.Resource.String.ApplicationName = global::Sample.Droid.Resource.String.ApplicationName;
+			global::SimpleAuth.Resource.String.Hello = global::Sample.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute

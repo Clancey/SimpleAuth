@@ -9,10 +9,10 @@ using System.Linq;
 
 namespace SimpleAuth.iOS
 {
-	public class WebAuthenticator : UIViewController
+	public class WebAuthenticatorViewController : UIViewController
 	{
 
-		public readonly Authenticator Authenticator;
+		public readonly WebAuthenticator Authenticator;
 		public static UIBarButtonItem RightButtonItem { get; set; }
 
 		internal UIWebView webView;
@@ -24,8 +24,8 @@ namespace SimpleAuth.iOS
 		const double TransitionTime = 0.25;
 
 		bool keepTryingAfterError = true;
-		internal static WebAuthenticator Shared { get; set; }
-		public WebAuthenticator (Authenticator authenticator)
+		internal static WebAuthenticatorViewController Shared { get; set; }
+		public WebAuthenticatorViewController (WebAuthenticator authenticator)
 		{
 			Shared = this;
 			this.Authenticator = authenticator;
@@ -193,14 +193,14 @@ namespace SimpleAuth.iOS
 		{
 			WeakReference controller;
 
-			protected WebAuthenticator Controller {
-				get{ return controller == null ? null : controller.Target as WebAuthenticator; }
+			protected WebAuthenticatorViewController Controller {
+				get{ return controller == null ? null : controller.Target as WebAuthenticatorViewController; }
 				set { controller = new WeakReference (value); }
 			}
 
 			Uri lastUrl;
 
-			public WebViewDelegate (WebAuthenticator controller)
+			public WebViewDelegate (WebAuthenticatorViewController controller)
 			{
 				this.Controller = controller;
 			}

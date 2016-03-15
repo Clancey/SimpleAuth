@@ -16,10 +16,10 @@ namespace SimpleAuth.Providers
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
 		}
 
-		protected override Authenticator CreateAuthenticator(string[] scope)
+		protected override WebAuthenticator CreateAuthenticator()
 		{
 			return new GoogleAuthenticator {
-				Scope = scope.ToList(),
+				Scope = Scopes.ToList(),
 				ClientId = ClientId,
 				ClearCookiesBeforeLogin = CalledReset,
 			};
@@ -31,7 +31,7 @@ namespace SimpleAuth.Providers
 			if(forceRefresh || !CurrentAccount.UserData.TryGetValue("userInfo", out userInfoJson))
 			{
 				CurrentAccount.UserData["userInfo"] =
-					userInfoJson = await GetString("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
+					userInfoJson = await Get("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
 				SaveAccount(CurrentAccount);
 			}
 
@@ -40,7 +40,7 @@ namespace SimpleAuth.Providers
 		}
 	}
 
-	public class GoogleAuthenticator : Authenticator
+	public class GoogleAuthenticator : OAuthAuthenticator
 	{
 		public override string BaseUrl
 		{

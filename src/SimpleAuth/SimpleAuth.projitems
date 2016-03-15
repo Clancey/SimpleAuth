@@ -9,13 +9,23 @@
     <Import_RootNamespace>SimpleAuth</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ApiKey\ApiKeyApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ApiKey\AuthLocation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\Account.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\Api.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\ApiResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\AuthenticatedApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\Authenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Api\JSonExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\Attributes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Api\WebAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\UrlUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OauthApiKeyApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OauthResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Amazon.cs" />
@@ -23,9 +33,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Resolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IAuthStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Properties\" />
   </ItemGroup>
 </Project>
