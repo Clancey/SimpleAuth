@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.9</version>
+        <version>1.0.12</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
@@ -12,7 +12,7 @@
         <releaseNotes>Bait and swich dll's now all have the same assembly information so this can be used in a true pcl</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-            <dependency id="Newtonsoft.Json" version="7.0.1" />
+            <dependency id="Newtonsoft.Json" version="8.0.3" />
         </dependencies>
     </metadata>
     <files>
