@@ -279,7 +279,7 @@ namespace SimpleAuth
 
 			MergeHeaders(request.Headers, headers);
 
-			return await SendMessage(request, authenticated);
+			return await SendMessage(request, authenticated, completionOption);
 		}
 
 		public async Task<HttpResponseMessage> SendMessage(HttpRequestMessage message, bool authenticated = true,HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
