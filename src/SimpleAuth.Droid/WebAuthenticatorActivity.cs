@@ -27,13 +27,10 @@ using SimpleAuth.Droid;
 namespace SimpleAuth
 {
 	[Activity(Label = "Web Authenticator")]
-#if XAMARIN_AUTH_INTERNAL
-	internal class WebAuthenticatorActivity : Activity
-#else
 	public class WebAuthenticatorActivity : Activity
-#endif
 	{
 		WebView webView;
+		public static string UserAgent = "";
 
 		internal class State : Java.Lang.Object
 		{
@@ -71,6 +68,11 @@ namespace SimpleAuth
 			{
 				Id = 42,
 			};
+			if (!string.IsNullOrWhiteSpace(UserAgent))
+			{
+				webView.Settings.UserAgentString = UserAgent;
+				webView.Settings.LoadWithOverviewMode = true;
+			}
 			webView.Settings.JavaScriptEnabled = true;
 			webView.SetWebViewClient(new Client(this));
 			SetContentView(webView);
@@ -187,6 +189,7 @@ namespace SimpleAuth
 
 			public override bool ShouldOverrideUrlLoading(WebView view, string url)
 			{
+				Console.WriteLine(url);
 				return false;
 			}
 
