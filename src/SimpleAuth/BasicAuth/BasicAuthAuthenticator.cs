@@ -8,8 +8,8 @@ namespace SimpleAuth
 {
     public class BasicAuthAuthenticator : Authenticator
     {
-	    readonly HttpClient client;
-	    readonly string loginUrl;
+	    protected readonly HttpClient client;
+	    protected readonly string loginUrl;
 
 	    public BasicAuthAuthenticator(HttpClient client, string loginUrl)
 	    {
