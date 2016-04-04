@@ -51,7 +51,7 @@ namespace SimpleAuth
 		public void OnCancelled()
 		{
 			HasCompleted = true;
-			tokenTask.TrySetCanceled();
+			tokenTask?.TrySetCanceled();
 		}
 		
 		protected void FoundAuthCode(string authCode)
@@ -64,7 +64,7 @@ namespace SimpleAuth
 		public void OnError(string error)
 		{
 			if(!HasCompleted)
-				tokenTask.TrySetException(new Exception(error));
+				tokenTask?.TrySetException(new Exception(error));
 		}
 
 		public string ClientId
