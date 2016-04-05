@@ -67,11 +67,9 @@ namespace SimpleAuth
 
 	    }
 
-#pragma warning disable 1998
-		public virtual async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
-#pragma warning restore 1998
+		public virtual Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 		{
-			return new Dictionary<string, string> {
+			return Task.FromResult(new Dictionary<string, string> {
 				{
 					"grant_type",
 					"authorization_code"
@@ -85,7 +83,7 @@ namespace SimpleAuth
 					"client_secret",
 					clientSecret
 				},
-			};
+			});
 		}
 
 

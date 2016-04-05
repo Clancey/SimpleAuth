@@ -9,7 +9,6 @@ namespace SimpleAuth
 {
 	public static class OnePassword
 	{
-		static Task loadingTask;
 		public static void Activate()
 		{
 			if (!AgileBits.OnePasswordExtension.SharedExtension.IsAppExtensionAvailable)

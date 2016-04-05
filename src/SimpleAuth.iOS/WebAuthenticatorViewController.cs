@@ -23,7 +23,7 @@ namespace SimpleAuth.iOS
 
 		const double TransitionTime = 0.25;
 
-		bool keepTryingAfterError = true;
+		//bool keepTryingAfterError = true;
 		internal static WebAuthenticatorViewController Shared { get; set; }
 		public WebAuthenticatorViewController (WebAuthenticator authenticator)
 		{

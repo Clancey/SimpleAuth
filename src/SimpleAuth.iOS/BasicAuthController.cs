@@ -43,7 +43,7 @@ namespace SimpleAuth
 				}
 				return result;
 			}
-			catch (TaskCanceledException ex)
+			catch (TaskCanceledException)
 			{
 				authenticator.OnCancelled();
 				return null;
