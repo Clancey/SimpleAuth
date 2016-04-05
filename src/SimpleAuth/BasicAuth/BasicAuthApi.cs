@@ -37,6 +37,7 @@ namespace SimpleAuth
 
 		public BasicAuthAccount CurrentBasicAccount => CurrentAccount as BasicAuthAccount;
 		public static Action<BasicAuthAuthenticator> ShowAuthenticator { get; set; }
+		public Action<BasicAuthAuthenticator> CurrentShowAuthenticator { get; set; }
 		protected override async Task<Account> PerformAuthenticate()
 	    {
 			var account = CurrentBasicAccount ?? GetAccount<BasicAuthAccount>(Identifier);
@@ -47,7 +48,10 @@ namespace SimpleAuth
 
 			authenticator = CreateAuthenticator();
 
-			ShowAuthenticator(authenticator);
+			if(CurrentShowAuthenticator != null)
+				CurrentShowAuthenticator(authenticator);
+			else
+				ShowAuthenticator(authenticator);
 
 			var token = await authenticator.GetAuthCode();
 			if (string.IsNullOrEmpty(token))

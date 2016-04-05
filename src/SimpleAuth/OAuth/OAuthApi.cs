@@ -24,6 +24,7 @@ namespace SimpleAuth
 
 
 		public static Action<WebAuthenticator> ShowAuthenticator { get; set; }
+		public Action<WebAuthenticator> CurrentShowAuthenticator { get; set; }
 		protected OAuthApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, handler)
 		{
 			this.ClientId = clientId;
@@ -116,8 +117,10 @@ namespace SimpleAuth
 			}
 
 			authenticator = CreateAuthenticator();
-
-			ShowAuthenticator(authenticator);
+			if (CurrentShowAuthenticator != null)
+				CurrentShowAuthenticator(authenticator);
+			else
+				ShowAuthenticator(authenticator);
 
 			var token = await authenticator.GetAuthCode();
 			if (string.IsNullOrEmpty(token))
