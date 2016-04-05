@@ -25,12 +25,12 @@ namespace SimpleAuth
 			return PrepareUrl(BaseAddress,path,Identifier,AuthKey,AuthLocation);
 
 		}
-		public static async Task<string> PrepareUrl(Uri baseAddress, string path,string apiKey, string authKey, AuthLocation authLocation)
+		public static Task<string> PrepareUrl(Uri baseAddress, string path,string apiKey, string authKey, AuthLocation authLocation)
 		{
 
 			var url = baseAddress != null ? new Uri(baseAddress, path.TrimStart('/')) : new Uri(path);
 
-			return url.AddParameters(authKey, apiKey).AbsoluteUri;
+			return Task.FromResult(url.AddParameters(authKey, apiKey).AbsoluteUri);
 
 		}
 		public override async Task PrepareClient(HttpClient client)

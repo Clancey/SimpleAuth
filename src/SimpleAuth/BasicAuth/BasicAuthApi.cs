@@ -61,10 +61,10 @@ namespace SimpleAuth
 			return account;
 		}
 
-	    protected override async Task<bool> RefreshAccount(Account account)
+	    protected override Task<bool> RefreshAccount(Account account)
 	    {
 			//This should never be called. Basic auth never expires;
-		    return true;
+			return Task.FromResult(true);
 	    }
 
 		public override async Task PrepareClient (HttpClient client)

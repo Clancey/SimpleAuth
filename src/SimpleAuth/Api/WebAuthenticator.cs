@@ -46,13 +46,11 @@ namespace SimpleAuth
 
 
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-		public virtual async Task<Uri> GetInitialUrl()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run s
+		public virtual Task<Uri> GetInitialUrl()
 		{
 			var uri = new Uri(BaseUrl);
 			var collection = GetInitialUrlQueryParameters();
-			return uri.AddParameters(collection);
+			return Task.FromResult(uri.AddParameters(collection));
 		}
 
 	    public virtual Dictionary<string, string> GetInitialUrlQueryParameters()
