@@ -37,6 +37,7 @@ namespace SimpleAuth
 
 		public BasicAuthAccount CurrentBasicAccount => CurrentAccount as BasicAuthAccount;
 		public static Action<BasicAuthAuthenticator> ShowAuthenticator { get; set; }
+		public Action<BasicAuthAuthenticator> CurrentShowAuthenticator { get; set; }
 		protected override async Task<Account> PerformAuthenticate()
 	    {
 			var account = CurrentBasicAccount ?? GetAccount<BasicAuthAccount>(Identifier);
@@ -47,7 +48,10 @@ namespace SimpleAuth
 
 			authenticator = CreateAuthenticator();
 
-			ShowAuthenticator(authenticator);
+			if(CurrentShowAuthenticator != null)
+				CurrentShowAuthenticator(authenticator);
+			else
+				ShowAuthenticator(authenticator);
 
 			var token = await authenticator.GetAuthCode();
 			if (string.IsNullOrEmpty(token))
@@ -61,10 +65,10 @@ namespace SimpleAuth
 			return account;
 		}
 
-	    protected override async Task<bool> RefreshAccount(Account account)
+	    protected override Task<bool> RefreshAccount(Account account)
 	    {
 			//This should never be called. Basic auth never expires;
-		    return true;
+			return Task.FromResult(true);
 	    }
 
 		public override async Task PrepareClient (HttpClient client)

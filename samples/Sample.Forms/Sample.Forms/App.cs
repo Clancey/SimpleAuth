@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleAuth;
-using SimpleAuth;
 using SimpleAuth.Providers;
 using Xamarin.Forms;
 
@@ -13,7 +12,7 @@ namespace Sample.Forms
 	public class App : Application
 	{
 
-		OAuthApi api;
+		AuthenticatedApi api;
 		public App ()
 		{
 			var scopes = new[]
@@ -21,12 +20,14 @@ namespace Sample.Forms
 				"https://www.googleapis.com/auth/userinfo.email",
 				"https://www.googleapis.com/auth/userinfo.profile"
 			};
-			api = new GoogleApi("google",
-				   "clientid",
-				"clientsecret",new ModernHttpClient.NativeMessageHandler())
-			{
-				Scopes = scopes,
-			};
+			//api = new GoogleApi("google",
+			//	   "clientid",
+			//	"clientsecret",new ModernHttpClient.NativeMessageHandler())
+			//{
+			//	Scopes = scopes,
+			//};
+
+			api = new FacebookApi("facebook","172317429487848","042bc7c9fd3975fff2516a2d0b030b2e");
 
 			var button = new Button
 			{
@@ -37,10 +38,11 @@ namespace Sample.Forms
 				try
 				{
 					var account = await api.Authenticate();
+					var me = await api.Get("me");
 
 					Console.WriteLine(account.Identifier);
 				}
-				catch (TaskCanceledException ex)
+				catch (TaskCanceledException)
 				{
 					Console.WriteLine("Canceled");
 				}

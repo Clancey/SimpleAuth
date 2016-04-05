@@ -62,9 +62,9 @@ namespace SimpleAuth
 
 		public string DeviceId { get; set; }
 
-		protected virtual async Task OnAccountUpdated(Account account)
+		protected virtual Task OnAccountUpdated(Account account)
 		{
-
+			return Task.FromResult(true);
 		}
 		public virtual IAuthStorage AuthStorage {
 			get {
@@ -289,14 +289,15 @@ namespace SimpleAuth
 			return await Client.SendAsync(message,completionOption);
 		}
 
-		protected virtual async Task VerifyCredentials()
+		protected virtual Task VerifyCredentials()
 		{
-
+			return Task.FromResult(true);
 		}
 
-		protected virtual async Task<string> PrepareUrl(string path, bool authenticated = true)
+		protected virtual  Task<string> PrepareUrl(string path, bool authenticated = true)
 		{
-			return path;
+
+			return Task.FromResult(path);
 		}
 
 		protected virtual T Deserialize<T>(string data)
