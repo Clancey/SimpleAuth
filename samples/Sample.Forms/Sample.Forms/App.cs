@@ -27,7 +27,7 @@ namespace Sample.Forms
 			//	Scopes = scopes,
 			//};
 
-			api = new FacebookApi("facebook","172317429487848","042bc7c9fd3975fff2516a2d0b030b2e");
+			api = new FacebookApi("facebook","","");
 
 			var button = new Button
 			{
