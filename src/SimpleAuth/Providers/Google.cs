@@ -16,12 +16,15 @@ namespace SimpleAuth.Providers
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
 		}
 
+		public Uri RedirectUrl { get; set; } = new Uri("http://localhost");
+
 		protected override WebAuthenticator CreateAuthenticator()
 		{
 			return new GoogleAuthenticator {
 				Scope = Scopes.ToList(),
 				ClientId = ClientId,
 				ClearCookiesBeforeLogin = CalledReset,
+				RedirectUrl = RedirectUrl,
 			};
 		}
 
@@ -52,7 +55,7 @@ namespace SimpleAuth.Providers
 		{
 			get;
 			set;
-		} =  new Uri("http://localhost");
+		} 
 
 		public override async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 		{
