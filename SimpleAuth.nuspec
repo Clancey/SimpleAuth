@@ -9,7 +9,7 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Simplest OAuth client for Xamarin</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it. Most importantly it works great wit</summary>
-        <releaseNotes>Bait and swich dll's now all have the same assembly information so this can be used in a true pcl</releaseNotes>
+        <releaseNotes>Added Facebook API. Fixed null reference in loading BasicAuth</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
             <dependency id="Newtonsoft.Json" version="8.0.3" />
