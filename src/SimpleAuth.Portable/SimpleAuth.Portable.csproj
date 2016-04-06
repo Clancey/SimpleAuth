@@ -39,6 +39,7 @@
     <Compile Include="HttpUtility.cs" />
     <Compile Include="AuthStorage.cs" />
     <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="HMACSHA1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
