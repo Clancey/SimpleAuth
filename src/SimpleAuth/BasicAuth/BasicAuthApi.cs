@@ -43,7 +43,7 @@ namespace SimpleAuth
 			var account = CurrentBasicAccount ?? GetAccount<BasicAuthAccount>(Identifier);
 			if (account?.IsValid() == true)
 		    {
-			    return account;
+			    return CurrentAccount = account;
 		    }
 
 			authenticator = CreateAuthenticator();
