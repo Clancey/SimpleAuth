@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Clancey.SimpleAuth.Facebook.iOS</id>
+        <version>1.0.1</version>
+        <authors>Clancey</authors>
+        <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Native Facebook support for SimpleAuth</description>
+        <summary>Adds Onepassword support for iOS 
+		Required Callbacks:
+SimpleAuth.Providers.Facebook.Init(app, options);
+SimpleAuth.Providers.Facebook.OpenUrl(application, url, sourceApplication, annotation);</summary>
+        <releaseNotes>Initial Version</releaseNotes>
+        <copyright>James Clancey</copyright>
+        <dependencies>
+            <dependency id="Clancey.SimpleAuth" version="1.0.14"/>
+            <dependency id="Xamarin.Facebook.iOS" version="4.10.0.0"/>
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="src\SimpleAuth.Facebook.iOS\bin\Release\SimpleAuth.Facebook.iOS.dll" target="lib\Xamarin.iOS10\SimpleAuth.Facebook.iOS.dll" />
+    </files>
+</package>
