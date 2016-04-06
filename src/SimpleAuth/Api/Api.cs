@@ -205,18 +205,12 @@ namespace SimpleAuth
 		}
 		public async Task<HttpResponseMessage> PostMessage(string path, HttpContent content, bool authenticated = true)
 		{
-			if(authenticated)
-				await VerifyCredentials();
-			path = await PrepareUrl(path);
-			return await Client.PostAsync(path, content);
+			return await SendMessage(path, content, HttpMethod.Post,authenticated:authenticated);
 		}
 
 		public async Task<HttpResponseMessage> PutMessage(string path, HttpContent content, bool authenticated = true)
 		{
-			if (authenticated)
-				await VerifyCredentials();
-			path = await PrepareUrl(path);
-			return await Client.PutAsync(path, content);
+			return await SendMessage(path, content, HttpMethod.Put, authenticated: authenticated);
 		}
 		public virtual Task<string> SendObjectMessage(string path, object body, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
@@ -282,7 +276,7 @@ namespace SimpleAuth
 			return await SendMessage(request, authenticated, completionOption);
 		}
 
-		public async Task<HttpResponseMessage> SendMessage(HttpRequestMessage message, bool authenticated = true,HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+		public async virtual Task<HttpResponseMessage> SendMessage(HttpRequestMessage message, bool authenticated = true,HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
 		{
 			if (authenticated)
 				await VerifyCredentials();
@@ -296,7 +290,6 @@ namespace SimpleAuth
 
 		protected virtual  Task<string> PrepareUrl(string path, bool authenticated = true)
 		{
-
 			return Task.FromResult(path);
 		}
 

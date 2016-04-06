@@ -34,5 +34,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IAuthStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Facebook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Twitter.cs" />
   </ItemGroup>
 </Project>
