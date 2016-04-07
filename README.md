@@ -74,7 +74,7 @@ OnePassword Support
 One password support is for iOS Only.  
 Simply add the project or the Nuget
 
-https://www.nuget.org/packages/Clancey.SimpleAuth.Facebook.iOS/
+https://www.nuget.org/packages/Clancey.SimpleAuth.OnePassword/
 
 Then call the following line in your iOS project prior to calling api.Authenticate();
 ```cs
@@ -88,7 +88,7 @@ Native Facebook Support via iOS SDK
 Native Facebook support is for iOS Only.  
 Simply add the project or the Nuget
 
-https://www.nuget.org/packages/Clancey.SimpleAuth.OnePassword/
+https://www.nuget.org/packages/Clancey.SimpleAuth.Facebook.iOS/
 
 The Facebook SDK requires you modify your info.plist : https://components.xamarin.com/gettingstarted/facebookios
 
