@@ -9,7 +9,7 @@ using System.Text;
 using System.Web;
 using System.Threading.Tasks;
 
-namespace SimpleAuth
+namespace SimpleAuth.Provider
 {
 	public class TwitterApi : OAuthApi
 	{
