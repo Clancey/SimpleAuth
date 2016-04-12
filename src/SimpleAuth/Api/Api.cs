@@ -16,6 +16,7 @@ namespace SimpleAuth
 	public class Api
 	{
 		public bool Verbose { get; set; } = false;
+
 		public string Identifier {get; private set;}
 
 		public string SharedGroupAccess { get; set; }
@@ -175,7 +176,28 @@ namespace SimpleAuth
 		{
 			return SendObjectMessage(path,body, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
 		}
+		public virtual async Task<T> Patch<T>(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var data = await Patch(body, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data, body);
+		}
+		public virtual Task<string> Patch(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			return SendObjectMessage(path, body, new HttpMethod("PATCH"), queryParameters, headers, authenticated, methodName);
+		}
 
+		public virtual async Task<T> Patch<T>(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var data = await Patch(content, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
+			return Deserialize<T>(data);
+		}
+
+		public virtual Task<string> Patch(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null,
+			Dictionary<string, string> headers = null, bool authenticated = true,
+			[System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			return SendObjectMessage(path, content, new HttpMethod("PATCH"), queryParameters, headers, authenticated, methodName);
+		}
 		public virtual async Task<string> PostUrl(string path, string content, string mediaType = "", bool authenticated = true)
 		{
 			var dataType = string.IsNullOrWhiteSpace (mediaType) ? DefaultMediaType : mediaType;
@@ -185,21 +207,22 @@ namespace SimpleAuth
 
 		public virtual async Task<T> Post<T>(string path, string content, bool authenticated = true)
 		{
-			Debug.WriteLine("{0} - {1}", path, content);
+			if(Verbose)
+				Console.WriteLine("{0} - {1}", path, content);
 			var data = await PostUrl(path, content, authenticated: authenticated).ConfigureAwait(false);
 			if(Verbose)
-				Debug.WriteLine(data);
+				Console.WriteLine(data);
 			return Deserialize<T>(data);
 
 		}
 		public virtual async Task<T> Post<T>(string path, HttpContent content, bool authenticated = true)
 		{
 			if(Verbose)
-				Debug.WriteLine("{0} - {1}", path, await content.ReadAsStringAsync());
+				Console.WriteLine("{0} - {1}", path, await content.ReadAsStringAsync());
 			var resp = await PostMessage(path, content,authenticated).ConfigureAwait(false);
 			var data = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
 			if(Verbose)
-				Debug.WriteLine(data);
+				Console.WriteLine(data);
 			return Deserialize<T>(data);
 
 		}
@@ -303,7 +326,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
+				Console.WriteLine(ex);
 			}
 			return default(T);
 		}
@@ -325,7 +348,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
+				Console.WriteLine(ex);
 			}
 			return default(T);
 		}
@@ -402,7 +425,7 @@ namespace SimpleAuth
 			}
 			catch(Exception ex)
 			{
-				Debug.WriteLine(ex);
+				Console.WriteLine(ex);
 			}
 			return false;
 		}
