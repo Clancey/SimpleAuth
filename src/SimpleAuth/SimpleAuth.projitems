@@ -36,5 +36,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Facebook.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Twitter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\ADFS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\LinkedIn.cs" />
   </ItemGroup>
 </Project>
