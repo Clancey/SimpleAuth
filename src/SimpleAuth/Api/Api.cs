@@ -15,7 +15,8 @@ namespace SimpleAuth
 {
 	public class Api
 	{
-		public static event UnhandledExceptionEventHandler UnhandledException;
+		public delegate void ApiExceptionEventHandler(object sender,Exception e);
+		public static event ApiExceptionEventHandler UnhandledException;
 
 		public bool Verbose { get; set; } = false;
 
@@ -440,7 +441,7 @@ namespace SimpleAuth
 		public virtual void OnException(object sender,Exception ex)
 		{
 			Console.WriteLine(ex);
-			UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(ex,false));
+			UnhandledException?.Invoke(sender,ex);
 		}
 	}
 }
