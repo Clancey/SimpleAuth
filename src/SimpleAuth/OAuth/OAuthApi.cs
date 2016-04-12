@@ -208,7 +208,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
+				OnException(this, ex);
 			}
 			return false;
 		}

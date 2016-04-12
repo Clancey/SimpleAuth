@@ -15,6 +15,8 @@ namespace SimpleAuth
 {
 	public class Api
 	{
+		public static event UnhandledExceptionEventHandler UnhandledException;
+
 		public bool Verbose { get; set; } = false;
 
 		public string Identifier {get; private set;}
@@ -326,7 +328,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
+				OnException(this,ex);
 			}
 			return default(T);
 		}
@@ -348,7 +350,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine(ex);
+				OnException(this,ex);
 			}
 			return default(T);
 		}
@@ -425,7 +427,7 @@ namespace SimpleAuth
 			}
 			catch(Exception ex)
 			{
-				Console.WriteLine(ex);
+				OnException(this, ex);
 			}
 			return false;
 		}
@@ -433,6 +435,12 @@ namespace SimpleAuth
 		public Task<bool> Ping()
 		{
 			return Ping(BaseAddress.AbsoluteUri);
+		}
+
+		public virtual void OnException(object sender,Exception ex)
+		{
+			Console.WriteLine(ex);
+			UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(ex,false));
 		}
 	}
 }
