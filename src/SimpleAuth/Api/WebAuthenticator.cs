@@ -39,7 +39,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
+				Console.WriteLine(ex);
 			}
 			return false;
 		}

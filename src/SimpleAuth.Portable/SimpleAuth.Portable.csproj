@@ -40,6 +40,7 @@
     <Compile Include="AuthStorage.cs" />
     <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="HMACSHA1.cs" />
+    <Compile Include="Console.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

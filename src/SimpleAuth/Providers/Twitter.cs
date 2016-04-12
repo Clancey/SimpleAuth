@@ -196,7 +196,7 @@ namespace SimpleAuth.Provider
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
+				Console.WriteLine(ex);
 			}
 			return false;
 		}

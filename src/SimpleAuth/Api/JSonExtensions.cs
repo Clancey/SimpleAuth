@@ -13,7 +13,14 @@ namespace SimpleAuth
 		}
 		public static string ToJson(this object obj)
 		{
+			var json = obj as string;
+			if (!string.IsNullOrEmpty(json))
+				return json;
 			return JsonConvert.SerializeObject (obj);
+		}
+		public static Task<string> ToJsonAsync(this object obj)
+		{
+			return Task.Run(()=>obj.ToJson());
 		}
 
 		public static T ToObject<T> (this string str)
