@@ -115,5 +115,9 @@
       <Project>{2C2264A6-2534-485E-8772-623D1ABEEFFF}</Project>
       <Name>SimpleAuth.iOS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\SimpleAuth.OnePassword.iOS\SimpleAuth.OnePassword.iOS.csproj">
+      <Project>{3978F9A7-1AD2-4550-A0FE-86793CA912CD}</Project>
+      <Name>SimpleAuth.OnePassword.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
