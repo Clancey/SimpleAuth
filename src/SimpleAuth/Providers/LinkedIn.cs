@@ -16,7 +16,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SimpleAuth
+namespace SimpleAuth.Providers
 {
 	public class LinkedInApi : OAuthApi
 	{
