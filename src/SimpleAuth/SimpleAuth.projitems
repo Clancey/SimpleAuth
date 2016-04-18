@@ -38,5 +38,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\ADFS.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\LinkedIn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\MicrosoftLiveConnectApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Instagram.cs" />
   </ItemGroup>
 </Project>
