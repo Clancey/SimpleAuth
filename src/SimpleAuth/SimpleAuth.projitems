@@ -39,5 +39,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\LinkedIn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\MicrosoftLiveConnectApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Instagram.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthPasswordApi.cs" />
   </ItemGroup>
 </Project>
