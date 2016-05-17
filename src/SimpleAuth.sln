@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.iOS", "SimpleAuth.iOS\SimpleAuth.iOS.csproj", "{2C2264A6-2534-485E-8772-623D1ABEEFFF}"
 EndProject
@@ -20,9 +20,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Facebook.iOS", "SimpleAuth.Facebook.iOS\SimpleAuth.Facebook.iOS.csproj", "{C5138A14-061F-4251-9AEA-2401E9578CDA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net45", "SimpleAuth.Net45\SimpleAuth.Net45.csproj", "{45A98478-4435-4505-BAF3-37F854AC671B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SimpleAuth\SimpleAuth.projitems*{a9afe645-9d2c-4d04-98ac-96990d9ba60e}*SharedItemsImports = 4
+		SimpleAuth\SimpleAuth.projitems*{45a98478-4435-4505-baf3-37f854ac671b}*SharedItemsImports = 4
 		SimpleAuth\SimpleAuth.projitems*{9fda9bd4-3d55-4132-9055-98986c50e0a4}*SharedItemsImports = 13
 		SimpleAuth\SimpleAuth.projitems*{5b44ed27-dad7-43fa-8a06-ba2469a1af9e}*SharedItemsImports = 4
 		SimpleAuth\SimpleAuth.projitems*{2c2264a6-2534-485e-8772-623d1abeefff}*SharedItemsImports = 4
@@ -52,6 +55,10 @@ Global
 		{C5138A14-061F-4251-9AEA-2401E9578CDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5138A14-061F-4251-9AEA-2401E9578CDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5138A14-061F-4251-9AEA-2401E9578CDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A98478-4435-4505-BAF3-37F854AC671B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A98478-4435-4505-BAF3-37F854AC671B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
