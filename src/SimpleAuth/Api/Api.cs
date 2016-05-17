@@ -89,6 +89,12 @@ namespace SimpleAuth
 				client.DefaultRequestHeaders.Add ("User-Agent", UserAgent);
 		}
 
+		public virtual Task ResetClient(HttpClient client)
+		{
+			client.DefaultRequestHeaders.Clear();
+			return Task.FromResult(true);
+		}
+
 		public async virtual Task<Stream> GetUrlStream(string path, bool authenticated = true)
 		{
 			if (authenticated)

@@ -34,9 +34,12 @@ namespace SimpleAuth
 			protected set
 			{
 				currentAccount = value;
-				HasAuthenticated = true;
+				HasAuthenticated = value!= null;
 #pragma warning disable 4014
-				PrepareClient(Client);
+				if (value == null)
+					ResetClient(Client);
+				else
+					PrepareClient(Client);
 				OnAccountUpdated(currentAccount);
 #pragma warning restore 4014
 			}
