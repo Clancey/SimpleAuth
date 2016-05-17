@@ -98,7 +98,7 @@ namespace SimpleAuth
 			if (Scopes == null || Scopes.Length == 0)
 				throw new Exception("Scopes must be set on the API or passed into Authenticate");
 			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
-			if (account != null && !string.IsNullOrWhiteSpace(account.RefreshToken))
+			if (account != null && (!string.IsNullOrWhiteSpace(account.RefreshToken) || account.ExpiresIn < 0))
 			{
 				var valid = account.IsValid();
 				if (!valid || ForceRefresh)
