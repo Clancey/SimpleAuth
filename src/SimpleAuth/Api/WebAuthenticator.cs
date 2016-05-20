@@ -56,14 +56,17 @@ namespace SimpleAuth
 	    public virtual Dictionary<string, string> GetInitialUrlQueryParameters()
 	    {
 
-			var scope = string.Join(" ", Scope);
-			return new Dictionary<string, string>()
+			var data = new Dictionary<string, string>()
 			{
 				{"client_id",ClientId},
-				{"scope",scope},
 				{"response_type","code"},
 				{"redirect_uri",RedirectUrl.AbsoluteUri}
 			};
+			if (Scope?.Count > 0) {
+				var scope = string.Join (" ", Scope);
+				data ["scope"] = scope;
+			}
+			return data;
 
 	    }
 

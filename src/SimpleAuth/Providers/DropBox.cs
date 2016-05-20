@@ -12,7 +12,7 @@ namespace SimpleAuth.Providers
         public DropBoxAuth(string client_id, string client_secret, HttpMessageHandler handler = null)
             : base("DropBox", client_id, client_secret, handler)
         {
-            this.Scopes = new[] { "???" };
+			this.ScopesRequired = false;
             this.TokenUrl = "https://api.dropbox.com/1/oauth2/token";
         }
 
@@ -49,7 +49,6 @@ namespace SimpleAuth.Providers
         {
             BaseUrl = "https://www.dropbox.com/1/oauth2/authorize";
             RedirectUrl = new Uri("http://localhost");
-            Scope = new List<string> { "???" };
         }
 
         ///Up to 500 bytes of arbitrary data that will be passed back to <paramref name="redirectUri"/>

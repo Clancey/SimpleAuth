@@ -47,7 +47,7 @@ namespace SimpleAuth
 				ExpiresIn = auth.Token.ExpiresIn,
 				Created = DateTime.UtcNow,
 				RefreshToken = auth.Token.RefreshToken,
-				Scope = authenticator.Scope.ToArray (),
+				Scope = authenticator.Scope?.ToArray (),
 				TokenType = auth.Token.TokenType,
 				Token = auth.Token.AccessToken,
 				ClientId = ClientId,

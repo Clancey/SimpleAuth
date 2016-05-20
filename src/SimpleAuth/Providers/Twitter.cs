@@ -15,7 +15,7 @@ namespace SimpleAuth.Provider
 	{
 		public TwitterApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, clientId, clientSecret, handler)
 		{
-			Scopes = new[] { "email" };
+			ScopesRequired = false;
 			BaseAddress = new Uri("https://api.twitter.com/1.1/");
 			TokenUrl = "https://api.twitter.com/oauth2/token";
 		}
@@ -44,7 +44,7 @@ namespace SimpleAuth.Provider
 				ExpiresIn = 0,
 				Created = DateTime.UtcNow,
 				RefreshToken = ta.AuthCode,
-				Scope = authenticator.Scope.ToArray(),
+				Scope = authenticator.Scope?.ToArray(),
 				TokenType = "Oauth",
 				Token = data["oauth_token"],
 				OAuthSecret = data["oauth_token_secret"],

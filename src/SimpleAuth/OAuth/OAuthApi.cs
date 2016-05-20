@@ -22,6 +22,7 @@ namespace SimpleAuth
 			TokenUrl = authenticator.TokenUrl;
 		}
 
+		public bool ScopesRequired { get; set; } = true;
 
 		public static Action<WebAuthenticator> ShowAuthenticator { get; set; }
 		public Action<WebAuthenticator> CurrentShowAuthenticator { get; set; }
@@ -95,7 +96,7 @@ namespace SimpleAuth
 		protected override async Task<Account> PerformAuthenticate()
 		{
 
-			if (Scopes == null || Scopes.Length == 0)
+			if (ScopesRequired && Scopes == null || Scopes.Length == 0)
 				throw new Exception("Scopes must be set on the API or passed into Authenticate");
 			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
 			if (account != null && (!string.IsNullOrWhiteSpace(account.RefreshToken) || account.ExpiresIn < 0))
@@ -150,7 +151,7 @@ namespace SimpleAuth
 				ExpiresIn = result.ExpiresIn,
 				Created = DateTime.UtcNow,
 				RefreshToken = result.RefreshToken,
-				Scope = authenticator.Scope.ToArray(),
+				Scope = authenticator.Scope?.ToArray(),
 				TokenType = result.TokenType,
 				Token = result.AccessToken,
 				ClientId = ClientId,
@@ -161,7 +162,7 @@ namespace SimpleAuth
 
 		protected virtual WebAuthenticator CreateAuthenticator()
 		{
-			authenticator.Scope = Scopes.ToList();
+			authenticator.Scope = Scopes?.ToList();
 			return authenticator;
 		}
 		protected async Task<bool> RefreshToken(Account accaccount)
