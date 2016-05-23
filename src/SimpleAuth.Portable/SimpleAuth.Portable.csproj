@@ -27,7 +27,8 @@
     <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType></DebugType>
+    <DebugType>
+    </DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;__PCL__;</DefineConstants>
@@ -38,6 +39,7 @@
   <ItemGroup>
     <Compile Include="HttpUtility.cs" />
     <Compile Include="AuthStorage.cs" />
+    <Compile Include="NameValueCollection.cs" />
     <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="HMACSHA1.cs" />
     <Compile Include="Console.cs" />
