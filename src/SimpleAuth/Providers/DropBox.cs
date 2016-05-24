@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SimpleAuth.Providers
 {
@@ -12,7 +13,7 @@ namespace SimpleAuth.Providers
         public DropBoxAuth(string client_id, string client_secret, HttpMessageHandler handler = null)
             : base("DropBox", client_id, client_secret, handler)
         {
-			this.ScopesRequired = false;
+            this.ScopesRequired = false;
             this.TokenUrl = "https://api.dropbox.com/1/oauth2/token";
         }
 
@@ -62,7 +63,7 @@ namespace SimpleAuth.Providers
                     return false;
                 if (url.Host != RedirectUrl.Host || url.Fragment == null || url.Fragment.Length < 1)
                     return false;
-                var parts = System.Web.HttpUtility.ParseQueryString(url.Fragment.Substring(1));
+                var parts = HttpUtility.ParseQueryString(url.Fragment.Substring(1));
                 var code = parts["access_token"];
                 if (!string.IsNullOrWhiteSpace(code) && tokenTask != null)
                 {
@@ -75,7 +76,7 @@ namespace SimpleAuth.Providers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                System.Diagnostics.Debug.WriteLine(ex);
             }
             return false;
         }
