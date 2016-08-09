@@ -45,5 +45,7 @@ namespace SimpleAuth
 			var expireTime = Created.AddSeconds(ExpiresIn);
 			return expireTime > DateTime.UtcNow;
 		}
+
+		public CookieHolder [] Cookies { get; set; }
     }
 }

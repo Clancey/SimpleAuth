@@ -112,8 +112,6 @@ namespace SimpleAuth
 		Task loadingTask;
 		async Task BeginLoadingInitialUrl()
 		{
-			if (state.Authenticator.ClearCookiesBeforeLogin)
-				ClearCookies();
 			if (loadingTask == null || loadingTask.IsCompleted)
 			{
 				loadingTask = RealLoading();
@@ -124,8 +122,9 @@ namespace SimpleAuth
 
 		async Task RealLoading()
 		{
-			if (this.state.Authenticator.ClearCookiesBeforeLogin)
-				ClearCookies();
+			ClearCookies ();
+			if (!this.state.Authenticator.ClearCookiesBeforeLogin)
+				LoadCookies();
 
 			//
 			// Begin displaying the page
@@ -143,10 +142,13 @@ namespace SimpleAuth
 				return;
 			}
 		}
-
+		void LoadCookies ()
+		{
+			this.state.Authenticator?.Cookies?.ToList ()?.ForEach (c => CookieManager.Instance.SetCookie(c.Domain, $"{c.Name}={c.Value}; path={c.Path}"));
+		}
 		public void ClearCookies()
 		{
-			Android.Webkit.CookieSyncManager.CreateInstance(Android.App.Application.Context);
+			CookieSyncManager.CreateInstance(Android.App.Application.Context);
 			Android.Webkit.CookieManager.Instance.RemoveAllCookie();
 		}
 		public override void OnBackPressed()
