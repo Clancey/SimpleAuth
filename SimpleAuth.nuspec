@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.17</version>
+        <version>1.0.19</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Simplest OAuth client for Xamarin</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it.</summary>
-        <releaseNotes>Added .net45 dll</releaseNotes>
+        <releaseNotes>Initial Xamarin.Mac20 support. API's that use Authentication via URL now only add authentication for authenticated calls.</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
             <dependency id="Newtonsoft.Json" version="8.0.3" />
@@ -20,5 +20,6 @@
         <file src="src\SimpleAuth.Net45\bin\Release\SimpleAuth.dll" target="lib\net45\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Portable\bin\Release\SimpleAuth.dll" target="lib\Portable-Net45+WinRT45+WP8+WPA81\SimpleAuth.dll" />
         <file src="src\SimpleAuth.iOS\bin\iPhone\Release\SimpleAuth.dll" target="lib\Xamarin.iOS10\SimpleAuth.dll" />
+		<file src="src\SimpleAuth.Mac\bin\Release\SimpleAuth.dll" target="lib\Xamarin.Mac20\SimpleAuth.dll" />
     </files>
 </package>
