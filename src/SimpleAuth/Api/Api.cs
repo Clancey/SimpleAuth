@@ -291,9 +291,15 @@ namespace SimpleAuth
 				await VerifyCredentials ();
 				message = await SendMessage (path, content, method, headers, authenticated);
 			}
-			if(EnsureApiStatusCode)
-				message.EnsureSuccessStatusCode();
-			var data = await message.Content.ReadAsStringAsync();
+
+			var data = await message.Content.ReadAsStringAsync ();
+			try {
+				if (EnsureApiStatusCode)
+					message.EnsureSuccessStatusCode ();
+			} catch (Exception ex) {
+				ex.Data ["HttpContent"] = data;
+				throw ex;
+			}
 			return data;
 		}
 
