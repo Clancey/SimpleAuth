@@ -327,11 +327,9 @@ namespace SimpleAuth
 
 		protected virtual T Deserialize<T>(string data)
 		{
-			if (typeof(T) == data.GetType())
-				return (T)(object)data;
 			try
 			{
-				return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(data);
+				return data.ToObject<T> ();
 			}
 			catch (Exception ex)
 			{
@@ -343,17 +341,7 @@ namespace SimpleAuth
 		{
 			try
 			{
-				if (inObject is T)
-				{
-					var serializer = new Newtonsoft.Json.JsonSerializer();
-					using (var reader = new StringReader(data))
-					{
-						var outObj = (T)inObject;
-						serializer.Populate(reader,outObj);
-						return outObj;
-					}
-				}
-				return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(data);
+				data.ToObject<T> (inObject);
 			}
 			catch (Exception ex)
 			{
@@ -364,7 +352,7 @@ namespace SimpleAuth
 
 		protected virtual string SerializeObject(object obj)
 		{
-			return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+			return obj.ToJson ();
 		}
 
 		public virtual string CombineUrl(string url, Dictionary<string, string> queryParameters)
