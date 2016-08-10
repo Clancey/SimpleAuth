@@ -14,6 +14,8 @@ namespace SimpleAuth
 	{
 		public bool ClearCookiesBeforeLogin { get; set; }
 
+		public CookieHolder [] Cookies { get; set; }
+
 		public abstract string BaseUrl { get;set;}
 
 		public abstract Uri RedirectUrl{get;set;}
@@ -32,6 +34,7 @@ namespace SimpleAuth
 				var code = parts["code"];
 				if (!string.IsNullOrWhiteSpace(code) && tokenTask != null)
 				{
+					Cookies = cookies?.Select (x => new CookieHolder { Domain = x.Domain, Path = x.Path, Name = x.Name, Value = x.Value }).ToArray ();
 					FoundAuthCode(code);
 					return true;
 				}

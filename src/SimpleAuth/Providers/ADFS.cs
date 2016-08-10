@@ -50,7 +50,7 @@ namespace SimpleAuth.Providers
 			}
 
 			authenticator = CreateAuthenticator();
-
+			authenticator.Cookies = account?.Cookies;
 			ShowAuthenticator(authenticator);
 
 			string token = await authenticator.GetAuthCode();

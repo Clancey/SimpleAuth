@@ -118,6 +118,7 @@ namespace SimpleAuth
 			}
 
 			authenticator = CreateAuthenticator();
+			authenticator.Cookies = account?.Cookies;
 			if (CurrentShowAuthenticator != null)
 				CurrentShowAuthenticator(authenticator);
 			else
@@ -146,16 +147,16 @@ namespace SimpleAuth
 			if (!string.IsNullOrEmpty(result.Error))
  				throw new Exception(result.ErrorDescription);
 
-			var account = new OAuthAccount()
-			{
+			var account = new OAuthAccount () {
 				ExpiresIn = result.ExpiresIn,
 				Created = DateTime.UtcNow,
 				RefreshToken = result.RefreshToken,
-				Scope = authenticator.Scope?.ToArray(),
+				Scope = authenticator.Scope?.ToArray (),
 				TokenType = result.TokenType,
 				Token = result.AccessToken,
 				ClientId = ClientId,
 				Identifier = identifier,
+				Cookies = authenticator.Cookies,
 			};
 			return account;
 		}
@@ -163,6 +164,7 @@ namespace SimpleAuth
 		protected virtual WebAuthenticator CreateAuthenticator()
 		{
 			authenticator.Scope = Scopes?.ToList();
+			authenticator.Cookies = CurrentOAuthAccount?.Cookies;
 			return authenticator;
 		}
 		protected async Task<bool> RefreshToken(Account accaccount)
