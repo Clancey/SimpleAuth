@@ -99,7 +99,7 @@ namespace SimpleAuth
 		{
 			if (authenticated)
 				await VerifyCredentials();
-			path = await PrepareUrl(path);
+			path = await PrepareUrl(path,authenticated);
 			return await Client.GetStreamAsync(new Uri(path));
 		}
 
@@ -283,9 +283,23 @@ namespace SimpleAuth
             
 
 			var message = await SendMessage(path, content, method, headers, authenticated);
-			if(EnsureApiStatusCode)
-				message.EnsureSuccessStatusCode();
-			var data = await message.Content.ReadAsStringAsync();
+			if (message.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
+				if (!authenticated)
+					throw new Exception ($"{method} calls to {path} require authorization");
+				//Lets refresh auth and try again
+				await InvalidateCredentials ();
+				await VerifyCredentials ();
+				message = await SendMessage (path, content, method, headers, authenticated);
+			}
+
+			var data = await message.Content.ReadAsStringAsync ();
+			try {
+				if (EnsureApiStatusCode)
+					message.EnsureSuccessStatusCode ();
+			} catch (Exception ex) {
+				ex.Data ["HttpContent"] = data;
+				throw ex;
+			}
 			return data;
 		}
 
@@ -294,7 +308,7 @@ namespace SimpleAuth
 		{
 			if (authenticated)
 				await VerifyCredentials();
-			path = await PrepareUrl(path);
+			path = await PrepareUrl(path,authenticated);
 			var uri = BaseAddress != null ? new Uri(BaseAddress, path.TrimStart('/')) : new Uri(path);
 			var request = new HttpRequestMessage
 			{
@@ -320,6 +334,11 @@ namespace SimpleAuth
 			return Task.FromResult(true);
 		}
 
+		protected virtual Task InvalidateCredentials ()
+		{
+			return Task.FromResult (true);
+		}
+
 		protected virtual  Task<string> PrepareUrl(string path, bool authenticated = true)
 		{
 			return Task.FromResult(path);
@@ -327,11 +346,9 @@ namespace SimpleAuth
 
 		protected virtual T Deserialize<T>(string data)
 		{
-			if (typeof(T) == data.GetType())
-				return (T)(object)data;
 			try
 			{
-				return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(data);
+				return data.ToObject<T> ();
 			}
 			catch (Exception ex)
 			{
@@ -343,17 +360,7 @@ namespace SimpleAuth
 		{
 			try
 			{
-				if (inObject is T)
-				{
-					var serializer = new Newtonsoft.Json.JsonSerializer();
-					using (var reader = new StringReader(data))
-					{
-						var outObj = (T)inObject;
-						serializer.Populate(reader,outObj);
-						return outObj;
-					}
-				}
-				return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(data);
+				data.ToObject<T> (inObject);
 			}
 			catch (Exception ex)
 			{
@@ -364,7 +371,7 @@ namespace SimpleAuth
 
 		protected virtual string SerializeObject(object obj)
 		{
-			return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+			return obj.ToJson ();
 		}
 
 		public virtual string CombineUrl(string url, Dictionary<string, string> queryParameters)
