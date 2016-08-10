@@ -12,7 +12,7 @@ namespace SimpleAuth
 		/// <summary>
 		/// With this enabled, no need to call Authenticate. It will be automatically called when an Authenticated api call is made
 		/// </summary>
-		public bool AutoAuthenticate { get; set; }
+		public bool AutoAuthenticate { get; set; } = true;
 
 		public AuthenticatedApi(string identifier, HttpMessageHandler handler = null) : base(identifier, handler)
 		{
