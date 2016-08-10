@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>SimpleAuth.Mac</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
-    <AssemblyName>SimpleAuth.Mac</AssemblyName>
+    <AssemblyName>SimpleAuth</AssemblyName>
     <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
