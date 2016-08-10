@@ -45,5 +45,10 @@ namespace SimpleAuth
 			var expireTime = Created.AddSeconds(ExpiresIn);
 			return expireTime > DateTime.UtcNow;
 		}
+		public override void Invalidate ()
+		{
+			base.Invalidate ();
+			ExpiresIn = 0;
+		}
     }
 }

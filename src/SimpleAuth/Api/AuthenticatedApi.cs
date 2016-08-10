@@ -102,5 +102,10 @@ namespace SimpleAuth
 				await RefreshAccount(CurrentAccount);
 		}
 
+		protected override Task InvalidateCredentials ()
+		{
+			CurrentAccount?.Invalidate ();
+			return Task.FromResult (true);
+		}
 	}
 }

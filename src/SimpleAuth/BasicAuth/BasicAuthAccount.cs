@@ -12,5 +12,10 @@ namespace SimpleAuth
 	    {
 		    return !string.IsNullOrWhiteSpace(Key);
 	    }
+		public override void Invalidate ()
+		{
+			base.Invalidate ();
+			Key = null;
+		}
     }
 }

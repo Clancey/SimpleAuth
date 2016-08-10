@@ -18,5 +18,10 @@ namespace SimpleAuth
 		{
 			return true;
 		}
+
+		public virtual void Invalidate ()
+		{
+
+		}
 	}
 }

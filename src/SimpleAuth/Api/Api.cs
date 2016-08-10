@@ -283,6 +283,14 @@ namespace SimpleAuth
             
 
 			var message = await SendMessage(path, content, method, headers, authenticated);
+			if (message.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
+				if (!authenticated)
+					throw new Exception ($"{method} calls to {path} require authorization");
+				//Lets refresh auth and try again
+				await InvalidateCredentials ();
+				await VerifyCredentials ();
+				message = await SendMessage (path, content, method, headers, authenticated);
+			}
 			if(EnsureApiStatusCode)
 				message.EnsureSuccessStatusCode();
 			var data = await message.Content.ReadAsStringAsync();
@@ -318,6 +326,11 @@ namespace SimpleAuth
 		protected virtual Task VerifyCredentials()
 		{
 			return Task.FromResult(true);
+		}
+
+		protected virtual Task InvalidateCredentials ()
+		{
+			return Task.FromResult (true);
 		}
 
 		protected virtual  Task<string> PrepareUrl(string path, bool authenticated = true)
