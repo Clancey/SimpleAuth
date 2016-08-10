@@ -99,7 +99,7 @@ namespace SimpleAuth
 		{
 			if (authenticated)
 				await VerifyCredentials();
-			path = await PrepareUrl(path);
+			path = await PrepareUrl(path,authenticated);
 			return await Client.GetStreamAsync(new Uri(path));
 		}
 
@@ -294,7 +294,7 @@ namespace SimpleAuth
 		{
 			if (authenticated)
 				await VerifyCredentials();
-			path = await PrepareUrl(path);
+			path = await PrepareUrl(path,authenticated);
 			var uri = BaseAddress != null ? new Uri(BaseAddress, path.TrimStart('/')) : new Uri(path);
 			var request = new HttpRequestMessage
 			{
