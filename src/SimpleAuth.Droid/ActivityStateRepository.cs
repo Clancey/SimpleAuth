@@ -8,7 +8,7 @@ namespace SimpleAuth.Droid
 	/// <summary>
 	/// Object to make passing non serializable objects to Activities easier
 	/// </summary>
-	internal class ActivityStateRepository<T>
+	public class ActivityStateRepository<T>
 		where T : Java.Lang.Object
 	{
 		readonly Random rand = new Random();

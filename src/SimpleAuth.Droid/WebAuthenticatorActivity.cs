@@ -32,11 +32,11 @@ namespace SimpleAuth
 		WebView webView;
 		public static string UserAgent = "";
 
-		internal class State : Java.Lang.Object
+		public class State : Java.Lang.Object
 		{
 			public WebAuthenticator Authenticator;
 		}
-		internal static readonly ActivityStateRepository<State> StateRepo = new ActivityStateRepository<State>();
+		public static readonly ActivityStateRepository<State> StateRepo = new ActivityStateRepository<State>();
 
 		State state;
 
