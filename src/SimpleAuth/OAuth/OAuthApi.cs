@@ -96,7 +96,7 @@ namespace SimpleAuth
 		protected override async Task<Account> PerformAuthenticate()
 		{
 
-			if (ScopesRequired && Scopes?.Length == 0)
+			if (ScopesRequired && (Scopes?.Length ?? 0) == 0)
 				throw new Exception("Scopes must be set on the API or passed into Authenticate");
 			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
 			if (account != null && (!string.IsNullOrWhiteSpace(account.RefreshToken) || account.ExpiresIn < 0))
