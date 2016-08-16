@@ -15,6 +15,12 @@ namespace Sample.Forms
 		AuthenticatedApi api;
 		public App ()
 		{
+
+			//Hook up our Forms login page for Basic Auth
+			BasicAuthApi.ShowAuthenticator = (BasicAuthAuthenticator obj) => {
+					MainPage.Navigation.PushModalAsync (new LoginPage (obj));
+			};
+
 			var scopes = new[]
 			{
 				"https://www.googleapis.com/auth/userinfo.email",
@@ -27,7 +33,16 @@ namespace Sample.Forms
 			//	Scopes = scopes,
 			//};
 
-			api = new FacebookApi("facebook","","");
+			//api = new FacebookApi("facebook","","");
+			api = new OAuthPasswordApi ("myapi", "clientid", "clientsecret",
+										"https://serverurl.com",
+										"https://tokenurl.com",
+										"https://refreshurl.com") {
+				//Hook up our Forms login page for Oauth with Password
+				CurrentShowAuthenticator = (obj) => {
+					MainPage.Navigation.PushModalAsync (new LoginPage (obj));
+				},
+			};
 
 			var button = new Button
 			{
@@ -48,14 +63,14 @@ namespace Sample.Forms
 				}
 			};
 			// The root page of your application
-			MainPage = new ContentPage {
+			MainPage = new NavigationPage(new ContentPage {
 				Content = new StackLayout {
 					VerticalOptions = LayoutOptions.Center,
 					Children = {
 						button
 					}
 				}
-			};
+			});
 		}
 
 		protected override void OnStart ()
