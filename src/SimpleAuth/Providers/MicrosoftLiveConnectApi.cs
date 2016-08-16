@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Linq;
 
-namespace SimpleAuth
+namespace SimpleAuth.Providers
 {
 	public class MicrosoftLiveConnectApi : OAuthApi
 	{
