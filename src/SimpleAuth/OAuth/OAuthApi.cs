@@ -99,7 +99,7 @@ namespace SimpleAuth
 			if (ScopesRequired && (Scopes?.Length ?? 0) == 0)
 				throw new Exception("Scopes must be set on the API or passed into Authenticate");
 			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
-			if (account != null && (!string.IsNullOrWhiteSpace(account.RefreshToken) || account.ExpiresIn < 0))
+			if (account != null && (!string.IsNullOrWhiteSpace(account.RefreshToken) || account.ExpiresIn <= 0))
 			{
 				var valid = account.IsValid();
 				if (!valid || ForceRefresh)
@@ -141,10 +141,16 @@ namespace SimpleAuth
 			var postData = await authenticator.GetTokenPostData(ClientSecret);
 			if (string.IsNullOrWhiteSpace(TokenUrl))
 				throw new Exception("Invalid TokenURL");
-			var reply = await Client.PostAsync(TokenUrl, new FormUrlEncodedContent(postData));
+			var message = new HttpRequestMessage (HttpMethod.Post, TokenUrl) {
+				Content = new FormUrlEncodedContent (postData),
+				Headers = {
+					{"Accept","application/json"}
+				}
+			};
+			var reply = await Client.SendAsync (message);
 			var resp = await reply.Content.ReadAsStringAsync();
 			var result = Deserialize<OauthResponse>(resp);
-			if (!string.IsNullOrEmpty(result.Error))
+			if (!string.IsNullOrEmpty(result?.Error))
  				throw new Exception(result.ErrorDescription);
 
 			var account = new OAuthAccount () {
@@ -174,14 +180,19 @@ namespace SimpleAuth
 				var account = accaccount as OAuthAccount;
 				if (account == null)
 					throw new Exception("Invalid Account");
-
-				var reply = await Client.PostAsync(TokenUrl, new FormUrlEncodedContent(new Dictionary<string, string>
-				{
-					{"grant_type","refresh_token"},
-					{"refresh_token",account.RefreshToken},
-					{"client_id",ClientId},
-					{"client_secret",ClientSecret},
-				}));
+				var message = new HttpRequestMessage (HttpMethod.Post, TokenUrl) {
+					Content = new FormUrlEncodedContent (new Dictionary<string, string>
+					{
+						{"grant_type","refresh_token"},
+						{"refresh_token",account.RefreshToken},
+						{"client_id",ClientId},
+						{"client_secret",ClientSecret},
+					}),
+					Headers = {
+					{"Accept","application/json"}
+				}
+				};
+				var reply = await Client.SendAsync (message);
 				var resp = await reply.Content.ReadAsStringAsync();
 				var result = Deserialize<OauthResponse>(resp);
 				if (!string.IsNullOrEmpty(result.Error))

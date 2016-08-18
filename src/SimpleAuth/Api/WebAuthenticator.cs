@@ -32,7 +32,7 @@ namespace SimpleAuth
 					return false;
 				var parts = HttpUtility.ParseQueryString(url.Query);
 				var code = parts["code"];
-				if (!string.IsNullOrWhiteSpace(code) && tokenTask != null)
+				if (!string.IsNullOrWhiteSpace(code))
 				{
 					Cookies = cookies?.Select (x => new CookieHolder { Domain = x.Domain, Path = x.Path, Name = x.Name, Value = x.Value }).ToArray ();
 					FoundAuthCode(code);

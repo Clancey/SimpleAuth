@@ -40,7 +40,7 @@ namespace SimpleAuth
 			if (string.IsNullOrWhiteSpace(Token))
 				return false;
 			// This allows you to specify -1 for never expires
-		    if (ExpiresIn < 0)
+		    if (ExpiresIn <= 0)
 			    return true;
 			if(string.IsNullOrWhiteSpace(RefreshToken))
 				return false;

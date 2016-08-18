@@ -30,16 +30,11 @@ namespace SimpleAuth
 			set;
 		}
 
-		protected TaskCompletionSource<string> tokenTask;
+		protected TaskCompletionSource<string> tokenTask = new TaskCompletionSource<string> ();
 
-		public async Task<string> GetAuthCode()
+		public Task<string> GetAuthCode()
 		{
-			if(tokenTask != null && !tokenTask.Task.IsCompleted)
-			{
-				return await tokenTask.Task;
-			}
-			tokenTask = new TaskCompletionSource<string>();
-			return await tokenTask.Task;
+			return tokenTask.Task;
 		}
 
 		public bool AllowsCancel

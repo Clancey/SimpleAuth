@@ -42,5 +42,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Instagram.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthPasswordApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CookieHolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Github.cs" />
   </ItemGroup>
 </Project>
