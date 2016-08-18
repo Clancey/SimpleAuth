@@ -22,7 +22,7 @@ namespace SimpleAuth.Providers
 
 			CurrentShowAuthenticator = (a) =>
 			{
-				a.Cookies = CurrentOAuthAccount.Cookies;
+				a.Cookies = CurrentOAuthAccount?.Cookies;
 				if (ShowFacebookAuthenticator != null)
 					ShowFacebookAuthenticator(a);
 				else
