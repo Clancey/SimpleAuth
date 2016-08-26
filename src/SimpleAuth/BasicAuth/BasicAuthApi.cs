@@ -9,13 +9,12 @@ namespace SimpleAuth
     public class BasicAuthApi : AuthenticatedApi
 	{
 		protected string LoginUrl { get; set; }
-	    public BasicAuthApi(string identifier,string loginUrl, HttpMessageHandler handler = null) : base(identifier, handler)
-	    {
-		    LoginUrl = loginUrl;
-			authenticator = new BasicAuthAuthenticator(Client,loginUrl);
+		static BasicAuthApi()
+		{
 
-#if __IOS__
-		    ShowAuthenticator = (auth) =>
+			//Setup default ShowAuthenticator
+			#if __IOS__
+			ShowAuthenticator = (auth) =>
 		    {
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
@@ -25,7 +24,14 @@ namespace SimpleAuth
 				});
 				
             };
-#endif
+			#endif
+		}
+	    public BasicAuthApi(string identifier,string loginUrl, HttpMessageHandler handler = null) : base(identifier, handler)
+	    {
+		    LoginUrl = loginUrl;
+			authenticator = new BasicAuthAuthenticator(Client,loginUrl);
+
+
 	    }
 
 	    protected BasicAuthAuthenticator authenticator;
