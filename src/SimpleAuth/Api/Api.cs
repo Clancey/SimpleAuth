@@ -360,7 +360,9 @@ namespace SimpleAuth
 		{
 			try
 			{
-				data.ToObject<T> (inObject);
+				if (data == null)
+					return Deserialize<T> (data);
+				return data.ToObject<T> (inObject);
 			}
 			catch (Exception ex)
 			{

@@ -34,7 +34,7 @@ namespace SimpleAuth
 		}
 		public static T ToObject<T> (this string str, object inObject)
 		{
-			if (inObject is T) {
+			if (inObject is T && inObject != null) {
 				var serializer = new Newtonsoft.Json.JsonSerializer ();
 				using (var reader = new StringReader (str)) {
 					var outObj = (T)inObject;
