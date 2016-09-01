@@ -8,7 +8,7 @@ namespace SimpleAuth
 	public class ApiKeyApi : Api
 	{
 		public ApiKeyApi(string apiKey, string authKey, AuthLocation authLocation, HttpMessageHandler handler = null)
-			: base(apiKey, handler)
+			: base(apiKey, apiKey, handler)
 		{
 			AuthLocation = authLocation;
 			AuthKey = authKey;

@@ -26,11 +26,20 @@ namespace SimpleAuth
             };
 			#endif
 		}
-	    public BasicAuthApi(string identifier,string loginUrl, HttpMessageHandler handler = null) : base(identifier, handler)
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:SimpleAuth.BasicAuthApi"/> class.
+		/// </summary>
+		/// <param name="identifier">This is used to store and look up credentials/cookies for the API</param>
+		/// <param name="encryptionKey">Encryption key used to store information.</param>
+		/// <param name="loginUrl">Login URL for the credentials to be tested against.</param>
+		/// <param name="handler">Handler.</param>
+	    public BasicAuthApi(string identifier,string encryptionKey,string loginUrl, HttpMessageHandler handler = null) : base(identifier,encryptionKey, handler)
 	    {
 		    LoginUrl = loginUrl;
 			authenticator = new BasicAuthAuthenticator(Client,loginUrl);
-
+			ClientSecret = encryptionKey;
+			ClientId = identifier;
 
 	    }
 

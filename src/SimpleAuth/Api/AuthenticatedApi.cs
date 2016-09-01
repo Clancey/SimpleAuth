@@ -13,10 +13,16 @@ namespace SimpleAuth
 		/// With this enabled, no need to call Authenticate. It will be automatically called when an Authenticated api call is made
 		/// </summary>
 		public bool AutoAuthenticate { get; set; } = true;
-
-		public AuthenticatedApi(string identifier, HttpMessageHandler handler = null) : base(identifier, handler)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:SimpleAuth.BasicAuthApi"/> class.
+		/// </summary>
+		/// <param name="identifier">This is used to store and look up credentials/cookies for the API</param>
+		/// <param name="encryptionKey">Encryption key used to store information.</param>
+		/// <param name="handler">Handler.</param>
+		public AuthenticatedApi(string identifier,string encryptionKey, HttpMessageHandler handler = null) : base(identifier,encryptionKey, handler)
 		{
-
+			ClientSecret = encryptionKey;
+			ClientId = identifier;
 		}
 
 		public bool HasAuthenticated { get; private set; }

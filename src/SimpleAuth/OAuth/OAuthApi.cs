@@ -56,12 +56,29 @@ namespace SimpleAuth
 			};
 			#endif
 		}
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:SimpleAuth.OAuthApi"/> class.
+		/// </summary>
+		/// <param name="identifier">This is used to store and look up credentials/cookies for the API</param>
+		/// <param name="clientId">OAuth Client identifier.</param>
+		/// <param name="clientSecret">OAuth Client secret.</param>
+		/// <param name="tokenUrl">URL for swaping out the token.</param>
+		/// <param name="authorizationUrl">Login website URL.</param>
+		/// <param name="redirectUrl">Redirect URL. Defaults to http://localhost</param>
+		/// <param name="handler">Handler.</param>
 		public OAuthApi(string identifier, string clientId, string clientSecret,string tokenUrl,string authorizationUrl,string redirectUrl = "http://localhost", HttpMessageHandler handler = null) : this(identifier, clientId, clientSecret, handler)
 		{
 			this.TokenUrl = tokenUrl;
 			authenticator = new OAuthAuthenticator(authorizationUrl,tokenUrl,redirectUrl,clientId,clientSecret);
 		}
-		
+
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:SimpleAuth.OAuthApi"/> class.
+		/// </summary>
+		/// <param name="identifier">This is used to store and look up credentials/cookies for the API</param>
+		/// <param name="authenticator">OAuth Authenticator.</param>
+		/// <param name="handler">Handler.</param>
 		public OAuthApi(string identifier, OAuthAuthenticator authenticator, HttpMessageHandler handler = null) : this(identifier, authenticator.ClientId, authenticator.ClientSecret, handler)
 		{
 			this.authenticator = authenticator;
@@ -72,7 +89,7 @@ namespace SimpleAuth
 
 		public static Action<WebAuthenticator> ShowAuthenticator { get; set; }
 		public Action<WebAuthenticator> CurrentShowAuthenticator { get; set; }
-		protected OAuthApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, handler)
+		protected OAuthApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, clientSecret, handler)
 		{
 			this.ClientId = clientId;
 			this.ClientSecret = clientSecret;

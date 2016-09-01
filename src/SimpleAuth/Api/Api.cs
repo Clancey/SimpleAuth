@@ -51,10 +51,18 @@ namespace SimpleAuth
 
 		public string DefaultAccepts { get; set; }
 
-		public Api(string identifier, HttpMessageHandler handler = null)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:SimpleAuth.BasicAuthApi"/> class.
+		/// </summary>
+		/// <param name="identifier">This is used to store and look up credentials/cookies for the API</param>
+		/// <param name="encryptionKey">Encryption key used to store information.</param>
+		/// <param name="handler">Handler.</param>
+		public Api(string identifier,string encryptionKey, HttpMessageHandler handler = null)
 		{
 			Identifier = identifier;
 			Handler = handler;
+			ClientId = identifier;
+			ClientSecret = encryptionKey;
 			Client = handler == null ? new HttpClient() : new HttpClient(handler);
 		}
 
