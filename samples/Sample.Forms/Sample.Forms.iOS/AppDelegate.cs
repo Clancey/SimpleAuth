@@ -30,10 +30,11 @@ namespace Sample.Forms.iOS
 		}
 		public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
 		{
+			if (SimpleAuth.NativeSafariAuthenticator.ResumeAuth (url.AbsoluteString))
+				return true;
 			if (SimpleAuth.Providers.Facebook.OpenUrl(application, url, sourceApplication, annotation))
 				return true;
 			return base.OpenUrl(application, url, sourceApplication, annotation);
 		}
-	
 	}
 }

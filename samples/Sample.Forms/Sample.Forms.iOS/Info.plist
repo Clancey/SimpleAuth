@@ -21,7 +21,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>MinimumOSVersion</key>
-	<string>6.0</string>
+	<string>7.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>Sample.Forms</string>
 	<key>CFBundleIdentifier</key>
@@ -79,9 +79,12 @@
 			<string>FB</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb172317429487848</string>
+				<string>fbclientid</string>
+				<string>com.googleusercontent.apps.clientid</string>
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleName</key>
+	<string>Sample.Forms</string>
 </dict>
 </plist>
