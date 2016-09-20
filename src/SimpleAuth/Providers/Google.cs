@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Web;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -14,6 +15,9 @@ namespace SimpleAuth.Providers
 		public GoogleApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, clientId, clientSecret, handler)
 		{
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
+			#if __IOS__
+			this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator; 
+			#endif
 		}
 
 		public Uri RedirectUrl { get; set; } = new Uri("http://localhost");
@@ -44,7 +48,7 @@ namespace SimpleAuth.Providers
 	}
 
 	public class GoogleAuthenticator : OAuthAuthenticator
-	{
+	{ 
 		public override string BaseUrl
 		{
 			get;
@@ -61,9 +65,56 @@ namespace SimpleAuth.Providers
 		{
 			var data = await base.GetTokenPostData(clientSecret);
 			data["scope"] = string.Join(" ", Scope);
-			data["redirect_uri"] = RedirectUrl.AbsoluteUri;
+			data ["client_id"] = GetGoogleClientId (ClientId);
+			data["redirect_uri"] = GetRedirectUrl();
 			return data;
 		}
+		public override Dictionary<string, string> GetInitialUrlQueryParameters ()
+		{
+			var data = base.GetInitialUrlQueryParameters ();
+			data ["redirect_uri"] = GetRedirectUrl ();
+			data ["client_id"] = GetGoogleClientId (ClientId);
+			return data;
+		}
+
+		public static string GetGoogleClientId (string clientId) => $"{clientId}.apps.googleusercontent.com";
+
+		public virtual string GetRedirectUrl ()
+		{
+			//Only implemented for iOS/mac right now
+#if __UNIFIED__
+			//for google, the redirect is a reverse of the client ID
+			return $"com.googleusercontent.apps.{ClientId}:/oauthredirect";
+#endif
+			return RedirectUrl.AbsoluteUri;
+		}
+
+		public override bool CheckUrl (Uri url, Cookie [] cookies)
+		{
+			try {
+				if (url == null || string.IsNullOrWhiteSpace (url.Query))
+					return false;
+				var parts = HttpUtility.ParseQueryString (url.Query);
+				var code = parts ["code"];
+				if (!string.IsNullOrWhiteSpace (code)) {
+					Cookies = cookies?.Select (x => new CookieHolder { Domain = x.Domain, Path = x.Path, Name = x.Name, Value = x.Value }).ToArray ();
+					FoundAuthCode (code);
+					return true;
+				}
+
+			} catch (Exception ex) {
+				Console.WriteLine (ex);
+			}
+			return false;
+		}
+
+
+		public static string UrlFromClientId (string clientId)
+		{
+			var parts = clientId.Split ('.');
+			return string.Join (".", parts.Reverse ());
+		}
+
 
 		public override async Task<Uri> GetInitialUrl()
 		{

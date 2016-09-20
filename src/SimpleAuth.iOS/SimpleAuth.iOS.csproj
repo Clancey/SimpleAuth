@@ -42,6 +42,7 @@
     <Compile Include="TypeForwarded.cs" />
     <Compile Include="WebAuthenticatorViewController.cs" />
     <Compile Include="AuthStorage.cs" />
+    <Compile Include="NativeSafariAuthenticator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">

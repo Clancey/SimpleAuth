@@ -189,12 +189,16 @@ namespace SimpleAuth
 				this.activity = activity;
 			}
 
+			[Obsolete]
 			public override bool ShouldOverrideUrlLoading(WebView view, string url)
 			{
 				Console.WriteLine(url);
 				return false;
 			}
-
+			public override bool ShouldOverrideUrlLoading (WebView view, IWebResourceRequest request)
+			{
+				return false;
+			}
 			public override void OnPageStarted(WebView view, string url, Android.Graphics.Bitmap favicon)
 			{
 				var uri = new Uri(url);

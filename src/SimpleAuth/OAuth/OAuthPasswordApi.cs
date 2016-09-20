@@ -121,9 +121,9 @@ namespace SimpleAuth
 		}
 
 
-		public async Task<bool> SignUp (string username, string password)
+		public Task<bool> SignUp (string username, string password)
 		{
-			return false;
+			return Task.FromResult(false);
 		}
 	}
 }
