@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="AuthStorage.cs" />
     <Compile Include="WebAuthenticator.cs" />
+    <Compile Include="NativeSafariAuthenticator.cs" />
+    <Compile Include="AppleEventsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
