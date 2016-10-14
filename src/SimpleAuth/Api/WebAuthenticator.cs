@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -12,6 +13,8 @@ namespace SimpleAuth
     public abstract class WebAuthenticator : Authenticator
 	{
 		public bool ClearCookiesBeforeLogin { get; set; }
+
+		public CookieHolder [] Cookies { get; set; }
 
 		public abstract string BaseUrl { get;set;}
 
@@ -29,8 +32,9 @@ namespace SimpleAuth
 					return false;
 				var parts = HttpUtility.ParseQueryString(url.Query);
 				var code = parts["code"];
-				if (!string.IsNullOrWhiteSpace(code) && tokenTask != null)
+				if (!string.IsNullOrWhiteSpace(code))
 				{
+					Cookies = cookies?.Select (x => new CookieHolder { Domain = x.Domain, Path = x.Path, Name = x.Name, Value = x.Value }).ToArray ();
 					FoundAuthCode(code);
 					return true;
 				}
@@ -38,28 +42,40 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
+				Console.WriteLine(ex);
 			}
 			return false;
 		}
 
 
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-		public virtual async Task<Uri> GetInitialUrl()
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run s
+		public virtual Task<Uri> GetInitialUrl()
 		{
-			var scope = string.Join("%20", Scope.Select(HttpUtility.UrlEncode));
-			var delimiter = BaseUrl.EndsWith("?", StringComparison.CurrentCultureIgnoreCase) ? "" : "?";
-			var url = $"{BaseUrl}{delimiter}client_id={ClientId}&scope={scope}&response_type=code&redirect_uri={RedirectUrl.AbsoluteUri}";
-			return new Uri(url);
+			var uri = new Uri(BaseUrl);
+			var collection = GetInitialUrlQueryParameters();
+			return Task.FromResult(uri.AddParameters(collection));
 		}
 
-#pragma warning disable 1998
-		public virtual async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
-#pragma warning restore 1998
+	    public virtual Dictionary<string, string> GetInitialUrlQueryParameters()
+	    {
+
+			var data = new Dictionary<string, string>()
+			{
+				{"client_id",ClientId},
+				{"response_type","code"},
+				{"redirect_uri",RedirectUrl.AbsoluteUri}
+			};
+			if (Scope?.Count > 0) {
+				var scope = string.Join (" ", Scope);
+				data ["scope"] = scope;
+			}
+			return data;
+
+	    }
+
+		public virtual Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 		{
-			return new Dictionary<string, string> {
+			return Task.FromResult(new Dictionary<string, string> {
 				{
 					"grant_type",
 					"authorization_code"
@@ -73,7 +89,7 @@ namespace SimpleAuth
 					"client_secret",
 					clientSecret
 				},
-			};
+			});
 		}
 
 

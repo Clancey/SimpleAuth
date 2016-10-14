@@ -42,8 +42,6 @@ namespace SimpleAuth.Mac
 
 		public async void BeginLoadingInitialUrl ()
 		{
-			if (this.Authenticator.ClearCookiesBeforeLogin)
-				ClearCookies ();
 			if (loadingTask == null || loadingTask.IsCompleted) {
 				loadingTask = RealLoading ();
 			}
@@ -54,8 +52,9 @@ namespace SimpleAuth.Mac
 		async Task RealLoading ()
 		{
 			//activity.StartAnimating ();
-			if (this.Authenticator.ClearCookiesBeforeLogin)
-				ClearCookies ();
+			ClearCookies ();
+			if (!this.Authenticator.ClearCookiesBeforeLogin)
+				LoadCookies ();
 
 			//
 			// Begin displaying the page
@@ -75,9 +74,14 @@ namespace SimpleAuth.Mac
 			}
 		}
 
+		void LoadCookies ()
+		{
+			Authenticator?.Cookies?.ToList ()?.ForEach (x => NSHttpCookieStorage.SharedStorage.SetCookie (new NSHttpCookie (x.Name, x.Value, x.Path, x.Domain)));
+		}
 		void ClearCookies ()
 		{
-
+			var cookies = NSHttpCookieStorage.SharedStorage.Cookies.ToList ();
+			cookies.ForEach (NSHttpCookieStorage.SharedStorage.DeleteCookie);
 		}
 
 		private Cookie[] GetCookies (string url)

@@ -27,19 +27,16 @@ using SimpleAuth.Droid;
 namespace SimpleAuth
 {
 	[Activity(Label = "Web Authenticator")]
-#if XAMARIN_AUTH_INTERNAL
-	internal class WebAuthenticatorActivity : Activity
-#else
 	public class WebAuthenticatorActivity : Activity
-#endif
 	{
 		WebView webView;
+		public static string UserAgent = "";
 
-		internal class State : Java.Lang.Object
+		public class State : Java.Lang.Object
 		{
 			public WebAuthenticator Authenticator;
 		}
-		internal static readonly ActivityStateRepository<State> StateRepo = new ActivityStateRepository<State>();
+		public static readonly ActivityStateRepository<State> StateRepo = new ActivityStateRepository<State>();
 
 		State state;
 
@@ -71,6 +68,11 @@ namespace SimpleAuth
 			{
 				Id = 42,
 			};
+			if (!string.IsNullOrWhiteSpace(UserAgent))
+			{
+				webView.Settings.UserAgentString = UserAgent;
+				webView.Settings.LoadWithOverviewMode = true;
+			}
 			webView.Settings.JavaScriptEnabled = true;
 			webView.SetWebViewClient(new Client(this));
 			SetContentView(webView);
@@ -110,8 +112,6 @@ namespace SimpleAuth
 		Task loadingTask;
 		async Task BeginLoadingInitialUrl()
 		{
-			if (state.Authenticator.ClearCookiesBeforeLogin)
-				ClearCookies();
 			if (loadingTask == null || loadingTask.IsCompleted)
 			{
 				loadingTask = RealLoading();
@@ -122,8 +122,9 @@ namespace SimpleAuth
 
 		async Task RealLoading()
 		{
-			if (this.state.Authenticator.ClearCookiesBeforeLogin)
-				ClearCookies();
+			ClearCookies ();
+			if (!this.state.Authenticator.ClearCookiesBeforeLogin)
+				LoadCookies();
 
 			//
 			// Begin displaying the page
@@ -141,10 +142,13 @@ namespace SimpleAuth
 				return;
 			}
 		}
-
+		void LoadCookies ()
+		{
+			this.state.Authenticator?.Cookies?.ToList ()?.ForEach (c => CookieManager.Instance.SetCookie(c.Domain, $"{c.Name}={c.Value}; path={c.Path}"));
+		}
 		public void ClearCookies()
 		{
-			Android.Webkit.CookieSyncManager.CreateInstance(Android.App.Application.Context);
+			CookieSyncManager.CreateInstance(Android.App.Application.Context);
 			Android.Webkit.CookieManager.Instance.RemoveAllCookie();
 		}
 		public override void OnBackPressed()
@@ -185,10 +189,19 @@ namespace SimpleAuth
 				this.activity = activity;
 			}
 
+			[Obsolete]
 			public override bool ShouldOverrideUrlLoading(WebView view, string url)
 			{
+				Console.WriteLine(url);
 				return false;
 			}
+
+            // TODO: Matt Hidinger confirm this should be removed?
+
+			//public override bool ShouldOverrideUrlLoading (WebView view, IWebResourceRequest request)
+			//{
+			//	return false;
+			//}
 
 			public override void OnPageStarted(WebView view, string url, Android.Graphics.Bitmap favicon)
 			{

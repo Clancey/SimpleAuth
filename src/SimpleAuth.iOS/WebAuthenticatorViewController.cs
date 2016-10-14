@@ -23,7 +23,7 @@ namespace SimpleAuth.iOS
 
 		const double TransitionTime = 0.25;
 
-		bool keepTryingAfterError = true;
+		//bool keepTryingAfterError = true;
 		internal static WebAuthenticatorViewController Shared { get; set; }
 		public WebAuthenticatorViewController (WebAuthenticator authenticator)
 		{
@@ -92,32 +92,34 @@ namespace SimpleAuth.iOS
 			Authenticator.OnCancelled ();
 		}
 
+		void LoadCookies ()
+		{
+			Authenticator?.Cookies?.ToList()?.ForEach(x=> NSHttpCookieStorage.SharedStorage.SetCookie (new NSHttpCookie (x.Name, x.Value,x.Path,x.Domain)));
+		}
+
 		static void ClearCookies ()
 		{
-			foreach(var cookie in NSHttpCookieStorage.SharedStorage.Cookies)
-				NSHttpCookieStorage.SharedStorage.DeleteCookie(cookie);	
+			var cookies = NSHttpCookieStorage.SharedStorage.Cookies.ToList ();
+			cookies.ForEach (NSHttpCookieStorage.SharedStorage.DeleteCookie);
 		}
 
 		Task loadingTask;
 
 		async Task BeginLoadingInitialUrl ()
 		{
-			if (this.Authenticator.ClearCookiesBeforeLogin)
-				ClearCookies ();
 			if (loadingTask == null || loadingTask.IsCompleted) {
 				loadingTask = RealLoading ();
 			}
 			await loadingTask;
-
-
 		}
 
 		async Task RealLoading ()
 		{
 			activity.StartAnimating ();
-			if (this.Authenticator.ClearCookiesBeforeLogin)
-				ClearCookies ();
 
+			ClearCookies ();
+			if (!this.Authenticator.ClearCookiesBeforeLogin)
+				LoadCookies ();
 			//
 			// Begin displaying the page
 			//

@@ -8,7 +8,7 @@ namespace SimpleAuth
 	public class ApiKeyApi : Api
 	{
 		public ApiKeyApi(string apiKey, string authKey, AuthLocation authLocation, HttpMessageHandler handler = null)
-			: base(apiKey, handler)
+			: base(apiKey, apiKey, handler)
 		{
 			AuthLocation = authLocation;
 			AuthKey = authKey;
@@ -25,18 +25,12 @@ namespace SimpleAuth
 			return PrepareUrl(BaseAddress,path,Identifier,AuthKey,AuthLocation);
 
 		}
-		public static async Task<string> PrepareUrl(Uri baseAddress, string path,string apiKey, string authKey, AuthLocation authLocation)
+		public static Task<string> PrepareUrl(Uri baseAddress, string path,string apiKey, string authKey, AuthLocation authLocation)
 		{
+
 			var url = baseAddress != null ? new Uri(baseAddress, path.TrimStart('/')) : new Uri(path);
 
-			var query = url.Query;
-			var simplePath = string.IsNullOrWhiteSpace(query) ? path : path.Replace(query, "");
-
-			var parameters = HttpUtility.ParseQueryString(query);
-			parameters[authKey] = apiKey;
-			var newQuery = parameters.ToString();
-			var newPath = $"{simplePath}?{newQuery}";
-			return newPath;
+			return Task.FromResult(url.AddParameters(authKey, apiKey).AbsoluteUri);
 
 		}
 		public override async Task PrepareClient(HttpClient client)

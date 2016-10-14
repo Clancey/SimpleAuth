@@ -22,18 +22,26 @@
     <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\BasicAuthAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\UrlUtility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OauthApiKeyApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuth\OauthResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Amazon.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\DropBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Google.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Resolver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\IAuthStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Helpers\" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Facebook.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Twitter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\ADFS.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\LinkedIn.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\MicrosoftLiveConnectApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Instagram.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuth\OAuthPasswordApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CookieHolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\Github.cs" />
   </ItemGroup>
 </Project>

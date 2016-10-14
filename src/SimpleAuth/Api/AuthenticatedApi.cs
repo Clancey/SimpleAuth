@@ -12,11 +12,17 @@ namespace SimpleAuth
 		/// <summary>
 		/// With this enabled, no need to call Authenticate. It will be automatically called when an Authenticated api call is made
 		/// </summary>
-		public bool AutoAuthenticate { get; set; }
-
-		public AuthenticatedApi(string identifier, HttpMessageHandler handler = null) : base(identifier, handler)
+		public bool AutoAuthenticate { get; set; } = true;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:SimpleAuth.BasicAuthApi"/> class.
+		/// </summary>
+		/// <param name="identifier">This is used to store and look up credentials/cookies for the API</param>
+		/// <param name="encryptionKey">Encryption key used to store information.</param>
+		/// <param name="handler">Handler.</param>
+		public AuthenticatedApi(string identifier,string encryptionKey, HttpMessageHandler handler = null) : base(identifier,encryptionKey, handler)
 		{
-
+			ClientSecret = encryptionKey;
+			ClientId = identifier;
 		}
 
 		public bool HasAuthenticated { get; private set; }
@@ -34,9 +40,12 @@ namespace SimpleAuth
 			protected set
 			{
 				currentAccount = value;
-				HasAuthenticated = true;
+				HasAuthenticated = value!= null;
 #pragma warning disable 4014
-				PrepareClient(Client);
+				if (value == null)
+					ResetClient(Client);
+				else
+					PrepareClient(Client);
 				OnAccountUpdated(currentAccount);
 #pragma warning restore 4014
 			}
@@ -81,7 +90,7 @@ namespace SimpleAuth
 			}
 			catch (Exception ex)
 			{
-				Debug.WriteLine(ex);
+				OnException(this, ex);
 				return null;
 			}
 		}
@@ -99,5 +108,10 @@ namespace SimpleAuth
 				await RefreshAccount(CurrentAccount);
 		}
 
+		protected override Task InvalidateCredentials ()
+		{
+			CurrentAccount?.Invalidate ();
+			return Task.FromResult (true);
+		}
 	}
 }

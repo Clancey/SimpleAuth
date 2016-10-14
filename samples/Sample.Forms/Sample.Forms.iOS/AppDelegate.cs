@@ -25,7 +25,16 @@ namespace Sample.Forms.iOS
 			global::Xamarin.Forms.Forms.Init ();
 			LoadApplication (new Sample.Forms.App ());
 
+			SimpleAuth.Providers.Facebook.Init(app, options);
 			return base.FinishedLaunching (app, options);
+		}
+		public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+		{
+			if (SimpleAuth.NativeSafariAuthenticator.ResumeAuth (url.AbsoluteString))
+				return true;
+			if (SimpleAuth.Providers.Facebook.OpenUrl(application, url, sourceApplication, annotation))
+				return true;
+			return base.OpenUrl(application, url, sourceApplication, annotation);
 		}
 	}
 }

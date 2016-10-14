@@ -20,25 +20,35 @@ namespace Sample.iOS
 			get;
 			set;
 		}
-		GoogleApi googleApi = new GoogleApi("google","clientid","clientsecret");
+		GoogleApi googleApi = new GoogleApi ("google", "clientid", "clientsecret") {
+			Scopes = new []
+			{
+				"https://www.googleapis.com/auth/userinfo.email",
+				"https://www.googleapis.com/auth/userinfo.profile"
+			}
+		};
 		ApiKeyApi apiKeyApi = new ApiKeyApi ("myapikey", "api_key", AuthLocation.Query){
 			BaseAddress = new Uri("http://petstore.swagger.io/v2"),
 		};
-		BasicAuthApi basicApi = new BasicAuthApi ("github","https://api.github.com"){UserAgent = "SimpleAuthDemo"};
+		BasicAuthApi basicApi = new BasicAuthApi ("github","encryptionstring","https://api.github.com"){UserAgent = "SimpleAuthDemo"};
 		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
 		{
+			SimpleAuth.OnePassword.Activate ();
+			SimpleAuth.NativeSafariAuthenticator.Activate ();
+			Api.UnhandledException += (sender, e) =>
+			{
+				Console.WriteLine(e);
+			};
 			// create a new window instance based on the screen size
 			Window = new UIWindow(UIScreen.MainScreen.Bounds);
 
 			Window.RootViewController = new DialogViewController (new RootElement ("Simple Auth") {
 				new Section("Google Api"){
-					new StringElement("Authenticate", () => {
-						RunWithSpinner("Authenticating",async ()=>{
-							var account = await googleApi.Authenticate();
-							ShowAlert("Success","Authenticate");
-						});
+					new StringElement("Authenticate", async() => {
+						var account = await googleApi.Authenticate();
+						ShowAlert("Success","Authenticate");
 					}),
-					new StringElement("Log out", async () => {
+					new StringElement("Log out", () => {
 						googleApi.ResetData();
 						ShowAlert ("Success", "Logged out");
 					}),
@@ -55,7 +65,7 @@ namespace Sample.iOS
 						var account = await basicApi.Authenticate();
 						ShowAlert ("Success", "Authenticated");
 					}),
-					new StringElement("Log out", async () => {
+					new StringElement("Log out", () => {
 						basicApi.ResetData();
 						ShowAlert ("Success", "Logged out");
 					}),
@@ -67,7 +77,12 @@ namespace Sample.iOS
 
 			return true;
 		}
-
+		public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
+		{
+			if (NativeSafariAuthenticator.ResumeAuth (url.AbsoluteString))
+				return true;
+			return false;
+		}
 		async Task RunWithSpinner(string status,Func<Task> task)
 		{
 			try{

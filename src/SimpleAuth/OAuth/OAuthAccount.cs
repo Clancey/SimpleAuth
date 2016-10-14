@@ -33,12 +33,25 @@ namespace SimpleAuth
 
 		public string ClientId { get; set; }
 
+		public CookieHolder [] Cookies { get; set; }
+
 	    public override bool IsValid()
 	    {
-			if (string.IsNullOrWhiteSpace(Token) || string.IsNullOrWhiteSpace(RefreshToken))
+			if (string.IsNullOrWhiteSpace(Token))
+				return false;
+			// This allows you to specify -1 for never expires
+		    if (ExpiresIn <= 0)
+			    return true;
+			if(string.IsNullOrWhiteSpace(RefreshToken))
 				return false;
 			var expireTime = Created.AddSeconds(ExpiresIn);
 			return expireTime > DateTime.UtcNow;
+		}
+
+		public override void Invalidate ()
+		{
+			base.Invalidate ();
+			ExpiresIn = 0;
 		}
     }
 }
