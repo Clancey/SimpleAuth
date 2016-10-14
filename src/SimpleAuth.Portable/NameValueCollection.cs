@@ -16,7 +16,13 @@ namespace System.Collections.Specialized
         public string this[string key]
         {
             get { return this.First(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase)).Value; }
-            set { this.First(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase)).Value = value; }
+            set {
+                var existingKey = this.First(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
+                if (existingKey != null)
+                    existingKey.Value = value;
+                else
+                    this.Add(new HttpValue(key, value));
+            }
         }
 
         #endregion
