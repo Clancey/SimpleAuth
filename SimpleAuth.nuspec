@@ -2,12 +2,12 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.9</version>
+        <version>1.0.10</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <description>The Simplest OAuth client for Xamarin</description>
+        <description>The Simplest OAuth client for Xamarin and Windows</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it. Most importantly it works great wit</summary>
         <releaseNotes>Bait and swich dll's now all have the same assembly information so this can be used in a true pcl</releaseNotes>
         <copyright>James Clancey</copyright>
@@ -19,5 +19,6 @@
         <file src="src\SimpleAuth.Droid\bin\Release\SimpleAuth.dll" target="lib\MonoAndroid\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Portable\bin\Release\SimpleAuth.dll" target="lib\Portable-Net45+WinRT45+WP8+WPA81\SimpleAuth.dll" />
         <file src="src\SimpleAuth.iOS\bin\iPhone\Release\SimpleAuth.dll" target="lib\Xamarin.iOS10\SimpleAuth.dll" />
+        <file src="src\SimpleAuth.UWP\bin\Release\SimpleAuth.dll" target="lib\uap10.0\SimpleAuth.dll" />
     </files>
 </package>

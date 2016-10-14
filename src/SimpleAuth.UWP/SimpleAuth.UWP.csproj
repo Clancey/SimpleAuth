@@ -107,8 +107,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SimpleAuth.Portable\HttpUtility.cs">
+      <Link>HttpUtility.cs</Link>
+    </Compile>
     <Compile Include="AuthStorage.cs" />
-    <Compile Include="HttpUtility.cs" />
     <Compile Include="WebAuthenticatorWebView.cs" />
   </ItemGroup>
   <ItemGroup>
