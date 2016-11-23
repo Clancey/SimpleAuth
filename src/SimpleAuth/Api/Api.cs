@@ -13,7 +13,9 @@ using System.Web;
 
 namespace SimpleAuth
 {
-	public class Api
+
+
+    public class Api
 	{
 		public delegate void ApiExceptionEventHandler(object sender,Exception e);
 		public static event ApiExceptionEventHandler UnhandledException;
@@ -463,7 +465,7 @@ namespace SimpleAuth
 
 		public virtual void OnException(object sender,Exception ex)
 		{
-			Console.WriteLine(ex);
+            Console.WriteLine(ex);
 			UnhandledException?.Invoke(sender,ex);
 		}
 	}

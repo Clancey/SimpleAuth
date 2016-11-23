@@ -196,4 +196,7 @@ FakesAssemblies/
 # Visual Studio 6 workspace options file
 *.opt
 
+# Universal Windows Platform
+project.lock.json
+
 .DS_Store

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Threading.Tasks;
@@ -86,7 +85,7 @@ namespace SimpleAuth.Providers
 			{
 				var data = HttpUtility.ParseQueryString(content);
 				//PCLs have a different return type for HttpUtility. For shame...
-#if __PCL__
+#if __PCL__ || WINDOWS_UWP
 				foreach (var k in data)
 				{
 					keyValues[k.Key] = data[k.Value];
@@ -101,11 +100,11 @@ namespace SimpleAuth.Providers
 #endif
 			}
 			var param = HttpUtility.ParseQueryString(uri.Query);
-#if __PCL__
-				foreach (var k in param)
-				{
-					keyValues[k.Key] = param[k.Value];
-				}
+#if __PCL__ || WINDOWS_UWP
+            foreach (var k in param)
+			{
+				keyValues[k.Key] = param[k.Value];
+			}
 
 #else
 			foreach (var k in param?.AllKeys)
@@ -143,10 +142,10 @@ namespace SimpleAuth.Providers
 			string signatureBaseString = stringBuilder.ToString().Substring(0, stringBuilder.Length - 3);
 
 			string signatureKey = $"{Uri.EscapeDataString(clientSecret)}&{Uri.EscapeDataString(tokenSecret)}";
+            var hmacsha1 = new System.Security.Cryptography.HMACSHA1(Encoding.UTF8.GetBytes(signatureKey));
 
-			var hmacsha1 = new HMACSHA1(Encoding.UTF8.GetBytes(signatureKey));
 
-			string signatureString = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(signatureBaseString)));
+            string signatureString = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(signatureBaseString)));
 
 			return signatureString;
 		}

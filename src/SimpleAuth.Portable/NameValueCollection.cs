@@ -15,9 +15,9 @@ namespace System.Collections.Specialized
 
         public string this[string key]
         {
-            get { return this.First(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase)).Value; }
+            get { return this.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase)).Value; }
             set {
-                var existingKey = this.First(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
+                var existingKey = this.FirstOrDefault(x => string.Equals(x.Key, key, StringComparison.OrdinalIgnoreCase));
                 if (existingKey != null)
                     existingKey.Value = value;
                 else

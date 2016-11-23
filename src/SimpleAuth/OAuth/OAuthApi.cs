@@ -54,8 +54,20 @@ namespace SimpleAuth
 					SimpleAuth.Mac.WebAuthenticatorWebView.ShowWebivew(vc);
 				});
 			};
+
+            #elif WINDOWS_UWP
+			OAuthApi.ShowAuthenticator = async (authenticator) =>
+			{
+				await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+				{
+					var vc = new SimpleAuth.UWP.WebAuthenticatorWebView(authenticator);
+					await vc.ShowAsync();
+				});
+			};
+
 			#endif
 		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:SimpleAuth.OAuthApi"/> class.
 		/// </summary>
