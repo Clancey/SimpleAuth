@@ -20,6 +20,7 @@ namespace SimpleAuth.Providers
 			#endif
 		}
 
+        public static bool IsUsingNative { get; set; }
 		public Uri RedirectUrl { get; set; } = new Uri("http://localhost");
 
 		protected override WebAuthenticator CreateAuthenticator()
@@ -31,6 +32,27 @@ namespace SimpleAuth.Providers
 				RedirectUrl = RedirectUrl,
 			};
 		}
+
+        protected override Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
+        {
+            var auth = authenticator as GoogleAuthenticator;
+
+            if (IsUsingNative)
+            {
+                return Task.FromResult (new OAuthAccount()
+                {
+                    ExpiresIn = -1,
+                    Created = DateTime.UtcNow,
+                    Scope = authenticator.Scope?.ToArray(),
+                    TokenType = "Bearer",
+                    Token = auth.AuthCode,
+                    ClientId = ClientId,
+                    Identifier = identifier,
+                });
+            }
+
+            return base.GetAccountFromAuthCode(authenticator, identifier);
+        }
 
 		public async Task<GoogleUserProfile> GetUserInfo(bool forceRefresh = false)
 		{
@@ -121,6 +143,11 @@ namespace SimpleAuth.Providers
 			var uri = await base.GetInitialUrl();
 			return new Uri(uri.AbsoluteUri + "&access_type=offline");
 		}
+
+        public void OnRecievedAuthCode(string authCode)
+        {
+            FoundAuthCode(authCode);
+        }
 	}
 
 
