@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.OnePassword.iOS"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Mac", "SimpleAuth.Mac\SimpleAuth.Mac.csproj", "{6457641D-D20D-479B-AA3B-30A9C88B96DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Facebook.Droid", "SimpleAuth.Facebook.Droid\SimpleAuth.Facebook.Droid.csproj", "{FEC3608B-E1BD-457B-8596-B8CBDA34945E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.Droid", "SimpleAuth.Google.Droid\SimpleAuth.Google.Droid.csproj", "{37786399-48F8-48B1-81B1-CE3FAE15FACA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,14 @@ Global
 		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEC3608B-E1BD-457B-8596-B8CBDA34945E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC3608B-E1BD-457B-8596-B8CBDA34945E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC3608B-E1BD-457B-8596-B8CBDA34945E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC3608B-E1BD-457B-8596-B8CBDA34945E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37786399-48F8-48B1-81B1-CE3FAE15FACA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37786399-48F8-48B1-81B1-CE3FAE15FACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37786399-48F8-48B1-81B1-CE3FAE15FACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37786399-48F8-48B1-81B1-CE3FAE15FACA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SimpleAuth\SimpleAuth.projitems*{a9afe645-9d2c-4d04-98ac-96990d9ba60e}*SharedItemsImports = 4

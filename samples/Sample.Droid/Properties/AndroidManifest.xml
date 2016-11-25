@@ -1,5 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="Sample.Droid.Sample.Droid" android:versionCode="1" android:versionName="1.0">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.socialauth.sample" android:versionCode="1" android:versionName="1.0">
 	<uses-sdk />
-	<application android:label="Sample.Droid" android:icon="@drawable/Icon"></application>
+	<application android:label="Sample.Droid" android:icon="@drawable/Icon">
+		<activity android:name="com.facebook.FacebookActivity"
+          android:configChanges=
+                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+          android:label="SimpleAuth Test" />
+
+		<activity
+	    android:name="com.facebook.CustomTabActivity"
+	    android:exported="true">
+	    <intent-filter>
+	        <action android:name="android.intent.action.VIEW" />
+	        <category android:name="android.intent.category.DEFAULT" />
+	        <category android:name="android.intent.category.BROWSABLE" />
+	        <data android:scheme="@string/fb_login_protocol_scheme" />
+	    </intent-filter>
+	</activity>Copy Code
+
+	</application>
 </manifest>
