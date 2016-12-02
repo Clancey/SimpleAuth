@@ -18,7 +18,8 @@ namespace SimpleAuth.UWP
 
 		public async Task ShowAsync()
 		{
-			var result = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, await authenticator.GetInitialUrl(), authenticator.RedirectUrl);
+			var url = await authenticator.GetInitialUrl();
+			var result = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, url, authenticator.RedirectUrl);
 			if (result.ResponseStatus == WebAuthenticationStatus.UserCancel)
 			{
 				authenticator.OnCancelled();
