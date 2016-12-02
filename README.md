@@ -108,3 +108,26 @@ public override bool OpenUrl(UIApplication application, NSUrl url, string source
 	return base.OpenUrl(application, url, sourceApplication, annotation);
 }
 ```
+
+
+Native SFSafariViewController iOS/MacOS
+=============
+
+SFSafariViewController Allows users to use Safari to login, instead of embedded webviews.
+
+Google now requires this mode and is enabled by default for Google Authentication on iOS/MacOS.
+
+To use the Native Safari Authenticator, you are required to add the following snippet in your AppDelegate
+
+```cs
+public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
+{
+	if (NativeSafariAuthenticator.ResumeAuth (url.AbsoluteString))
+		return true;
+	return false;
+}
+
+```
+
+You are also required to add the following to add a CFBundleURLSchemes to your info.plist 
+com.googleusercontent.apps.YOUR_CLIENT_ID
