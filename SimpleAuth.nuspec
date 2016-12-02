@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.27</version>
+        <version>1.0.29</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
@@ -26,6 +26,6 @@
         <file src="src\SimpleAuth.Portable\bin\Release\SimpleAuth.dll" target="lib\Portable-Net45+WinRT45+WP8+WPA81\SimpleAuth.dll" />
         <file src="src\SimpleAuth.iOS\bin\iPhone\Release\SimpleAuth.dll" target="lib\Xamarin.iOS10\SimpleAuth.dll" />
         <file src="src\SimpleAuth.UWP\bin\Release\SimpleAuth.dll" target="lib\uap\SimpleAuth.dll" />
-     	<!--<file src="src\SimpleAuth.Mac\bin\Release\SimpleAuth.dll" target="lib\Xamarin.Mac20\SimpleAuth.dll" />-->
+     	<file src="src\SimpleAuth.Mac\bin\Release\SimpleAuth.dll" target="lib\Xamarin.Mac20\SimpleAuth.dll" />
     </files>
 </package>
