@@ -108,6 +108,8 @@ namespace SimpleAuth.Providers
 #if __UNIFIED__
 			//for google, the redirect is a reverse of the client ID
 			return $"com.googleusercontent.apps.{ClientId}:/oauthredirect";
+#elif WINDOWS_UWP
+            return "urn:ietf:wg:oauth:2.0:oob";
 #endif
 			return RedirectUrl.AbsoluteUri;
 		}
