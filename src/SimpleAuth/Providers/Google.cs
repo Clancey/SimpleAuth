@@ -12,7 +12,7 @@ namespace SimpleAuth.Providers
 {
 	public class GoogleApi : OAuthApi
 	{
-		public GoogleApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(CleanseClientId(identifier), clientId, clientSecret, handler)
+		public GoogleApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, CleanseClientId(clientId), clientSecret, handler)
 		{
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
 			#if __UNIFIED__
