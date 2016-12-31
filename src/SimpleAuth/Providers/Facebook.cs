@@ -11,14 +11,24 @@ namespace SimpleAuth.Providers
 		public static Action<WebAuthenticator> ShowFacebookAuthenticator { get; set; }
 		public FacebookApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, clientId, clientSecret, handler)
 		{
-			BaseAddress = new Uri("https://graph.facebook.com");
-			TokenUrl = "https://graph.facebook.com/v2.3/oauth/access_token?";
+			InitFacebook();
+
 			Scopes = new[] { "public_profile" };
 			authenticator = new FacebookAuthenticator
 			{
 				ClientId = clientId,
 				ClientSecret = clientSecret,
 			};
+		}
+		public FacebookApi(string identifier, FacebookAuthenticator authenticator, HttpMessageHandler handler = null) : base(identifier, authenticator, handler)
+		{
+			InitFacebook();
+			Scopes = authenticator.Scope?.ToArray() ?? new[] {"public_profile"};
+		}
+		private void InitFacebook()
+		{
+			BaseAddress = new Uri("https://graph.facebook.com");
+			TokenUrl = "https://graph.facebook.com/v2.3/oauth/access_token?";
 
 			CurrentShowAuthenticator = (a) =>
 			{
