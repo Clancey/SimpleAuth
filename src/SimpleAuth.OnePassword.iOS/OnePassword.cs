@@ -11,7 +11,7 @@ namespace SimpleAuth
 	{
 		public static void Activate()
 		{
-			if (!AgileBits.OnePasswordExtension.SharedExtension?.IsAppExtensionAvailable ?? false)
+			if (!(AgileBits.OnePasswordExtension.SharedExtension?.IsAppExtensionAvailable ?? false))
 				return;
 			SimpleAuth.iOS.WebAuthenticatorViewController.RightButtonItem = new UIBarButtonItem(UIImage.FromBundle("onepassword-navbar.png"),UIBarButtonItemStyle.Plain,
 				async (s, e) =>
