@@ -8,10 +8,10 @@ using System.Web;
 
 namespace SimpleAuth.Providers
 {
-    public class DropBoxAuth : OAuthApi
+    public class DropBoxApi : OAuthApi
     {
-        public DropBoxAuth(string client_id, string client_secret, HttpMessageHandler handler = null)
-            : base("DropBox", client_id, client_secret, handler)
+        public DropBoxApi(string identifier,string client_id, string client_secret, HttpMessageHandler handler = null)
+            : base(identifier, client_id, client_secret, handler)
         {
             this.ScopesRequired = false;
             this.TokenUrl = "https://api.dropbox.com/1/oauth2/token";
