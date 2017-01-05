@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SimpleAuth.Providers
 {
-	public abstract class AmazonApi : OAuthApi
+	public class AmazonApi : OAuthApi
 	{
 		public AmazonApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, clientId, clientSecret, handler)
 		{
