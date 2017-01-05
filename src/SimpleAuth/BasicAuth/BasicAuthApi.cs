@@ -51,8 +51,8 @@ namespace SimpleAuth
 		}
 
 		public BasicAuthAccount CurrentBasicAccount => CurrentAccount as BasicAuthAccount;
-		public static Action<BasicAuthAuthenticator> ShowAuthenticator { get; set; }
-		public Action<BasicAuthAuthenticator> CurrentShowAuthenticator { get; set; }
+		public static Action<IBasicAuthenicator> ShowAuthenticator { get; set; }
+		public Action<IBasicAuthenicator> CurrentShowAuthenticator { get; set; }
 		protected override async Task<Account> PerformAuthenticate()
 	    {
 			var account = CurrentBasicAccount ?? GetAccount<BasicAuthAccount>(Identifier);

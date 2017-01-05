@@ -11,13 +11,11 @@ namespace Sample.Forms
 {
     public class App : Application
     {
-
-        AuthenticatedApi api;
         public App()
         {
 
             //Hook up our Forms login page for Basic Auth
-            BasicAuthApi.ShowAuthenticator = (BasicAuthAuthenticator obj) =>
+            BasicAuthApi.ShowAuthenticator = (IBasicAuthenicator obj) =>
             {
                 MainPage.Navigation.PushModalAsync(new LoginPage(obj));
             };

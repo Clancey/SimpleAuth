@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleAuth
 {
-    public class BasicAuthAuthenticator : Authenticator
+    public class BasicAuthAuthenticator : Authenticator, IBasicAuthenicator 
     {
 	    protected readonly HttpClient client;
 	    protected readonly string loginUrl;
@@ -17,7 +17,7 @@ namespace SimpleAuth
 		    this.loginUrl = loginUrl;
 	    }
 
-	    public virtual async Task<bool> CheckCredentails(string username, string password)
+	    public virtual async Task<bool> VerifyCredentials(string username, string password)
 	    {
 		    if(string.IsNullOrWhiteSpace(username))
 				throw new Exception("Invalid Username");

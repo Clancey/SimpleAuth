@@ -24,8 +24,8 @@ namespace Sample.Forms
 {
 	public partial class LoginPage : ContentPage
 	{
-		Authenticator authenticator;
-		public LoginPage (Authenticator authenticator)
+		IBasicAuthenicator authenticator;
+		public LoginPage (IBasicAuthenicator authenticator)
 		{
 			this.authenticator = authenticator;
 			InitializeComponent ();
@@ -44,16 +44,7 @@ namespace Sample.Forms
 			}
 
 			try {
-				var oauth = authenticator as OAuthPasswordAuthenticator;
-				bool success = false;
-				if (oauth != null) {
-					success = await oauth.VerifyCredentials (Username.Text, Password.Text);
-				}
-
-				var basic = authenticator as BasicAuthAuthenticator;
-				if (basic != null) {
-					success = await basic.CheckCredentails (Username.Text, Password.Text);
-				}
+				bool success = await authenticator.VerifyCredentials (Username.Text, Password.Text);
 
 				if (success)
 					await this.Navigation.PopModalAsync ();
@@ -63,6 +54,11 @@ namespace Sample.Forms
 			} catch (Exception ex) {
 				await this.DisplayAlert ("Error", ex.Message, "Ok");
 			}
+		}
+		protected override bool OnBackButtonPressed ()
+		{
+			authenticator.OnCancelled ();
+			return base.OnBackButtonPressed ();
 		}
 
 	}

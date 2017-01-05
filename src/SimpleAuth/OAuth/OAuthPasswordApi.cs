@@ -18,18 +18,11 @@ namespace SimpleAuth
 			BaseAddress = new Uri (serverUrl);
 			Scopes = new [] { "null" };
 
-#if __IOS__
-		    CurrentShowAuthenticator = (auth) =>
-		    {
-				var invoker = new Foundation.NSObject();
-				invoker.BeginInvokeOnMainThread(() =>
-				{
-					var controller = new BasicAuthController(auth);
-					controller.Show();
-				});
-				
-            };
-#endif
+			CurrentShowAuthenticator = (WebAuthenticator obj) => {
+				var auth = obj as IBasicAuthenicator;
+				if(auth != null)
+					BasicAuthApi.ShowAuthenticator (auth);
+			};
 		}
 
 		protected override WebAuthenticator CreateAuthenticator ()
@@ -57,7 +50,7 @@ namespace SimpleAuth
 		}
 	}
 
-	public class OAuthPasswordAuthenticator : WebAuthenticator
+	public class OAuthPasswordAuthenticator : WebAuthenticator, IBasicAuthenicator
 	{
 		public override string BaseUrl { get; set; }
 

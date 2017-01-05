@@ -72,16 +72,9 @@ namespace SimpleAuth
 			password = FindViewById<EditText> (Resource.Id.password);
 			login = FindViewById<Button> (Resource.Id.loginButton);
 			login.Click += async (s, e) => {
-				var oauth = state.Authenticator as OAuthPasswordAuthenticator;
-				bool success = false;
-				if (oauth != null) {
-					success = await oauth.VerifyCredentials (username.Text, password.Text);
-				}
+				var authenticator = state.Authenticator as IBasicAuthenicator;
+				bool success = await authenticator.VerifyCredentials (username.Text, password.Text);
 
-				var basic = state.Authenticator as BasicAuthAuthenticator;
-				if (basic != null) {
-					success = await basic.CheckCredentails (username.Text, password.Text);
-				}
 				if (success)
 					Finish ();
 			};

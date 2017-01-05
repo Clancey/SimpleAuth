@@ -8,9 +8,9 @@ namespace SimpleAuth
 {
 	class BasicAuthController
 	{
-		readonly Authenticator authenticator;
+		readonly IBasicAuthenicator authenticator;
 
-		public BasicAuthController(Authenticator authenticator)
+		public BasicAuthController(IBasicAuthenicator authenticator)
 		{
 			this.authenticator = authenticator;
 		}
@@ -34,16 +34,8 @@ namespace SimpleAuth
 				}
 				try
 				{
-					var oauth = authenticator as OAuthPasswordAuthenticator;
-					bool success = false;
-					if (oauth != null) {
-						success = await oauth.VerifyCredentials (result.Item1, result.Item2);
-					}
+					bool success = await authenticator.VerifyCredentials (result.Item1, result.Item2);
 
-					var basic = authenticator as BasicAuthAuthenticator;
-					if (basic != null) {
-						success = await basic.CheckCredentails (result.Item1, result.Item2);
-					}
 					if (!success)
 						throw new Exception("Invalid Credentials");
 				}
