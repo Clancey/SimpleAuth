@@ -75,7 +75,7 @@ namespace SimpleAuth
 
 		public virtual Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 		{
-			return Task.FromResult(new Dictionary<string, string> {
+			var tokenPostData = new Dictionary<string, string> {
 				{
 					"grant_type",
 					"authorization_code"
@@ -89,7 +89,14 @@ namespace SimpleAuth
 					"client_secret",
 					clientSecret
 				},
-			});
+			};
+
+			if (RedirectUrl != null)
+			{
+				tokenPostData["redirect_uri"] = RedirectUrl.ToString();
+			}
+
+			return Task.FromResult(tokenPostData);
 		}
 
 
