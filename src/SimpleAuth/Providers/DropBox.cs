@@ -65,7 +65,7 @@ namespace SimpleAuth.Providers
                     return false;
                 var parts = HttpUtility.ParseQueryString(url.Fragment.Substring(1));
                 var code = parts["access_token"];
-                if (!string.IsNullOrWhiteSpace(code) && tokenTask != null)
+                if (!string.IsNullOrWhiteSpace(code) && TokenTask != null)
                 {
                     Token = code;
                     TokenType = parts["token_type"];

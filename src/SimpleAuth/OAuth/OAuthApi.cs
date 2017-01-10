@@ -147,12 +147,15 @@ namespace SimpleAuth
 
 			authenticator = CreateAuthenticator();
 			authenticator.Cookies = account?.Cookies;
+			await authenticator.PrepareAuthenticator ();
+
 			if (CurrentShowAuthenticator != null)
 				CurrentShowAuthenticator(authenticator);
 			else
 				ShowAuthenticator(authenticator);
 
 			var token = await authenticator.GetAuthCode();
+
 			if (string.IsNullOrEmpty(token))
 			{
 				throw new Exception("Null token");

@@ -62,6 +62,7 @@ namespace SimpleAuth
 		    }
 
 			authenticator = CreateAuthenticator();
+			await authenticator.PrepareAuthenticator ();
 
 			if(CurrentShowAuthenticator != null)
 				CurrentShowAuthenticator(authenticator);

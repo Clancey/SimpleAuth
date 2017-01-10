@@ -30,11 +30,19 @@ namespace SimpleAuth
 			set;
 		}
 
-		protected TaskCompletionSource<string> tokenTask = new TaskCompletionSource<string> ();
+		protected TaskCompletionSource<string> TokenTask = new TaskCompletionSource<string> ();
+
+		public Task PrepareAuthenticator ()
+		{
+			TokenTask?.TrySetCanceled ();
+			HasCompleted = false;
+			TokenTask = new TaskCompletionSource<string> ();
+			return Task.FromResult (true);
+		}
 
 		public Task<string> GetAuthCode()
 		{
-			return tokenTask.Task;
+			return TokenTask.Task;
 		}
 
 		public bool AllowsCancel
@@ -46,20 +54,20 @@ namespace SimpleAuth
 		public void OnCancelled()
 		{
 			HasCompleted = true;
-			tokenTask?.TrySetCanceled();
+			TokenTask?.TrySetCanceled();
 		}
 		
 		protected void FoundAuthCode(string authCode)
 		{
 			HasCompleted = !string.IsNullOrWhiteSpace(authCode);
 			AuthCode = authCode;
-			tokenTask?.TrySetResult(authCode);
+			TokenTask?.TrySetResult(authCode);
 		}
 
 		public void OnError(string error)
 		{
 			if(!HasCompleted)
-				tokenTask?.TrySetException(new Exception(error));
+				TokenTask?.TrySetException(new Exception(error));
 		}
 
 		public string ClientId

@@ -185,7 +185,7 @@ namespace SimpleAuth.Providers
 					return false;
 				var parts = HttpUtility.ParseQueryString(url.Query);
 				var code = parts["oauth_token"];
-				if (!string.IsNullOrWhiteSpace(code) && tokenTask != null)
+				if (!string.IsNullOrWhiteSpace(code) && TokenTask != null)
 				{
 					CodeVerifier = parts["oauth_verifier"];
 					FoundAuthCode(code);
