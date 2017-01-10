@@ -10,7 +10,7 @@ namespace SimpleAuth
 {
 	public class OAuthApi : AuthenticatedApi
 	{
-		
+
 		static OAuthApi ()
 		{
 			//Setup default ShowAuthenticator
@@ -55,7 +55,7 @@ namespace SimpleAuth
 				});
 			};
 
-            #elif WINDOWS_UWP
+			#elif WINDOWS_UWP
 			OAuthApi.ShowAuthenticator = async (authenticator) =>
 			{
 				await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
@@ -81,7 +81,7 @@ namespace SimpleAuth
 		public OAuthApi(string identifier, string clientId, string clientSecret,string tokenUrl,string authorizationUrl,string redirectUrl = "http://localhost", HttpMessageHandler handler = null) : this(identifier, clientId, clientSecret, handler)
 		{
 			this.TokenUrl = tokenUrl;
-			authenticator = new OAuthAuthenticator(authorizationUrl,tokenUrl,redirectUrl,clientId,clientSecret);
+			this.createAuthenticator = () => new OAuthAuthenticator(authorizationUrl,tokenUrl,redirectUrl,clientId,clientSecret);
 		}
 
 
@@ -93,7 +93,7 @@ namespace SimpleAuth
 		/// <param name="handler">Handler.</param>
 		public OAuthApi(string identifier, OAuthAuthenticator authenticator, HttpMessageHandler handler = null) : this(identifier, authenticator.ClientId, authenticator.ClientSecret, handler)
 		{
-			this.authenticator = authenticator;
+			this.createAuthenticator = () => authenticator;
 			TokenUrl = authenticator.TokenUrl;
 		}
 
@@ -107,6 +107,7 @@ namespace SimpleAuth
 			this.ClientSecret = clientSecret;
 		}
 
+		private Func<WebAuthenticator> createAuthenticator;
 		protected WebAuthenticator authenticator;
 		public OAuthAccount CurrentOAuthAccount => CurrentAccount as OAuthAccount;
 
@@ -134,7 +135,8 @@ namespace SimpleAuth
 				{
 					if (!(await Ping(TokenUrl)))
 						return account;
-					await RefreshAccount(account);
+					if (await RefreshAccount(account))
+						account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
 				}
 
 				if (account.IsValid())
@@ -197,6 +199,7 @@ namespace SimpleAuth
 
 		protected virtual WebAuthenticator CreateAuthenticator()
 		{
+			authenticator = this.createAuthenticator();
 			authenticator.Scope = Scopes?.ToList();
 			authenticator.Cookies = CurrentOAuthAccount?.Cookies;
 			return authenticator;
@@ -231,7 +234,7 @@ namespace SimpleAuth
 						account.RefreshToken = "";
 						account.ExpiresIn = 1;
 						SaveAccount(account);
-						return await Authenticate() != null;
+						return await PerformAuthenticate() != null;
 					}
 					else
 						throw new Exception(result.ErrorDescription);
