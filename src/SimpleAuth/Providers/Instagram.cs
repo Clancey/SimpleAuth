@@ -8,7 +8,7 @@ namespace SimpleAuth.Providers
 {
 	public class InstagramApi : OAuthApi
 	{
-		public InstagramApi(string identifier, string clientId, string clientSecret, string redirectUrl, HttpMessageHandler handler = null)
+		public InstagramApi(string identifier, string clientId, string clientSecret, string redirectUrl = "http://localhost", HttpMessageHandler handler = null)
 			: base(identifier, clientId, clientSecret, handler)
 		{
 			this.TokenUrl = "https://api.instagram.com/oauth/access_token";
