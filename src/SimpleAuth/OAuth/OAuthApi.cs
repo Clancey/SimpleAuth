@@ -134,7 +134,8 @@ namespace SimpleAuth
 				{
 					if (!(await Ping(TokenUrl)))
 						return account;
-					await RefreshAccount(account);
+					if (await RefreshAccount (account))
+						account = CurrentOAuthAccount ?? GetAccount<OAuthAccount> (Identifier);
 				}
 
 				if (account.IsValid())
