@@ -234,7 +234,7 @@ namespace SimpleAuth
 						account.RefreshToken = "";
 						account.ExpiresIn = 1;
 						SaveAccount(account);
-						return await Authenticate() != null;
+						return await PerformAuthenticate () != null;
 					}
 					else
 						throw new Exception(result.ErrorDescription);
