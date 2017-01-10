@@ -28,7 +28,7 @@ namespace Sample.Forms
                     VerticalOptions = LayoutOptions.Center,
                     Children = {
                         CreateApiButton( new GoogleApi("google", "992461286651-k3tsbcreniknqptanrugsetiimt0lkvo.apps.googleusercontent.com","avrYAIxweNZwcHpsBlIzTp04")
-                        {
+						{
                             Scopes =  new[]
                                 {
                                     "https://www.googleapis.com/auth/userinfo.email",
@@ -56,8 +56,6 @@ namespace Sample.Forms
                 try
                 {
                     var account = await api.Authenticate();
-                    var me = await api.Get("me");
-
                     Console.WriteLine(account.Identifier);
                 }
                 catch (TaskCanceledException)
