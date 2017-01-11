@@ -19,6 +19,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Facebook.Droid",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.Droid", "SimpleAuth.Google.Droid\SimpleAuth.Google.Droid.csproj", "{37786399-48F8-48B1-81B1-CE3FAE15FACA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AFDB8B21-25CC-4998-8045-B24D3F7876BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Tests", "SimpleAuth.Tests\SimpleAuth.Tests.csproj", "{7360F7D9-8C03-4144-8041-4D6ADFB73164}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net45", "SimpleAuth.Net45\SimpleAuth.Net45.csproj", "{45A98478-4435-4505-BAF3-37F854AC671B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +59,14 @@ Global
 		{37786399-48F8-48B1-81B1-CE3FAE15FACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37786399-48F8-48B1-81B1-CE3FAE15FACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37786399-48F8-48B1-81B1-CE3FAE15FACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A98478-4435-4505-BAF3-37F854AC671B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A98478-4435-4505-BAF3-37F854AC671B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SimpleAuth\SimpleAuth.projitems*{a9afe645-9d2c-4d04-98ac-96990d9ba60e}*SharedItemsImports = 4
@@ -62,5 +76,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164} = {AFDB8B21-25CC-4998-8045-B24D3F7876BF}
 	EndGlobalSection
 EndGlobal

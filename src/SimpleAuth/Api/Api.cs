@@ -444,7 +444,7 @@ namespace SimpleAuth
 			}
 		}
 
-		public async Task<bool> Ping(string url)
+		public virtual async Task<bool> Ping(string url)
 		{
 			try{
 				var request = new HttpRequestMessage(HttpMethod.Get, url);
