@@ -24,6 +24,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Facebook.iOS", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net45", "SimpleAuth.Net45\SimpleAuth.Net45.csproj", "{45A98478-4435-4505-BAF3-37F854AC671B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{16848DB4-C3DD-4CCB-A665-DD94E200B6EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Tests", "SimpleAuth.Tests\SimpleAuth.Tests.csproj", "{7360F7D9-8C03-4144-8041-4D6ADFB73164}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SimpleAuth\SimpleAuth.projitems*{2c2264a6-2534-485e-8772-623d1abeefff}*SharedItemsImports = 4
@@ -144,8 +148,27 @@ Global
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|ARM.ActiveCfg = Release|Any CPU
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|x64.ActiveCfg = Release|Any CPU
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|x86.ActiveCfg = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|x64.Build.0 = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Debug|x86.Build.0 = Debug|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|ARM.Build.0 = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|x64.ActiveCfg = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|x64.Build.0 = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|x86.ActiveCfg = Release|Any CPU
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7360F7D9-8C03-4144-8041-4D6ADFB73164} = {16848DB4-C3DD-4CCB-A665-DD94E200B6EB}
 	EndGlobalSection
 EndGlobal
