@@ -308,6 +308,7 @@ namespace SimpleAuth
 					message.EnsureSuccessStatusCode ();
 			} catch (Exception ex) {
 				ex.Data ["HttpContent"] = data;
+				ex.Data["StatusCode"] = message?.StatusCode;
 				throw ex;
 			}
 			return data;
