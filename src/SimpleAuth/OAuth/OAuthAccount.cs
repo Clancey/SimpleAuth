@@ -51,7 +51,8 @@ namespace SimpleAuth
 		public override void Invalidate ()
 		{
 			base.Invalidate ();
-			ExpiresIn = 0;
+			ExpiresIn = 1;
+			Token = null;
 		}
     }
 }
