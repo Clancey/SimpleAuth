@@ -17,7 +17,7 @@ using System.Diagnostics;
 
 namespace System
 {
-	public static class Console
+	internal static class Console
 	{
 		public static void WriteLine()
 		{
