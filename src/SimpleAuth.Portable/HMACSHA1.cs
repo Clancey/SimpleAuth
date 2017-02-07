@@ -20,7 +20,7 @@ using System.Linq;
 
 namespace System.Security.Cryptography
 {
-	public class HMACSHA1
+	internal class HMACSHA1
 	{
 		Sha1 hash = new Sha1();
 

@@ -15,7 +15,7 @@
 using System;
 using System.Diagnostics;
 
-namespace System
+namespace SimpleAuth
 {
 	internal static class Console
 	{

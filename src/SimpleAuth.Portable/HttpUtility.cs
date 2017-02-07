@@ -7,7 +7,7 @@ using System.Text;
 
 namespace System.Web
 {
-	public sealed class HttpUtility
+	internal sealed class HttpUtility
 	{
 		public static NameValueCollection ParseQueryString(string query)
 		{
