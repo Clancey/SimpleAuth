@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.30</version>
+        <version>1.0.31</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Simplest OAuth client for Xamarin and UWP</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it.</summary>
-        <releaseNotes>Fixed a few bugs around Refreshing Auth tokens. Minor api changes to make apis/providers more consistent. </releaseNotes>
+        <releaseNotes>Helper classes inside the PCL are now marked internal.  OauthAccounts now propery invalidate</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
 			<group>
