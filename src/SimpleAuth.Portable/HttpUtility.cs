@@ -30,7 +30,7 @@ namespace System.Web
 		}
 	}
 
-	public sealed class HttpValue
+	internal sealed class HttpValue
 	{
 		public HttpValue()
 		{

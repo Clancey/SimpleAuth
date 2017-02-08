@@ -9,7 +9,7 @@ using System.Web;
 
 namespace System.Collections.Specialized
 {
-    public class NameValueCollection : Collection<HttpValue>
+    internal class NameValueCollection : Collection<HttpValue>
     {
         #region Parameters
 
