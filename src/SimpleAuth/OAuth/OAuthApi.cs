@@ -183,7 +183,7 @@ namespace SimpleAuth
 			var resp = await reply.Content.ReadAsStringAsync();
 			var result = Deserialize<OauthResponse>(resp);
 			if (!string.IsNullOrEmpty(result?.Error))
- 				throw new Exception(result.ErrorDescription);
+ 				throw new Exception($"{result.Error} : {result.ErrorDescription}");
 
 			var account = new OAuthAccount () {
 				ExpiresIn = result.ExpiresIn,
@@ -238,7 +238,7 @@ namespace SimpleAuth
 						return await PerformAuthenticate () != null;
 					}
 					else
-						throw new Exception(result.ErrorDescription);
+						throw new Exception($"{result.Error} : {result.ErrorDescription}");
 				}
 				if (!string.IsNullOrEmpty(result.RefreshToken))
 					account.RefreshToken = result.RefreshToken;
