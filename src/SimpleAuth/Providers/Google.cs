@@ -18,7 +18,11 @@ namespace SimpleAuth.Providers
 			#if __UNIFIED__
 			this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator; 
 			#endif
+			if (GoogleShowAuthenticator != null)
+				CurrentShowAuthenticator = GoogleShowAuthenticator;
 		}
+
+		public static Action<WebAuthenticator> GoogleShowAuthenticator { get; set; }
 		public static string CleanseClientId (string clientId) => clientId?.Replace (".apps.googleusercontent.com", "");
 
         public static bool IsUsingNative { get; set; }

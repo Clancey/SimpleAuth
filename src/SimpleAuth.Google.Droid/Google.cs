@@ -23,7 +23,7 @@ namespace SimpleAuth.Providers
             app.RegisterActivityLifecycleCallbacks(activityLifecycle);
 
             GoogleApi.IsUsingNative = true;
-            GoogleApi.ShowAuthenticator = Login;
+            GoogleApi.GoogleShowAuthenticator = Login;
         }
 
         public static void Uninit(global::Android.App.Application app)
