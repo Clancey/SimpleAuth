@@ -12,9 +12,16 @@ namespace SimpleAuth.Providers
 {
 	public class GoogleApi : OAuthApi
 	{
+
+		/// <summary>
+		/// Only use this Constructor for platofms using NativeAuth
+		/// </summary>
+		/// <param name="identifier">Identifier.</param>
+		/// <param name="clientId">Client identifier.</param>
+		/// <param name="handler">Handler.</param>
 		public GoogleApi(string identifier, string clientId, HttpMessageHandler handler = null) : this(identifier, clientId, "native", handler)
 		{
-
+			
 		}
 		public GoogleApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, CleanseClientId(clientId), clientSecret, handler)
 		{
