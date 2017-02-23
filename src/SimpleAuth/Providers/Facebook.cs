@@ -81,6 +81,7 @@ namespace SimpleAuth.Providers
 				Token = result.AccessToken,
 				ClientId = ClientId,
 				Identifier = identifier,
+				IdToken = result.Id,
 			};
 			return account;
 		}

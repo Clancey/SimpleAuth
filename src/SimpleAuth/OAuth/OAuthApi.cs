@@ -195,6 +195,7 @@ namespace SimpleAuth
 				ClientId = ClientId,
 				Identifier = identifier,
 				Cookies = authenticator.Cookies,
+				IdToken = result.Id
 			};
 			return account;
 		}

@@ -20,6 +20,7 @@ namespace SimpleAuth
 				tokenType = value;
 			}
 		}
+		public string IdToken { get; set; }
 
 		public string Token { get; set; }
 
