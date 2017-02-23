@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Sample.iOS</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.companyname.Sample.iOS</string>
+	<string>com.SimpleAuth.Sample.iOS</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -49,8 +49,10 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.88139740130-v4lei65b09c6gn13f152b5dlnokk5d3q</string>
+				<string>com.googleusercontent.apps.992461286651-59v9jcsju9lo5ng9umuu0q0016vat5jt</string>
 			</array>
+			<key>CFBundleURLName</key>
+			<string>googleLogin</string>
 		</dict>
 	</array>
 </dict>

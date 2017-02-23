@@ -12,12 +12,16 @@ namespace SimpleAuth.Providers
 {
 	public class GoogleApi : OAuthApi
 	{
+		public GoogleApi(string identifier, string clientId, HttpMessageHandler handler = null) : this(identifier, clientId, "native", handler)
+		{
+
+		}
 		public GoogleApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, CleanseClientId(clientId), clientSecret, handler)
 		{
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
-			#if __UNIFIED__
+#if __UNIFIED__
 			this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator; 
-			#endif
+#endif
 			if (GoogleShowAuthenticator != null)
 				CurrentShowAuthenticator = GoogleShowAuthenticator;
 		}
@@ -93,6 +97,8 @@ namespace SimpleAuth.Providers
 			var data = await base.GetTokenPostData(clientSecret);
 			data["scope"] = string.Join(" ", Scope);
 			data ["client_id"] = GetGoogleClientId (ClientId);
+			if (data["client_secret"] == "native")
+				data.Remove("client_secret");
 			data["redirect_uri"] = GetRedirectUrl();
 			return data;
 		}

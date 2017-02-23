@@ -20,7 +20,7 @@ namespace Sample.iOS
 			get;
 			set;
 		}
-		GoogleApi googleApi = new GoogleApi ("google", "clientid", "clientsecret") {
+		GoogleApi googleApi = new GoogleApi ("google", "992461286651-59v9jcsju9lo5ng9umuu0q0016vat5jt") {
 			Scopes = new []
 			{
 				"https://www.googleapis.com/auth/userinfo.email",
@@ -45,8 +45,17 @@ namespace Sample.iOS
 			Window.RootViewController = new DialogViewController (new RootElement ("Simple Auth") {
 				new Section("Google Api"){
 					new StringElement("Authenticate", async() => {
+						try{
 						var account = await googleApi.Authenticate();
 						ShowAlert("Success","Authenticate");
+						}
+						catch(TaskCanceledException){
+							ShowAlert("Canceled","");
+						}
+						catch(Exception ex)
+						{
+							ShowAlert("Error",ex.ToString());
+						}
 					}),
 					new StringElement("Log out", () => {
 						googleApi.ResetData();
