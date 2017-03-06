@@ -1692,7 +1692,7 @@ namespace SimpleAuth.Facebook.Droid
 			public static int com_facebook_close = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public static int com_facebook_favicon_white = 2130837593;
+			public static int com_facebook_favicon_blue = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
 			public static int com_facebook_profile_picture_blank_portrait = 2130837594;
@@ -1770,8 +1770,8 @@ namespace SimpleAuth.Facebook.Droid
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f0b0071
-			public static int action0 = 2131427441;
+			// aapt resource value: 0x7f0b0070
+			public static int action0 = 2131427440;
 			
 			// aapt resource value: 0x7f0b0052
 			public static int action_bar = 2131427410;
@@ -1797,8 +1797,8 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b0053
 			public static int action_context_bar = 2131427411;
 			
-			// aapt resource value: 0x7f0b0075
-			public static int action_divider = 2131427445;
+			// aapt resource value: 0x7f0b0074
+			public static int action_divider = 2131427444;
 			
 			// aapt resource value: 0x7f0b0002
 			public static int action_menu_divider = 2131427330;
@@ -1842,11 +1842,11 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b003c
 			public static int buttonPanel = 2131427388;
 			
-			// aapt resource value: 0x7f0b0072
-			public static int cancel_action = 2131427442;
+			// aapt resource value: 0x7f0b0071
+			public static int cancel_action = 2131427441;
 			
-			// aapt resource value: 0x7f0b0066
-			public static int cancel_button = 2131427430;
+			// aapt resource value: 0x7f0b0065
+			public static int cancel_button = 2131427429;
 			
 			// aapt resource value: 0x7f0b002a
 			public static int center = 2131427370;
@@ -1854,41 +1854,38 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b004a
 			public static int checkbox = 2131427402;
 			
-			// aapt resource value: 0x7f0b0078
-			public static int chronometer = 2131427448;
+			// aapt resource value: 0x7f0b0077
+			public static int chronometer = 2131427447;
 			
 			// aapt resource value: 0x7f0b001d
 			public static int collapseActionView = 2131427357;
 			
-			// aapt resource value: 0x7f0b0068
-			public static int com_facebook_body_frame = 2131427432;
+			// aapt resource value: 0x7f0b0067
+			public static int com_facebook_body_frame = 2131427431;
 			
-			// aapt resource value: 0x7f0b006a
-			public static int com_facebook_button_xout = 2131427434;
+			// aapt resource value: 0x7f0b0069
+			public static int com_facebook_button_xout = 2131427433;
 			
-			// aapt resource value: 0x7f0b0063
-			public static int com_facebook_device_auth_instructions = 2131427427;
-			
-			// aapt resource value: 0x7f0b0062
-			public static int com_facebook_device_dialog_title = 2131427426;
+			// aapt resource value: 0x7f0b0064
+			public static int com_facebook_device_auth_instructions = 2131427428;
 			
 			// aapt resource value: 0x7f0b0061
 			public static int com_facebook_fragment_container = 2131427425;
 			
-			// aapt resource value: 0x7f0b0067
-			public static int com_facebook_login_activity_progress_bar = 2131427431;
-			
-			// aapt resource value: 0x7f0b006c
-			public static int com_facebook_tooltip_bubble_view_bottom_pointer = 2131427436;
+			// aapt resource value: 0x7f0b0066
+			public static int com_facebook_login_activity_progress_bar = 2131427430;
 			
 			// aapt resource value: 0x7f0b006b
-			public static int com_facebook_tooltip_bubble_view_text_body = 2131427435;
+			public static int com_facebook_tooltip_bubble_view_bottom_pointer = 2131427435;
 			
-			// aapt resource value: 0x7f0b0069
-			public static int com_facebook_tooltip_bubble_view_top_pointer = 2131427433;
+			// aapt resource value: 0x7f0b006a
+			public static int com_facebook_tooltip_bubble_view_text_body = 2131427434;
 			
-			// aapt resource value: 0x7f0b0064
-			public static int confirmation_code = 2131427428;
+			// aapt resource value: 0x7f0b0068
+			public static int com_facebook_tooltip_bubble_view_top_pointer = 2131427432;
+			
+			// aapt resource value: 0x7f0b0062
+			public static int confirmation_code = 2131427426;
 			
 			// aapt resource value: 0x7f0b0042
 			public static int contentPanel = 2131427394;
@@ -1917,8 +1914,8 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b001a
 			public static int end = 2131427354;
 			
-			// aapt resource value: 0x7f0b007d
-			public static int end_padder = 2131427453;
+			// aapt resource value: 0x7f0b007c
+			public static int end_padder = 2131427452;
 			
 			// aapt resource value: 0x7f0b0036
 			public static int expand_activities_button = 2131427382;
@@ -1941,8 +1938,8 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b0037
 			public static int image = 2131427383;
 			
-			// aapt resource value: 0x7f0b007c
-			public static int info = 2131427452;
+			// aapt resource value: 0x7f0b007b
+			public static int info = 2131427451;
 			
 			// aapt resource value: 0x7f0b0028
 			public static int inline = 2131427368;
@@ -1953,11 +1950,11 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b002b
 			public static int left = 2131427371;
 			
-			// aapt resource value: 0x7f0b0076
-			public static int line1 = 2131427446;
+			// aapt resource value: 0x7f0b0075
+			public static int line1 = 2131427445;
 			
-			// aapt resource value: 0x7f0b007a
-			public static int line3 = 2131427450;
+			// aapt resource value: 0x7f0b0079
+			public static int line3 = 2131427449;
 			
 			// aapt resource value: 0x7f0b0009
 			public static int listMode = 2131427337;
@@ -1965,14 +1962,14 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b0039
 			public static int list_item = 2131427385;
 			
+			// aapt resource value: 0x7f0b006e
+			public static int loginButton = 2131427438;
+			
+			// aapt resource value: 0x7f0b0073
+			public static int media_actions = 2131427443;
+			
 			// aapt resource value: 0x7f0b006f
-			public static int loginButton = 2131427439;
-			
-			// aapt resource value: 0x7f0b0074
-			public static int media_actions = 2131427444;
-			
-			// aapt resource value: 0x7f0b0070
-			public static int messenger_send_button = 2131427440;
+			public static int messenger_send_button = 2131427439;
 			
 			// aapt resource value: 0x7f0b001b
 			public static int middle = 2131427355;
@@ -2001,11 +1998,11 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b003e
 			public static int parentPanel = 2131427390;
 			
-			// aapt resource value: 0x7f0b006e
-			public static int password = 2131427438;
+			// aapt resource value: 0x7f0b006d
+			public static int password = 2131427437;
 			
-			// aapt resource value: 0x7f0b0065
-			public static int progress_bar = 2131427429;
+			// aapt resource value: 0x7f0b0063
+			public static int progress_bar = 2131427427;
 			
 			// aapt resource value: 0x7f0b0005
 			public static int progress_circular = 2131427333;
@@ -2097,8 +2094,8 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b0026
 			public static int standard = 2131427366;
 			
-			// aapt resource value: 0x7f0b0073
-			public static int status_bar_latest_event_content = 2131427443;
+			// aapt resource value: 0x7f0b0072
+			public static int status_bar_latest_event_content = 2131427442;
 			
 			// aapt resource value: 0x7f0b005d
 			public static int submit_area = 2131427421;
@@ -2106,17 +2103,17 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b000b
 			public static int tabMode = 2131427339;
 			
-			// aapt resource value: 0x7f0b007b
-			public static int text = 2131427451;
+			// aapt resource value: 0x7f0b007a
+			public static int text = 2131427450;
 			
-			// aapt resource value: 0x7f0b0079
-			public static int text2 = 2131427449;
+			// aapt resource value: 0x7f0b0078
+			public static int text2 = 2131427448;
 			
 			// aapt resource value: 0x7f0b0045
 			public static int textSpacerNoButtons = 2131427397;
 			
-			// aapt resource value: 0x7f0b0077
-			public static int time = 2131427447;
+			// aapt resource value: 0x7f0b0076
+			public static int time = 2131427446;
 			
 			// aapt resource value: 0x7f0b003b
 			public static int title = 2131427387;
@@ -2139,8 +2136,8 @@ namespace SimpleAuth.Facebook.Droid
 			// aapt resource value: 0x7f0b0012
 			public static int useLogo = 2131427346;
 			
-			// aapt resource value: 0x7f0b006d
-			public static int username = 2131427437;
+			// aapt resource value: 0x7f0b006c
+			public static int username = 2131427436;
 			
 			// aapt resource value: 0x7f0b0020
 			public static int withText = 2131427360;
@@ -3491,28 +3488,31 @@ namespace SimpleAuth.Facebook.Droid
 			public static int Widget_AppCompat_Toolbar_Button_Navigation = 2131231037;
 			
 			// aapt resource value: 0x7f080150
-			public static int com_facebook_auth_dialog = 2131231056;
+			public static int com_facebook_activity_theme = 2131231056;
 			
 			// aapt resource value: 0x7f080151
-			public static int com_facebook_button = 2131231057;
+			public static int com_facebook_auth_dialog = 2131231057;
 			
 			// aapt resource value: 0x7f080152
-			public static int com_facebook_button_like = 2131231058;
+			public static int com_facebook_button = 2131231058;
 			
 			// aapt resource value: 0x7f080153
-			public static int com_facebook_button_send = 2131231059;
+			public static int com_facebook_button_like = 2131231059;
 			
 			// aapt resource value: 0x7f080154
-			public static int com_facebook_button_share = 2131231060;
+			public static int com_facebook_button_send = 2131231060;
 			
 			// aapt resource value: 0x7f080155
-			public static int com_facebook_loginview_default_style = 2131231061;
+			public static int com_facebook_button_share = 2131231061;
 			
 			// aapt resource value: 0x7f080156
-			public static int com_facebook_loginview_silver_style = 2131231062;
+			public static int com_facebook_loginview_default_style = 2131231062;
 			
 			// aapt resource value: 0x7f080157
-			public static int tooltip_bubble_text = 2131231063;
+			public static int com_facebook_loginview_silver_style = 2131231063;
+			
+			// aapt resource value: 0x7f080158
+			public static int tooltip_bubble_text = 2131231064;
 			
 			static Style()
 			{
