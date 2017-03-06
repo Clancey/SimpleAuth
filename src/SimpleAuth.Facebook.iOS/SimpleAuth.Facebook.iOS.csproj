@@ -34,14 +34,13 @@
     <MtouchUseRefCounting>true</MtouchUseRefCounting>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Facebook, Version=4.10.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Xamarin.Facebook.iOS.4.16.1\lib\Xamarin.iOS10\Facebook.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="Facebook">
+      <HintPath>..\..\packages\Xamarin.Facebook.iOS.4.18.0.1\lib\Xamarin.iOS10\Facebook.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

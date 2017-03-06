@@ -16,7 +16,7 @@ SimpleAuth.Providers.Facebook.OpenUrl(application, url, sourceApplication, annot
         <copyright>James Clancey</copyright>
         <dependencies>
             <dependency id="Clancey.SimpleAuth" version="1.0.29"/>
-            <dependency id="Xamarin.Facebook.iOS" version="4.16.1"/>
+            <dependency id="Xamarin.Facebook.iOS" version="4.18.0.1"/>
         </dependencies>
     </metadata>
     <files>

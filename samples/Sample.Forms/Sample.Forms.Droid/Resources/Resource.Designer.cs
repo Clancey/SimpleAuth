@@ -26,6 +26,12 @@ namespace Sample.Forms.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::SimpleAuth.Resource.Id.loginButton = global::Sample.Forms.Droid.Resource.Id.loginButton;
+			global::SimpleAuth.Resource.Id.password = global::Sample.Forms.Droid.Resource.Id.password;
+			global::SimpleAuth.Resource.Id.username = global::Sample.Forms.Droid.Resource.Id.username;
+			global::SimpleAuth.Resource.Layout.login = global::Sample.Forms.Droid.Resource.Layout.login;
+			global::SimpleAuth.Resource.String.ApplicationName = global::Sample.Forms.Droid.Resource.String.ApplicationName;
+			global::SimpleAuth.Resource.String.Hello = global::Sample.Forms.Droid.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -53,6 +59,63 @@ namespace Sample.Forms.Droid
 			}
 			
 			private Drawable()
+			{
+			}
+		}
+		
+		public partial class Id
+		{
+			
+			// aapt resource value: 0x7f050002
+			public const int loginButton = 2131034114;
+			
+			// aapt resource value: 0x7f050001
+			public const int password = 2131034113;
+			
+			// aapt resource value: 0x7f050000
+			public const int username = 2131034112;
+			
+			static Id()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Id()
+			{
+			}
+		}
+		
+		public partial class Layout
+		{
+			
+			// aapt resource value: 0x7f030000
+			public const int login = 2130903040;
+			
+			static Layout()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Layout()
+			{
+			}
+		}
+		
+		public partial class String
+		{
+			
+			// aapt resource value: 0x7f040001
+			public const int ApplicationName = 2130968577;
+			
+			// aapt resource value: 0x7f040000
+			public const int Hello = 2130968576;
+			
+			static String()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private String()
 			{
 			}
 		}
