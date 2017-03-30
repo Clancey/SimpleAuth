@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.32</version>
+        <version>1.0.33</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Simplest OAuth client for Xamarin and UWP</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it.</summary>
-        <releaseNotes>Fixed issues around using the native Google Client</releaseNotes>
+        <releaseNotes>Added netstandard1 target</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
 			<group>
@@ -24,6 +24,7 @@
         <file src="src\SimpleAuth.Droid\bin\Release\SimpleAuth.dll" target="lib\MonoAndroid\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Net45\bin\Release\SimpleAuth.dll" target="lib\net45\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Portable\bin\Release\SimpleAuth.dll" target="lib\Portable-Net45+WinRT45+WP8+WPA81\SimpleAuth.dll" />
+        <file src="src\SimpleAuth.Portable\bin\Release\SimpleAuth.dll" target="lib\netstandard1.1\SimpleAuth.dll" />
         <file src="src\SimpleAuth.iOS\bin\iPhone\Release\SimpleAuth.dll" target="lib\Xamarin.iOS10\SimpleAuth.dll" />
         <file src="src\SimpleAuth.UWP\bin\Release\SimpleAuth.dll" target="lib\uap\SimpleAuth.dll" />
      	<file src="src\SimpleAuth.Mac\bin\Release\SimpleAuth.dll" target="lib\Xamarin.Mac20\SimpleAuth.dll" />
