@@ -36,10 +36,10 @@ namespace SimpleAuth.Providers
 		public override Dictionary<string, string> GetInitialUrlQueryParameters()
 		{
 			var parameters = base.GetInitialUrlQueryParameters();
-#if !__PCL__ && !WINDOWS_UWP
+#if !__PCL__ && !WINDOWS_UWP && !NETSTANDARD1_4
 			parameters["locale"] = Thread.CurrentThread.CurrentCulture?.TwoLetterISOLanguageName;
 #endif
-			parameters["display"] = "touch";
+            parameters["display"] = "touch";
 			return parameters;
 		}
 

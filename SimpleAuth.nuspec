@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.33</version>
+        <version>1.0.34</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
@@ -15,16 +15,16 @@
 			<group>
 				<dependency id="Newtonsoft.Json" version="8.0.3" />
 			</group>
-			<!--<group targetFramework="Portable-Net45+WinRT45+WP8+WPA81">
-				<dependency id="Microsoft.Net.Http" />
-			</group>-->
+			<group targetFramework="netstandard1.4">
+				<dependency id="System.Net.Http" />
+			</group>
         </dependencies>
     </metadata>
     <files>
         <file src="src\SimpleAuth.Droid\bin\Release\SimpleAuth.dll" target="lib\MonoAndroid\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Net45\bin\Release\SimpleAuth.dll" target="lib\net45\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Portable\bin\Release\SimpleAuth.dll" target="lib\Portable-Net45+WinRT45+WP8+WPA81\SimpleAuth.dll" />
-        <file src="src\SimpleAuth.Portable\bin\Release\SimpleAuth.dll" target="lib\netstandard1.1\SimpleAuth.dll" />
+        <file src="src\SimpleAuth.Net\bin\Release\netstandard1.4\SimpleAuth.dll" target="lib\netstandard1.4\SimpleAuth.dll" />
         <file src="src\SimpleAuth.iOS\bin\iPhone\Release\SimpleAuth.dll" target="lib\Xamarin.iOS10\SimpleAuth.dll" />
         <file src="src\SimpleAuth.UWP\bin\Release\SimpleAuth.dll" target="lib\uap\SimpleAuth.dll" />
      	<file src="src\SimpleAuth.Mac\bin\Release\SimpleAuth.dll" target="lib\Xamarin.Mac20\SimpleAuth.dll" />
