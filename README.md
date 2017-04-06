@@ -1,7 +1,7 @@
 Simple Auth
 ================
 Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it. Most importantly it works great with traditional Xamarin and Xamarin.Forms
-[![Build status](https://ci.appveyor.com/api/projects/status/ldi3o0g14p0ugljq?svg=true)](https://ci.appveyor.com/project/Clancey/simpleauth)
+
 
 Available on Nuget
 ================
