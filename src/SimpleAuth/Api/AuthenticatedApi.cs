@@ -104,7 +104,7 @@ namespace SimpleAuth
 				else
 					throw new Exception("Not Authenticated");
 			}
-			if (!CurrentAccount.IsValid())
+			if (!(CurrentAccount?.IsValid () ?? false))
 				await RefreshAccount(CurrentAccount);
 		}
 

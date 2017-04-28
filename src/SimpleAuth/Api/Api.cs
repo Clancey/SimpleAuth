@@ -256,8 +256,9 @@ namespace SimpleAuth
 		}
 		public virtual Task<string> SendObjectMessage(string path, object body, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			var mediaType = DefaultMediaType;
-			headers?.TryGetValue("Content-Type", out mediaType);
+			string mediaType = null;
+			if(!(headers?.TryGetValue ("Content-Type", out mediaType) ?? false))
+				mediaType = DefaultMediaType;
 
 			var bodyJson = body.ToJson();
 			var content = new StringContent(bodyJson, System.Text.Encoding.UTF8, mediaType);
