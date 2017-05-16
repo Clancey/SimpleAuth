@@ -27,7 +27,8 @@ namespace SimpleAuth.Providers
 		{
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
 #if __UNIFIED__
-			this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator; 
+			this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator;
+			NativeSafariAuthenticator.RegisterCallbacks ();
 #endif
 			if (GoogleShowAuthenticator != null)
 				CurrentShowAuthenticator = GoogleShowAuthenticator;

@@ -31,13 +31,19 @@ namespace SimpleAuth
 		const string CFBundleUrlError = "CFBundleURLSchemes are required for Native Safari Auth";
 		static Dictionary<string, WebAuthenticator> authenticators = new Dictionary<string, WebAuthenticator> ();
 		static SFSafariViewController CurrentController;
+
 		public static void Activate ()
+		{
+			RegisterCallbacks ();
+			OAuthApi.ShowAuthenticator = ShowAuthenticator;
+		}
+		internal static void RegisterCallbacks ()
 		{
 			if (!GetCFBundleURLSchemes ().Any ())
 				throw new Exception (CFBundleUrlError);
-
-			OAuthApi.ShowAuthenticator = ShowAuthenticator;
+			Native.RegisterCallBack ("NativeSafariAuth",(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation) => ResumeAuth (url.AbsoluteString));
 		}
+
 		public static void ShowAuthenticator (UIViewController presentingController, WebAuthenticator authenticator)
 		{
 			var urls = GetCFBundleURLSchemes ();

@@ -6,7 +6,7 @@
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{6457641D-D20D-479B-AA3B-30A9C88B96DE}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>SimpleAuth.Mac</RootNamespace>
+    <RootNamespace>SimpleAuth</RootNamespace>
     <MonoMacResourcePrefix>Resources</MonoMacResourcePrefix>
     <AssemblyName>SimpleAuth</AssemblyName>
     <TargetFrameworkIdentifier>Xamarin.Mac</TargetFrameworkIdentifier>
@@ -64,6 +64,7 @@
     <Compile Include="WebAuthenticator.cs" />
     <Compile Include="NativeSafariAuthenticator.cs" />
     <Compile Include="AppleEventsHelper.cs" />
+    <Compile Include="Native.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

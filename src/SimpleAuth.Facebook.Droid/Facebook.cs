@@ -15,6 +15,7 @@ namespace SimpleAuth.Providers
 
             app.RegisterActivityLifecycleCallbacks(activityLifecycleManager);
 
+			Native.RegisterCallBack ("facebook",OnActivityResult);
             FacebookApi.IsUsingNative = true;
             FacebookApi.ShowFacebookAuthenticator = Login;
         }
@@ -24,9 +25,9 @@ namespace SimpleAuth.Providers
             app.UnregisterActivityLifecycleCallbacks(activityLifecycleManager);
         }
 
-        public static void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
+        public static bool OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
         {
-            callbackManager?.OnActivityResult(requestCode, (int)resultCode, data);
+			return callbackManager?.OnActivityResult (requestCode, (int)resultCode, data) ?? false;
         }
 
         static ActivityLifecycleManager activityLifecycleManager = new ActivityLifecycleManager ();

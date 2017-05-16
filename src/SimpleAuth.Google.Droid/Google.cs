@@ -22,6 +22,7 @@ namespace SimpleAuth.Providers
         {
             app.RegisterActivityLifecycleCallbacks(activityLifecycle);
 
+			Native.RegisterCallBack ("facebook", OnActivityResult);
             GoogleApi.IsUsingNative = true;
             GoogleApi.GoogleShowAuthenticator = Login;
         }
@@ -99,7 +100,7 @@ namespace SimpleAuth.Providers
             }
         }
 
-        public static void OnActivityResult(int requestCode, Result result, Intent data)
+        public static bool OnActivityResult(int requestCode, Result result, Intent data)
         {
             // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
             if (requestCode == GoogleSignInProvider.SIGN_IN_REQUEST_CODE)
@@ -107,7 +108,9 @@ namespace SimpleAuth.Providers
                 var googleSignInResult = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
 
                 googleSignInProvider?.FoundResult(googleSignInResult);
+				return true;
             }
+			return false
         }
 
 

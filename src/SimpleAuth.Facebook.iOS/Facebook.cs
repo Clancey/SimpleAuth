@@ -12,6 +12,7 @@ namespace SimpleAuth.Providers
 			FacebookApi.IsUsingNative = true;
 			fb.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(app, launchOptions);
 			FacebookApi.ShowFacebookAuthenticator = (a) => invoker.BeginInvokeOnMainThread(() => Login(a));
+			Native.RegisterCallBack ("facebook",OpenUrl);
 		}
 		public static bool OpenUrl(UIKit.UIApplication app, Foundation.NSUrl url, string sourceApp, Foundation.NSObject annotation)
 		{

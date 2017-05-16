@@ -31,11 +31,21 @@ namespace SimpleAuth
 		static Dictionary<string, WebAuthenticator> authenticators = new Dictionary<string, WebAuthenticator> ();
 		public static void Activate ()
 		{
+			RegisterCallbacks ();
+			OAuthApi.ShowAuthenticator = ShowAuthenticator;
+		}
+
+		internal static void RegisterCallbacks ()
+		{
 			if (!GetCFBundleURLSchemes ().Any ())
 				throw new Exception (CFBundleUrlError);
 
-			OAuthApi.ShowAuthenticator = ShowAuthenticator;
+			Native.RegisterCallBack ("NativeSafariAuthenticator", (NSAppleEventDescriptor evt, NSAppleEventDescriptor arg2) => {
+				var url = evt.ParamDescriptorForKeyword (AppleEventParameters.DirectObject).StringValue;
+				return ResumeAuth (url);
+			});
 		}
+
 		public static void ShowAuthenticator (WebAuthenticator authenticator)
 		{
 			var urls = GetCFBundleURLSchemes ();

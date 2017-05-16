@@ -58,6 +58,7 @@
     <Compile Include="TypeForwarded.cs" />
     <Compile Include="WebAuthenticatorActivity.cs" />
     <Compile Include="LoginActvity.cs" />
+    <Compile Include="Native.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

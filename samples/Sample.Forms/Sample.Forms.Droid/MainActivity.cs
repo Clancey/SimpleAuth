@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Content;
 
 namespace Sample.Forms.Droid
 {
@@ -18,6 +19,12 @@ namespace Sample.Forms.Droid
 
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 			LoadApplication (new Sample.Forms.App ());
+		}
+
+		protected override void OnActivityResult (int requestCode, Result resultCode, Intent data)
+		{
+			base.OnActivityResult (requestCode, resultCode, data);
+			SimpleAuth.Native.OnActivityResult (requestCode, resultCode, data);
 		}
 	}
 }
