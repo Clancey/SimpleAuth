@@ -103,7 +103,7 @@ Also add the following override in your AppDelegate
 ```cs
 public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
 {
-	if (SimpleAuth.Providers.Facebook.OpenUrl(application, url, sourceApplication, annotation))
+	if (SimpleAuth.Native.OpenUrl(application, url, sourceApplication, annotation))
 		return true;
 	return base.OpenUrl(application, url, sourceApplication, annotation);
 }
@@ -122,7 +122,7 @@ To use the Native Safari Authenticator, you are required to add the following sn
 ```cs
 public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
 {
-	if (NativeSafariAuthenticator.ResumeAuth (url.AbsoluteString))
+	if (SimpleAuth.Native.OpenUrl(application, url, sourceApplication, annotation))
 		return true;
 	return false;
 }

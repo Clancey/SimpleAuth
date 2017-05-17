@@ -27,8 +27,9 @@ namespace Sample.Mac
 			: base("MainWindow")
 		{
 		}
-		public static string ClientId = "";
-		public static string ClientSecret = "";
+
+		public static string ClientId = "992461286651-k3tsbcreniknqptanrugsetiimt0lkvo.apps.googleusercontent.com";
+		public static string ClientSecret = "avrYAIxweNZwcHpsBlIzTp04";
 
 
 		public override void AwakeFromNib()
