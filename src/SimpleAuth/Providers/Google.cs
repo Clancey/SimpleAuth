@@ -12,17 +12,18 @@ namespace SimpleAuth.Providers
 {
 	public class GoogleApi : OAuthApi
 	{
-
+		public static string NativeClientSecret = "native";
 		/// <summary>
 		/// Only use this Constructor for platofms using NativeAuth
 		/// </summary>
 		/// <param name="identifier">Identifier.</param>
 		/// <param name="clientId">Client identifier.</param>
 		/// <param name="handler">Handler.</param>
-		public GoogleApi(string identifier, string clientId, HttpMessageHandler handler = null) : this(identifier, clientId, "native", handler)
+		public GoogleApi(string identifier, string clientId, HttpMessageHandler handler = null) : this(identifier, clientId, NativeClientSecret, handler)
 		{
 			
 		}
+
 		public GoogleApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, CleanseClientId(clientId), clientSecret, handler)
 		{
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
@@ -54,7 +55,8 @@ namespace SimpleAuth.Providers
         protected override Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
         {
             var auth = authenticator as GoogleAuthenticator;
-			if (IsUsingNative) {
+			//Native lib returns the auth token already
+			if (IsUsingNative && auth.ClientSecret == NativeClientSecret) {
 				return Task.FromResult (new OAuthAccount () {
 					ExpiresIn = 3600,
 					Created = DateTime.UtcNow,

@@ -59,10 +59,18 @@ namespace SimpleAuth.Providers
                     return;
                 }
 
-				var tokenScopes = googleAuth.Scope.Select (s => "oauth2:" + s);
-				var accessToken = await Task.Run (() => {
-					return Android.Gms.Auth.GoogleAuthUtil.GetToken (currentActivity, result?.SignInAccount?.Account, string.Join (" ", tokenScopes));
-				});
+				string accessToken;
+				//Going to use standard OAuth Flow since we have a Secret
+				if (googleAuth.ClientSecret != GoogleApi.NativeClientSecret) {
+					accessToken = result.SignInAccount.ServerAuthCode;
+				} else {
+					//Just rely on the native lib for refresh
+					var tokenScopes = googleAuth.Scope.Select (s => "oauth2:" + s);
+					accessToken = await Task.Run (() => {
+						return Android.Gms.Auth.GoogleAuthUtil.GetToken (currentActivity, result?.SignInAccount?.Account, string.Join (" ", tokenScopes));
+					});
+				}
+
 				googleAuth.OnRecievedAuthCode (accessToken);
 
             }
