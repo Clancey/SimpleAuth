@@ -33,9 +33,8 @@ namespace Sample.Droid
             FindViewById<Button>(Resource.Id.loginGoogleNative).Click += async (sender, e) =>
             {
                 // Create an OAuth credential and use its clientId
-                var clientId = "28116949007-uho7tcbsm17l8uq7t96fk8i9d6ftugnd"; // Provide with or without the '.apps.googleusercontent.com' suffix
+				var clientId = "419855213697-uq56vcune334omgqi51ou7jg08i3dnb1.apps.googleusercontent.com"; // Provide with or without the '.apps.googleusercontent.com' suffix
 
-                var google = new SimpleAuth.Providers.GoogleApi("google", clientId, "native") {
                     Scopes = new [] { "https://www.googleapis.com/auth/userinfo.profile" }
                 };
 

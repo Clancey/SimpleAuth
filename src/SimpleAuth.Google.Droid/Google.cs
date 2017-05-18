@@ -31,14 +31,15 @@ namespace SimpleAuth.Providers
             app.UnregisterActivityLifecycleCallbacks(activityLifecycle);
         }
 
-        static GoogleSignInProvider googleSignInProvider = new GoogleSignInProvider();
+		static GoogleSignInProvider googleSignInProvider;
 
         static async void Login(WebAuthenticator authenticator)
         {
             var currentActivity = activityLifecycle.CurrentActivity;
 
             var googleAuth = authenticator as GoogleAuthenticator;
-
+			if (googleSignInProvider != null)
+				googleSignInProvider.Canceled ();
             googleSignInProvider = new GoogleSignInProvider();
 
             GoogleSignInResult result = null;
@@ -99,14 +100,16 @@ namespace SimpleAuth.Providers
 
         public static bool OnActivityResult(int requestCode, Result result, Intent data)
         {
-            // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-            if (requestCode == GoogleSignInProvider.SIGN_IN_REQUEST_CODE)
-            {
-                var googleSignInResult = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+			// Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+			if (requestCode == GoogleSignInProvider.SIGN_IN_REQUEST_CODE) {
+				var googleSignInResult = Auth.GoogleSignInApi.GetSignInResultFromIntent (data);
 
-                googleSignInProvider?.FoundResult(googleSignInResult);
+				googleSignInProvider?.FoundResult (googleSignInResult);
 				return true;
-            }
+			} 
+			//else if (result == Result.Canceled) {
+			//	googleSignInProvider.Canceled();
+			//}
 			return false;
         }
 
@@ -118,7 +121,6 @@ namespace SimpleAuth.Providers
             GoogleApiClient googleApiClient;
 
             TaskCompletionSource<GoogleSignInResult> tcsSignIn;
-
             public void FoundResult(GoogleSignInResult result)
             {
                 if (tcsSignIn != null && !tcsSignIn.Task.IsCompleted)
@@ -127,46 +129,50 @@ namespace SimpleAuth.Providers
 
             public async Task<GoogleSignInResult> Authenticate(string serverClientId, params string[] scopes)
             {
-                var googleScopes = scopes?.Select(s => new Scope(s))?.ToArray();
 
-                var gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-				                                        .RequestIdToken (serverClientId)
-				                                        .RequestServerAuthCode (serverClientId)
-                                                        .RequestEmail ()
-                                                        ;
+				var activity = CurrentActivity;
+				try {
+					var googleScopes = scopes?.Select (s => new Scope (s))?.ToArray ();
 
-                //if (googleScopes != null && googleScopes.Any())
-                  //  gsoBuilder = gsoBuilder.RequestScopes(googleScopes.First(), googleScopes.Skip(1)?.ToArray());
+					var gsoBuilder = new GoogleSignInOptions.Builder (GoogleSignInOptions.DefaultSignIn)
+															.RequestIdToken (serverClientId)
+															.RequestServerAuthCode (serverClientId)
+															.RequestEmail ();
 
+					var gso = gsoBuilder.Build ();
 
-                var gso = gsoBuilder.Build();
+					googleApiClient = new GoogleApiClient.Builder (activity)
+											 .EnableAutoManage (activity, this)
+											 .AddApi (Auth.GOOGLE_SIGN_IN_API, gso)
+					                                           .Build ();
+					googleApiClient.Connect ();
 
-                var activity = CurrentActivity;
+					var signInIntent = Auth.GoogleSignInApi.GetSignInIntent (googleApiClient);
 
-                googleApiClient = await new GoogleApiClient.Builder(activity)
-                                         .EnableAutoManage(activity, this)
-                                         .AddApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                                         .BuildAndConnectAsync();
+					if (tcsSignIn != null && !tcsSignIn.Task.IsCompleted)
+						tcsSignIn.TrySetCanceled ();
 
-                var signInIntent = Auth.GoogleSignInApi.GetSignInIntent(googleApiClient);
+					tcsSignIn = new TaskCompletionSource<GoogleSignInResult> ();
 
-                if (tcsSignIn != null && !tcsSignIn.Task.IsCompleted)
-                    tcsSignIn.TrySetCanceled();
+					activity.StartActivityForResult (signInIntent, SIGN_IN_REQUEST_CODE);
 
-                tcsSignIn = new TaskCompletionSource<GoogleSignInResult>();
-
-                activity.StartActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE);
-
-                var success = await tcsSignIn.Task;
-				googleApiClient.StopAutoManage (activity);
-				googleApiClient.Disconnect ();
-				return success;
+					var success = await tcsSignIn.Task;
+					return success;
+				} finally {
+					googleApiClient?.StopAutoManage (activity);
+					googleApiClient?.Disconnect ();
+				}
             }
 
             public void OnConnectionFailed(ConnectionResult result)
             {
 				tcsSignIn?.TrySetException (new Exception (result.ErrorMessage));
             }
+
+			public void Canceled ()
+			{
+				tcsSignIn?.TrySetCanceled ();
+			}
         }
     }
 }

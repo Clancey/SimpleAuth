@@ -46,6 +46,7 @@ namespace SimpleAuth.Providers
 			return new GoogleAuthenticator {
 				Scope = Scopes.ToList(),
 				ClientId = ClientId,
+				ClientSecret = ClientSecret,
 				ClearCookiesBeforeLogin = CalledReset,
 				RedirectUrl = RedirectUrl,
 				IsUsingNative = IsUsingNative,
