@@ -177,22 +177,23 @@ Simple Auth supports the native Google Sign-in for Android.
 1. Add the nuget 
 [Clancey.SimpleAuth.Google.Droid](https://www.nuget.org/packages/Clancey.SimpleAuth.Google.Droid/)
 2. Create an Android App: [Link](https://developers.google.com/mobile/add?platform=android&cntapi=signin&cnturl=https:%2F%2Fdevelopers.google.com%2Fidentity%2Fsign-in%2Fandroid%2Fsign-in%3Fconfigured%3Dtrue&cntlbl=Continue%20Adding%20Sign-In)
-3. Add the following code to your Main Activity
+3. Make sure you use the Web client (auto created by Google Service) Client ID and Secret
+4. Add the following code to your Main Activity
 
-```cs
-protected override void OnCreate(Bundle bundle)
-{
-	base.OnCreate(bundle);
-	SimpleAuth.Providers.Google.Init(this.Application);
-	//The rest of your initialize code
-}
-
-protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-{
-   base.OnActivityResult(requestCode, resultCode, data);
-	Native.OnActivityResult (requestCode,resultCode,data); 
-}
-```
+	```cs
+	protected override void OnCreate(Bundle bundle)
+	{
+		base.OnCreate(bundle);
+		SimpleAuth.Providers.Google.Init(this.Application);
+		//The rest of your initialize code
+	}
+	
+	protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+	{
+	   base.OnActivityResult(requestCode, resultCode, data);
+		Native.OnActivityResult (requestCode,resultCode,data); 
+	}
+	```
 
 ### Trouble shooting
 If you get:
@@ -206,5 +207,55 @@ Add the following to your AndroidManifest.xml
 		android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 	</application>
 ```
+
+## Native Facebook for Android
+
+Simple Auth supports the native Facebook SDK for Android.
+
+1. Add the nuget 
+[Clancey.SimpleAuth.Facebook.Droid](https://www.nuget.org/packages/Clancey.SimpleAuth.Facebook.Droid/)
+2. Create an Android App: [Link](https://developers.facebook.com/docs/facebook-login/android)
+3. Add the following to your String.xml in Resources/values. If your appId was 1066763793431980
+	```
+	<string name="facebook_app_id">1066763793431980</string>
+	<string name="fb_login_protocol_scheme">fb1066763793431980</string>
+	```
+4. Add a meta-data element to the application element: 
+	```
+	[assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/facebook_app_id")]
+	```
+5. 	Add FacebookActivity to your AndroidManifest.xml:
+	```
+	<activity android:name="com.facebook.FacebookActivity"
+          android:configChanges=
+                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+          android:label="@string/app_name" />          
+	<activity
+	    android:name="com.facebook.CustomTabActivity"
+	    android:exported="true">
+	    <intent-filter>
+	        <action android:name="android.intent.action.VIEW" />
+	        <category android:name="android.intent.category.DEFAULT" />
+	        <category android:name="android.intent.category.BROWSABLE" />
+	        <data android:scheme="@string/fb_login_protocol_scheme" />
+	    </intent-filter>
+	</activity>
+	```
+6. Add the following code to your Main Activity
+
+	```cs
+	protected override void OnCreate(Bundle bundle)
+	{
+		base.OnCreate(bundle);
+		SimpleAuth.Providers.Google.Init(this.Application);
+		//The rest of your initialize code
+	}
+	
+	protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+	{
+	   base.OnActivityResult(requestCode, resultCode, data);
+		Native.OnActivityResult (requestCode,resultCode,data); 
+	}
+	```
 
 
