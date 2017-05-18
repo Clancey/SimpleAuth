@@ -10,7 +10,6 @@ using Android.Gms.Auth.Api;
 using Android.Content;
 using Android.Gms.Common;
 
-[assembly: UsesPermission (Android.Manifest.Permission.GetAccounts)]
 
 namespace SimpleAuth.Providers
 {
@@ -22,8 +21,8 @@ namespace SimpleAuth.Providers
         {
             app.RegisterActivityLifecycleCallbacks(activityLifecycle);
 
-			Native.RegisterCallBack ("facebook", OnActivityResult);
-            GoogleApi.IsUsingNative = true;
+			Native.RegisterCallBack ("google", OnActivityResult);
+			GoogleApi.IsUsingNative = true;
             GoogleApi.GoogleShowAuthenticator = Login;
         }
 
@@ -56,25 +55,15 @@ namespace SimpleAuth.Providers
 
                 if (!result.IsSuccess)
                 {
-                    googleAuth.OnError(result.Status.StatusMessage);
+					googleAuth.OnError(result.Status.StatusMessage ?? result.Status.ToString ());
                     return;
                 }
 
-                //var accessToken = Android.Gms.Auth.GoogleAuthUtil.GetToken(currentActivity, result.SignInAccount.Email, string.Join (" ", tokenScopes));
-
-
-                var androidAccount = Android.Accounts.AccountManager.FromContext(currentActivity)
-                                            ?.GetAccounts()
-                                            ?.FirstOrDefault(a => a.Name?.Equals(result?.SignInAccount?.Email, StringComparison.InvariantCultureIgnoreCase) ?? false);
-
-                var tokenScopes = googleAuth.Scope.Select(s => "oauth2:" + s);
-
-                var accessToken = await Task.Run(() =>
-                {
-                    return Android.Gms.Auth.GoogleAuthUtil.GetToken(currentActivity, androidAccount, string.Join (" ", tokenScopes));
-                });
-
-                googleAuth.OnRecievedAuthCode (accessToken);
+				var tokenScopes = googleAuth.Scope.Select (s => "oauth2:" + s);
+				var accessToken = await Task.Run (() => {
+					return Android.Gms.Auth.GoogleAuthUtil.GetToken (currentActivity, result?.SignInAccount?.Account, string.Join (" ", tokenScopes));
+				});
+				googleAuth.OnRecievedAuthCode (accessToken);
 
             }
             catch (Exception ex)
@@ -133,7 +122,8 @@ namespace SimpleAuth.Providers
                 var googleScopes = scopes?.Select(s => new Scope(s))?.ToArray();
 
                 var gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-                                                        .RequestIdToken(serverClientId)
+				                                        .RequestIdToken (serverClientId)
+				                                        .RequestServerAuthCode (serverClientId)
                                                         .RequestEmail ()
                                                         ;
 
@@ -159,12 +149,15 @@ namespace SimpleAuth.Providers
 
                 activity.StartActivityForResult(signInIntent, SIGN_IN_REQUEST_CODE);
 
-                return await tcsSignIn.Task;
+                var success = await tcsSignIn.Task;
+				googleApiClient.StopAutoManage (activity);
+				googleApiClient.Disconnect ();
+				return success;
             }
 
             public void OnConnectionFailed(ConnectionResult result)
             {
-                // TODO: Raise failure
+				tcsSignIn?.TrySetException (new Exception (result.ErrorMessage));
             }
         }
     }

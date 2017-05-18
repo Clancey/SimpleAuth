@@ -47,26 +47,24 @@ namespace SimpleAuth.Providers
 				ClientId = ClientId,
 				ClearCookiesBeforeLogin = CalledReset,
 				RedirectUrl = RedirectUrl,
+				IsUsingNative = IsUsingNative,
 			};
 		}
 
         protected override Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
         {
             var auth = authenticator as GoogleAuthenticator;
-
-            if (IsUsingNative)
-            {
-                return Task.FromResult (new OAuthAccount()
-                {
-                    ExpiresIn = -1,
-                    Created = DateTime.UtcNow,
-                    Scope = authenticator.Scope?.ToArray(),
-                    TokenType = "Bearer",
-                    Token = auth.AuthCode,
-                    ClientId = ClientId,
-                    Identifier = identifier,
-                });
-            }
+			if (IsUsingNative) {
+				return Task.FromResult (new OAuthAccount () {
+					ExpiresIn = 3600,
+					Created = DateTime.UtcNow,
+					Scope = authenticator.Scope?.ToArray (),
+					TokenType = "Bearer",
+					Token = auth.AuthCode,
+					ClientId = ClientId,
+					Identifier = identifier,
+				});
+			}
 
             return base.GetAccountFromAuthCode(authenticator, identifier);
         }
@@ -120,8 +118,11 @@ namespace SimpleAuth.Providers
 
 		public static string GetGoogleClientId (string clientId) => $"{clientId}.apps.googleusercontent.com";
 
+		public bool IsUsingNative { get; set; }
 		public virtual string GetRedirectUrl ()
 		{
+			if (IsUsingNative)
+				return "";
 			//Only implemented for iOS/mac right now
 #if __UNIFIED__
 			//for google, the redirect is a reverse of the client ID
