@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -14,7 +14,7 @@ namespace SimpleAuth.Providers
 	{
 		public static string NativeClientSecret = "native";
 		/// <summary>
-		/// Only use this Constructor for platofms using NativeAuth
+		/// Only use this Constructor for platforms using NativeAuth
 		/// </summary>
 		/// <param name="identifier">Identifier.</param>
 		/// <param name="clientId">Client identifier.</param>

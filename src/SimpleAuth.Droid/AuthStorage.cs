@@ -63,7 +63,8 @@ namespace SimpleAuth
 					}
 				}
 			}
-			catch (FileNotFoundException)
+			//If the keystore cannot be opened, create a new one
+			catch (Exception)
 			{
 				//ks.Load (null, Password);
 				LoadEmptyKeyStore(ks,pw);
