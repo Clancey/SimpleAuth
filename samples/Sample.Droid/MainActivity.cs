@@ -74,11 +74,12 @@ namespace Sample.Droid
         async Task<Account> AuthAsync(OAuthApi api)
         {
             Account result = null;
-            try
-            {
-				result = await api.Authenticate();
-				Toast.MakeText(this, "Successfully Authenticated!", ToastLength.Long).Show();
-            }
+			try {
+				result = await api.Authenticate ();
+				Toast.MakeText (this, "Successfully Authenticated!", ToastLength.Long).Show ();
+			} catch (TaskCanceledException) {
+				Toast.MakeText (this, "Authentication Canceled!", ToastLength.Long).Show ();
+			}
             catch (Exception ex)
             {
                 Console.WriteLine(ex);

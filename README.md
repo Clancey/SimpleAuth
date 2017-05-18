@@ -1,15 +1,30 @@
-Simple Auth
-================
+# Simple Auth
+
 Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it. Most importantly it works great with traditional Xamarin and Xamarin.Forms
 
 
-Available on Nuget
-================
 
-https://www.nuget.org/packages/Clancey.SimpleAuth/
+# General information
 
-Providers
-================
+
+## Available on Nuget
+
+[Clancey.SimpleAuth](https://www.nuget.org/packages/Clancey.SimpleAuth/)
+
+## Providers
+
+### Current Built in Providers
+
+* Aure Active Directory
+* Amazon
+* Dropbox
+* Facebook
+* Github
+* Google
+* Instagram
+* Linked In
+* Microsoft Live Connect
+* Twitter
 
 Simple auth ships with some built in providers so you just need to add your keys and scopes.
 
@@ -30,8 +45,7 @@ var account = await api.Authenticate();
 ```
 
 
-Restful Api Requests
-================
+## Restful Api Requests
 
 Restful Api Requests couldnt be simpler
 
@@ -40,8 +54,8 @@ var song = await api.Get<Song>("http://myapi/Song/",songId);
 ```
 
 
-Attribute your Api Requests (Optional)
-================
+## Attribute your Api Requests (Optional)
+
 ```cs
 [Path("/pet")]
 [ContentType("application/json")]
@@ -51,8 +65,7 @@ public virtual Task AddPet(Pet body) {
 }
 ```
 
-Webview Authentication
-================
+## Webview Authentication
 
 The webview is automatically displayed for you.  If you want to handle displaying it your self you can!
 
@@ -68,13 +81,14 @@ Api.ShowAuthenticator = (authenticator) =>
 };
 ```
 
-OnePassword Support
-=============
+# iOS/Mac Specific
+
+## OnePassword Support (iOS)
 
 One password support is for iOS Only.  
 Simply add the project or the Nuget
 
-https://www.nuget.org/packages/Clancey.SimpleAuth.OnePassword/
+[Clancey.SimpleAuth.OnePassword](https://www.nuget.org/packages/Clancey.SimpleAuth.OnePassword/)
 
 Then call the following line in your iOS project prior to calling api.Authenticate();
 ```cs
@@ -82,13 +96,12 @@ SimpleAuth.OnePassword.Activate();
 ```
 
 
-Native Facebook Support via iOS SDK
-=============
+## Native Facebook Support via iOS SDK 
 
 Native Facebook support is for iOS Only.  
 Simply add the project or the Nuget
 
-https://www.nuget.org/packages/Clancey.SimpleAuth.Facebook.iOS/
+[Clancey.SimpleAuth.Facebook.iOS](https://www.nuget.org/packages/Clancey.SimpleAuth.Facebook.iOS/)
 
 The Facebook SDK requires you modify your info.plist : https://components.xamarin.com/gettingstarted/facebookios
 
@@ -101,28 +114,33 @@ SimpleAuth.Providers.Facebook.Init(app, options);
 Also add the following override in your AppDelegate
 
 ```cs
-public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
 {
-	if (SimpleAuth.Native.OpenUrl(application, url, sourceApplication, annotation))
+	if (SimpleAuth.Native.OpenUrl(app, url, options))
 		return true;
-	return base.OpenUrl(application, url, sourceApplication, annotation);
+	return false;
 }
 ```
 
 
-Native SFSafariViewController iOS/MacOS
-=============
+## Native SFSafariViewController iOS/MacOS
 
 SFSafariViewController Allows users to use Safari to login, instead of embedded webviews.
 
 Google now requires this mode and is enabled by default for Google Authentication on iOS/MacOS.
 
-To use the Native Safari Authenticator, you are required to add the following snippet in your AppDelegate
+Then call the following line in your iOS AppDelegate FinishedLaunching method;
+
+```cs
+SimpleAuth.NativeSafariAuthenticator.Activate ();
+```
+
+To use the Native Safari Authenticator, you are required to add the following snippet in your AppDelegate (**iOS Only**)
 
 ```cs
 public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
 {
-	if (SimpleAuth.Native.OpenUrl(application, url, sourceApplication, annotation))
+	if (SimpleAuth.Native.OpenUrl(app, url, options))
 		return true;
 	return false;
 }
@@ -130,7 +148,8 @@ public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options
 ```
 
 You are also required to add the following to add a CFBundleURLSchemes to your info.plist 
-com.googleusercontent.apps.YOUR_CLIENT_ID
+
+For Google: com.googleusercontent.apps.YOUR_CLIENT_ID
 
 ```
 	<key>CFBundleURLTypes</key>
@@ -145,4 +164,47 @@ com.googleusercontent.apps.YOUR_CLIENT_ID
 		</dict>
 	</array>
 	
-	```
+```
+
+
+
+#Android
+
+## Google Sign-In on Android
+
+Simple Auth supports the native Google Sign-in for Android.
+
+1. Add the nuget 
+[Clancey.SimpleAuth.Google.Droid](https://www.nuget.org/packages/Clancey.SimpleAuth.Google.Droid/)
+2. Create an Android App: [Link](https://developers.google.com/mobile/add?platform=android&cntapi=signin&cnturl=https:%2F%2Fdevelopers.google.com%2Fidentity%2Fsign-in%2Fandroid%2Fsign-in%3Fconfigured%3Dtrue&cntlbl=Continue%20Adding%20Sign-In)
+3. Add the following code to your Main Activity
+
+```cs
+protected override void OnCreate(Bundle bundle)
+{
+	base.OnCreate(bundle);
+	SimpleAuth.Providers.Google.Init(this.Application);
+	//The rest of your initialize code
+}
+
+protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+{
+   base.OnActivityResult(requestCode, resultCode, data);
+	Native.OnActivityResult (requestCode,resultCode,data); 
+}
+```
+
+### Trouble shooting
+If you get:
+ ```Unable to find explicit activity class {com.google.android.gms.auth.api.signin.internal.SignInHubActivity}; have you declared this activity in your AndroidManifest.xml?```
+
+Add the following to your AndroidManifest.xml
+
+```
+<activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+		android:screenOrientation="portrait"
+		android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+	</application>
+```
+
+

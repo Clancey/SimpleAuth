@@ -16,7 +16,9 @@
 	        <category android:name="android.intent.category.BROWSABLE" />
 	        <data android:scheme="@string/fb_login_protocol_scheme" />
 	    </intent-filter>
-	</activity>Copy Code
-
+	</activity>
+	<activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+		android:screenOrientation="portrait"
+		android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 	</application>
 </manifest>
