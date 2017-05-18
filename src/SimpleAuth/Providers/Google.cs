@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,6 +12,12 @@ namespace SimpleAuth.Providers
 {
 	public class GoogleApi : OAuthApi
 	{
+		public static bool ForceNativeLogin { get; set; } =
+#if __UNIFIED__ || __ANDROID__
+			true;
+#else
+			false;
+#endif
 		public static string NativeClientSecret = "native";
 		/// <summary>
 		/// Only use this Constructor for platforms using NativeAuth
@@ -19,20 +25,38 @@ namespace SimpleAuth.Providers
 		/// <param name="identifier">Identifier.</param>
 		/// <param name="clientId">Client identifier.</param>
 		/// <param name="handler">Handler.</param>
-		public GoogleApi(string identifier, string clientId, HttpMessageHandler handler = null) : this(identifier, clientId, NativeClientSecret, handler)
+		public GoogleApi (string identifier, string clientId, HttpMessageHandler handler = null) : this (identifier, clientId, NativeClientSecret, handler)
 		{
-			
+
 		}
 
-		public GoogleApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, CleanseClientId(clientId), clientSecret, handler)
+		public GoogleApi (string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base (identifier, CleanseClientId (clientId), clientSecret, handler)
 		{
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
 #if __UNIFIED__
 			this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator;
 			NativeSafariAuthenticator.RegisterCallbacks ();
+			IsUsingNative = true;
+
 #endif
 			if (GoogleShowAuthenticator != null)
 				CurrentShowAuthenticator = GoogleShowAuthenticator;
+			CheckNative ();
+		}
+
+#if __ANDROID__
+		const string NativeRequiredException = "Google no longer supports Web View authetnication. Add the Clancey.SimpleAuth.Google.Droid nuget, and follow the instructions found here: https://github.com/Clancey/SimpleAuth/blob/master/README.md";
+#elif __UNIFIED__
+
+		const string NativeRequiredException = "Google no longer supports Web View authetnication. Use the SFSafariViewController and follow the instructions found here: https://github.com/Clancey/SimpleAuth/blob/master/README.md";
+#else
+		const string NativeRequiredException = "Google no longer supports Web View authetnication. Follow the instructions found here: https://github.com/Clancey/SimpleAuth/blob/master/README.md";
+#endif
+		void CheckNative ()
+		{
+			if (ForceNativeLogin && !IsUsingNative) {
+				throw new Exception (NativeRequiredException);
+			}
 		}
 
 		public static Action<WebAuthenticator> GoogleShowAuthenticator { get; set; }
