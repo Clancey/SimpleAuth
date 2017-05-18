@@ -41,7 +41,7 @@ namespace SimpleAuth
 		{
 			if (!GetCFBundleURLSchemes ().Any ())
 				throw new Exception (CFBundleUrlError);
-			Native.RegisterCallBack ("NativeSafariAuth",(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation) => ResumeAuth (url.AbsoluteString));
+			Native.RegisterCallBack ("NativeSafariAuth",(UIApplication application, NSUrl url, NSDictionary options) => ResumeAuth (url.AbsoluteString));
 		}
 
 		public static void ShowAuthenticator (UIViewController presentingController, WebAuthenticator authenticator)

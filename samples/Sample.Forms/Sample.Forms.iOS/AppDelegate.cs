@@ -28,13 +28,11 @@ namespace Sample.Forms.iOS
 			SimpleAuth.Providers.Facebook.Init(app, options);
 			return base.FinishedLaunching (app, options);
 		}
-		public override bool OpenUrl(UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+		public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
 		{
-			if (SimpleAuth.NativeSafariAuthenticator.ResumeAuth (url.AbsoluteString))
+			if (SimpleAuth.Native.OpenUrl (app, url, options))
 				return true;
-			if (SimpleAuth.Providers.Facebook.OpenUrl(application, url, sourceApplication, annotation))
-				return true;
-			return base.OpenUrl(application, url, sourceApplication, annotation);
+			return base.OpenUrl (app, url, options);
 		}
 	}
 }

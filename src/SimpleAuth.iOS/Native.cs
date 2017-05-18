@@ -1,4 +1,4 @@
-﻿//
+﻿﻿//
 //  Copyright 2017  (c) James Clancey
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,18 +21,18 @@ namespace SimpleAuth
 {
 	public static class Native
 	{
-		public static bool OpenUrl (UIApplication application, NSUrl url, string sourceApplication, NSObject annotation)
+		public static bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
 		{
 			foreach (var item in callBacks) {
-				var s = item.Value (application, url, sourceApplication, annotation);
+				var s = item.Value (app, url, options);
 				if (s)
 					return true;
 			}
 			return false;
 		}
 
-		static Dictionary<string, Func<UIApplication, NSUrl, string, NSObject, bool>> callBacks = new Dictionary<string, Func<UIApplication, NSUrl, string, NSObject, bool>> ();
-		public static void RegisterCallBack (string provider, Func<UIApplication, NSUrl, string, NSObject, bool> func)
+		static Dictionary<string, Func<UIApplication, NSUrl, NSDictionary, bool>> callBacks = new Dictionary<string, Func<UIApplication, NSUrl, NSDictionary, bool>> ();
+		public static void RegisterCallBack (string provider, Func<UIApplication, NSUrl, NSDictionary, bool> func)
 		{
 			callBacks [provider] = func;
 		}
