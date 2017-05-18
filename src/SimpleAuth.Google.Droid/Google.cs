@@ -110,7 +110,7 @@ namespace SimpleAuth.Providers
                 googleSignInProvider?.FoundResult(googleSignInResult);
 				return true;
             }
-			return false
+			return false;
         }
 
 
