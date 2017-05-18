@@ -2,21 +2,18 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.34</version>
+        <version>1.0.36</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Simplest OAuth client for Xamarin and UWP</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it.</summary>
-        <releaseNotes>Added netstandard1 target</releaseNotes>
+        <releaseNotes>Bug Fixes</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
 			<group>
 				<dependency id="Newtonsoft.Json" version="8.0.3" />
-			</group>
-			<group targetFramework="netstandard1.4">
-				<dependency id="System.Net.Http" />
 			</group>
         </dependencies>
     </metadata>

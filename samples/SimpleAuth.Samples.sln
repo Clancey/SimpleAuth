@@ -48,6 +48,7 @@ Global
 		Sample.Forms\Sample.Forms\Sample.Forms.projitems*{0731db7e-88b2-4c72-bb39-bde570929c63}*SharedItemsImports = 4
 		Sample.Forms\Sample.Forms\Sample.Forms.projitems*{20acc87e-10d0-4ead-a610-b21ed05dbcf4}*SharedItemsImports = 13
 		..\src\SimpleAuth\SimpleAuth.projitems*{2c2264a6-2534-485e-8772-623d1abeefff}*SharedItemsImports = 4
+		..\src\SimpleAuth\SimpleAuth.projitems*{45a98478-4435-4505-baf3-37f854ac671b}*SharedItemsImports = 4
 		..\src\SimpleAuth\SimpleAuth.projitems*{5b44ed27-dad7-43fa-8a06-ba2469a1af9e}*SharedItemsImports = 4
 		..\src\SimpleAuth\SimpleAuth.projitems*{6457641d-d20d-479b-aa3b-30a9c88b96de}*SharedItemsImports = 4
 		Sample.Forms\Sample.Forms\Sample.Forms.projitems*{7e82ab84-41c9-4bca-9eae-3a427fdc7aec}*SharedItemsImports = 4

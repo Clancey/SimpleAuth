@@ -88,9 +88,6 @@ namespace SimpleAuth.Google.Droid
 			// aapt resource value: 0x7f040007
 			public static int common_google_signin_btn_text_light_pressed = 2130968583;
 			
-			// aapt resource value: 0x7f04000a
-			public static int common_google_signin_btn_tint = 2130968586;
-			
 			static Color()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -111,61 +108,61 @@ namespace SimpleAuth.Google.Droid
 			public static int common_google_signin_btn_icon_dark = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public static int common_google_signin_btn_icon_dark_focused = 2130837506;
+			public static int common_google_signin_btn_icon_dark_disabled = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public static int common_google_signin_btn_icon_dark_normal = 2130837507;
+			public static int common_google_signin_btn_icon_dark_focused = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public static int common_google_signin_btn_icon_dark_normal_background = 2130837508;
+			public static int common_google_signin_btn_icon_dark_normal = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public static int common_google_signin_btn_icon_disabled = 2130837509;
+			public static int common_google_signin_btn_icon_dark_pressed = 2130837509;
 			
 			// aapt resource value: 0x7f020006
 			public static int common_google_signin_btn_icon_light = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public static int common_google_signin_btn_icon_light_focused = 2130837511;
+			public static int common_google_signin_btn_icon_light_disabled = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public static int common_google_signin_btn_icon_light_normal = 2130837512;
+			public static int common_google_signin_btn_icon_light_focused = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public static int common_google_signin_btn_icon_light_normal_background = 2130837513;
+			public static int common_google_signin_btn_icon_light_normal = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public static int common_google_signin_btn_text_dark = 2130837514;
+			public static int common_google_signin_btn_icon_light_pressed = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public static int common_google_signin_btn_text_dark_focused = 2130837515;
+			public static int common_google_signin_btn_text_dark = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public static int common_google_signin_btn_text_dark_normal = 2130837516;
+			public static int common_google_signin_btn_text_dark_disabled = 2130837516;
 			
 			// aapt resource value: 0x7f02000d
-			public static int common_google_signin_btn_text_dark_normal_background = 2130837517;
+			public static int common_google_signin_btn_text_dark_focused = 2130837517;
 			
 			// aapt resource value: 0x7f02000e
-			public static int common_google_signin_btn_text_disabled = 2130837518;
+			public static int common_google_signin_btn_text_dark_normal = 2130837518;
 			
 			// aapt resource value: 0x7f02000f
-			public static int common_google_signin_btn_text_light = 2130837519;
+			public static int common_google_signin_btn_text_dark_pressed = 2130837519;
 			
 			// aapt resource value: 0x7f020010
-			public static int common_google_signin_btn_text_light_focused = 2130837520;
+			public static int common_google_signin_btn_text_light = 2130837520;
 			
 			// aapt resource value: 0x7f020011
-			public static int common_google_signin_btn_text_light_normal = 2130837521;
+			public static int common_google_signin_btn_text_light_disabled = 2130837521;
 			
 			// aapt resource value: 0x7f020012
-			public static int common_google_signin_btn_text_light_normal_background = 2130837522;
+			public static int common_google_signin_btn_text_light_focused = 2130837522;
 			
 			// aapt resource value: 0x7f020013
-			public static int googleg_disabled_color_18 = 2130837523;
+			public static int common_google_signin_btn_text_light_normal = 2130837523;
 			
 			// aapt resource value: 0x7f020014
-			public static int googleg_standard_color_18 = 2130837524;
+			public static int common_google_signin_btn_text_light_pressed = 2130837524;
 			
 			static Drawable()
 			{
