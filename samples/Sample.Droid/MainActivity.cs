@@ -35,6 +35,7 @@ namespace Sample.Droid
                 // Create an OAuth credential and use its clientId
 				var clientId = "419855213697-uq56vcune334omgqi51ou7jg08i3dnb1.apps.googleusercontent.com"; // Provide with or without the '.apps.googleusercontent.com' suffix
 
+				var google = new SimpleAuth.Providers.GoogleApi("google", clientId) {//, "UwQ8aUXKDpqPzH0gpJnSij3i") {
                     Scopes = new [] { "https://www.googleapis.com/auth/userinfo.profile" }
                 };
 

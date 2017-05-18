@@ -131,3 +131,18 @@ public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options
 
 You are also required to add the following to add a CFBundleURLSchemes to your info.plist 
 com.googleusercontent.apps.YOUR_CLIENT_ID
+
+```
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.YOURCLIENTID</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>googleLogin</string>
+		</dict>
+	</array>
+	
+	```
