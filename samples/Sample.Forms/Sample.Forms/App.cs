@@ -9,30 +9,35 @@ using Xamarin.Forms;
 
 namespace Sample.Forms
 {
-    public class App : Application
-    {
-        public App()
-        {
+	public class App : Application
+	{
+		public App ()
+		{
 
-            //Hook up our Forms login page for Basic Auth
-            BasicAuthApi.ShowAuthenticator = (IBasicAuthenicator obj) =>
-            {
-                MainPage.Navigation.PushModalAsync(new LoginPage(obj));
-            };
+			//Hook up our Forms login page for Basic Auth
+			BasicAuthApi.ShowAuthenticator = (IBasicAuthenicator obj) => {
+				MainPage.Navigation.PushModalAsync (new LoginPage (obj));
+			};
 
-            // The root page of your application
-            MainPage = new NavigationPage(new ContentPage
+#if __ANDROID__
+			string GoogleClientId = "646679266669-quj4b4frm8gi4knn6269me7ss9cefj7c.apps.googleusercontent.com";
+			string GoogleSecret = GoogleApi.NativeClientSecret; //"uzj06SA8A66Y9mOA1rSjmQH7";
+#else
+			string GoogleClientId = "992461286651-k3tsbcreniknqptanrugsetiimt0lkvo.apps.googleusercontent.com";
+			string GoogleSecret = avrYAIxweNZwcHpsBlIzTp04;
+#endif
+			// The root page of your application
+			MainPage = new NavigationPage(new ContentPage
             {
                 Content = new StackLayout
                 {
                     VerticalOptions = LayoutOptions.Center,
                     Children = {
-                        CreateApiButton( new GoogleApi("google", "992461286651-k3tsbcreniknqptanrugsetiimt0lkvo.apps.googleusercontent.com","avrYAIxweNZwcHpsBlIzTp04")
+                        CreateApiButton( new GoogleApi("google", GoogleClientId,GoogleSecret)
 						{
                             Scopes =  new[]
                                 {
-                                    "https://www.googleapis.com/auth/userinfo.email",
-                                    "https://www.googleapis.com/auth/userinfo.profile"
+								"https://www.googleapis.com/auth/userinfo.profile"
                                 },
                         }),
                         CreateApiButton(new FacebookApi("facebook","","")),
@@ -53,15 +58,17 @@ namespace Sample.Forms
             };
             button.Clicked += async (sender, args) =>
             {
-                try
-                {
-                    var account = await api.Authenticate();
-                    Console.WriteLine(account.Identifier);
-                }
-                catch (TaskCanceledException)
-                {
-                    Console.WriteLine("Canceled");
-                }
+				try {
+					var account = await api.Authenticate ();
+					Console.WriteLine (account.Identifier);
+					MainPage.DisplayAlert ("Success!", "User is logged in", "Ok");
+				} catch (TaskCanceledException) {
+					Console.WriteLine ("Canceled");
+					MainPage.DisplayAlert ("Error", "User Canceled", "Ok");
+				} catch (Exception ex) {
+					Console.WriteLine (ex);
+					MainPage.DisplayAlert ("Error", ex.Message,"Ok");
+				}
             };
             return button;
 

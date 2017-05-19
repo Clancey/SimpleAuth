@@ -176,8 +176,8 @@ Simple Auth supports the native Google Sign-in for Android.
 
 1. Add the nuget 
 [Clancey.SimpleAuth.Google.Droid](https://www.nuget.org/packages/Clancey.SimpleAuth.Google.Droid/)
-2. Create an Android App: [Link](https://developers.google.com/mobile/add?platform=android&cntapi=signin&cnturl=https:%2F%2Fdevelopers.google.com%2Fidentity%2Fsign-in%2Fandroid%2Fsign-in%3Fconfigured%3Dtrue&cntlbl=Continue%20Adding%20Sign-In)
-3. Make sure you use the Web client (auto created by Google Service) Client ID and Secret
+2. Create OAuth Client Id (Web Application): [Link](https://console.developers.google.com/apis/credentials)
+3. Use both the Web Application ClientID. ClientSecret is not required but reccomended.
 4. Add the following code to your Main Activity
 
 	```cs
@@ -207,6 +207,8 @@ Add the following to your AndroidManifest.xml
 		android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 	</application>
 ```
+### Dreaded 12501 error on Auth....
+Regenerate new OAuth 2 Client id, create the WebApplication kind.
 
 ## Native Facebook for Android
 
@@ -221,7 +223,7 @@ Simple Auth supports the native Facebook SDK for Android.
 	<string name="fb_login_protocol_scheme">fb1066763793431980</string>
 	```
 4. Add a meta-data element to the application element: 
-	```
+	``
 	[assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/facebook_app_id")]
 	```
 5. 	Add FacebookActivity to your AndroidManifest.xml:

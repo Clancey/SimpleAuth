@@ -10,7 +10,8 @@ namespace SimpleAuth.Providers
         public Activity CurrentActivity { get; private set; } = null;
 
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
-        {
+		{
+			CurrentActivity = activity;
         }
 
         public void OnActivityDestroyed(Activity activity)

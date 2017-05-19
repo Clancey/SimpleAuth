@@ -16,7 +16,7 @@ namespace Sample.Forms.Droid
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-
+			SimpleAuth.Providers.Google.Init (this.Application);
 			global::Xamarin.Forms.Forms.Init (this, bundle);
 			LoadApplication (new Sample.Forms.App ());
 		}

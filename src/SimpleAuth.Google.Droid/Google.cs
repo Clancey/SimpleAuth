@@ -9,7 +9,7 @@ using Android.Gms.Extensions;
 using Android.Gms.Auth.Api;
 using Android.Content;
 using Android.Gms.Common;
-
+using Android.OS;
 
 namespace SimpleAuth.Providers
 {
@@ -24,6 +24,7 @@ namespace SimpleAuth.Providers
 			Native.RegisterCallBack ("google", OnActivityResult);
 			GoogleApi.IsUsingNative = true;
             GoogleApi.GoogleShowAuthenticator = Login;
+			GoogleApi.OnLogOut = LogOut ;
         }
 
         public static void Uninit(global::Android.App.Application app)
@@ -31,8 +32,14 @@ namespace SimpleAuth.Providers
             app.UnregisterActivityLifecycleCallbacks(activityLifecycle);
         }
 
+		static async void LogOut (string clientId, string clientsecret)
+		{
+			if (googleSignInProvider != null)
+				googleSignInProvider.Canceled ();
+			googleSignInProvider = new GoogleSignInProvider ();
+			await googleSignInProvider.SignOut (clientId);
+		}
 		static GoogleSignInProvider googleSignInProvider;
-
         static async void Login(WebAuthenticator authenticator)
         {
             var currentActivity = activityLifecycle.CurrentActivity;
@@ -43,7 +50,6 @@ namespace SimpleAuth.Providers
             googleSignInProvider = new GoogleSignInProvider();
 
             GoogleSignInResult result = null;
-
             try
             {
                 result = await googleSignInProvider.Authenticate(GoogleAuthenticator.GetGoogleClientId (googleAuth.ClientId), googleAuth.Scope.ToArray ());
@@ -56,6 +62,10 @@ namespace SimpleAuth.Providers
 
                 if (!result.IsSuccess)
                 {
+					//This is a cursed error. This meands something is wrong with the tokens. Easiest to regenerate new Web ones
+					if (result.Status.StatusCode == 12501) {
+						googleAuth.OnError ("Your tokens/signing is bad. Go regenerate new OAuth/Web application tokens");
+					}
 					googleAuth.OnError(result.Status.StatusMessage ?? result.Status.ToString ());
                     return;
                 }
@@ -65,11 +75,16 @@ namespace SimpleAuth.Providers
 				if (googleAuth.ClientSecret != GoogleApi.NativeClientSecret) {
 					accessToken = result.SignInAccount.ServerAuthCode;
 				} else {
-					//Just rely on the native lib for refresh
-					var tokenScopes = googleAuth.Scope.Select (s => "oauth2:" + s);
-					accessToken = await Task.Run (() => {
-						return Android.Gms.Auth.GoogleAuthUtil.GetToken (currentActivity, result?.SignInAccount?.Account, string.Join (" ", tokenScopes));
-					});
+					if (result?.SignInAccount?.Account == null) {
+						accessToken = result.SignInAccount.IdToken;
+					}
+					else {
+						//Just rely on the native lib for refresh
+						var tokenScopes = googleAuth.Scope.Select (s => "oauth2:" + s);
+						accessToken = await Task.Run (() => {
+							return Android.Gms.Auth.GoogleAuthUtil.GetToken (currentActivity, result?.SignInAccount?.Account, string.Join (" ", tokenScopes));
+						});
+					}
 				}
 
 				googleAuth.OnRecievedAuthCode (accessToken);
@@ -82,20 +97,16 @@ namespace SimpleAuth.Providers
 
         }
 
-        internal static global::Android.Support.V4.App.FragmentActivity CurrentActivity
+        internal static Activity CurrentActivity
         {
-            get
-            {
-                var activity = activityLifecycle?.CurrentActivity;
+            get {
+				var activity = activityLifecycle?.CurrentActivity;
 
-                if (activity == null)
-                    throw new NullReferenceException("Current Activity is not set.  Make sure you call the Platform specific Init() method.");
-                
-                if (!(activity is Android.Support.V4.App.FragmentActivity))
-                    throw new InvalidCastException("You must use call Google Social Auth from an Activity derived from Android.Support.V4.App.FragmentActivity!");
+				if (activity == null)
+					throw new NullReferenceException ("Current Activity is not set.  Make sure you call the Platform specific Init() method.");
 
-                return activity.JavaCast<Android.Support.V4.App.FragmentActivity>();
-            }
+				return activity;
+			}
         }
 
         public static bool OnActivityResult(int requestCode, Result result, Intent data)
@@ -114,7 +125,7 @@ namespace SimpleAuth.Providers
         }
 
 
-        internal class GoogleSignInProvider : Java.Lang.Object, GoogleApiClient.IOnConnectionFailedListener
+		internal class GoogleSignInProvider : Java.Lang.Object, GoogleApiClient.IOnConnectionFailedListener, GoogleApiClient.IConnectionCallbacks
         {
             internal const int SIGN_IN_REQUEST_CODE = 41221;
 
@@ -131,18 +142,29 @@ namespace SimpleAuth.Providers
             {
 
 				var activity = CurrentActivity;
+				var availabilityApi = GoogleApiAvailability.Instance;
+				var isAvailable = availabilityApi.IsGooglePlayServicesAvailable (activity);
+				if (isAvailable != ConnectionResult.Success) {
+					if (availabilityApi.IsUserResolvableError (isAvailable)) {
+						availabilityApi.GetErrorDialog (activity, isAvailable, SIGN_IN_REQUEST_CODE);
+						throw new Exception (availabilityApi.GetErrorString (isAvailable));
+					} else {
+						throw new Exception ("This device is not Supported");
+					}
+				}
 				try {
 					var googleScopes = scopes?.Select (s => new Scope (s))?.ToArray ();
 
 					var gsoBuilder = new GoogleSignInOptions.Builder (GoogleSignInOptions.DefaultSignIn)
 															.RequestIdToken (serverClientId)
-															.RequestServerAuthCode (serverClientId)
-															.RequestEmail ();
+															.RequestServerAuthCode (serverClientId);
+					//.RequestEmail ();
 
 					var gso = gsoBuilder.Build ();
 
 					googleApiClient = new GoogleApiClient.Builder (activity)
-											 .EnableAutoManage (activity, this)
+			                                 .AddConnectionCallbacks (this)
+			                                 .AddOnConnectionFailedListener (this)
 											 .AddApi (Auth.GOOGLE_SIGN_IN_API, gso)
 					                                           .Build ();
 					googleApiClient.Connect ();
@@ -159,13 +181,45 @@ namespace SimpleAuth.Providers
 					var success = await tcsSignIn.Task;
 					return success;
 				} finally {
-					googleApiClient?.StopAutoManage (activity);
+					googleApiClient?.UnregisterConnectionCallbacks (this);
 					googleApiClient?.Disconnect ();
 				}
             }
+			TaskCompletionSource<bool> connectedTask = new TaskCompletionSource<bool> ();
+			public async Task<bool> SignOut (string serverClientId)
+			{
+				try {
+					var gsoBuilder = new GoogleSignInOptions.Builder (GoogleSignInOptions.DefaultSignIn)
+																.RequestIdToken (serverClientId)
+																.RequestServerAuthCode (serverClientId)
+																.RequestEmail ();
+
+					var gso = gsoBuilder.Build ();
+
+					googleApiClient = new GoogleApiClient.Builder (CurrentActivity)
+											 .AddConnectionCallbacks (this)
+											 .AddOnConnectionFailedListener (this)
+											 .AddApi (Auth.GOOGLE_SIGN_IN_API, gso)
+															   .Build ();
+					googleApiClient.Connect ();
+					await connectedTask.Task;
+					var result = await Auth.GoogleSignInApi.SignOut (googleApiClient).AsAsync<Statuses> ();
+					return true;
+				} finally {
+					googleApiClient?.UnregisterConnectionCallbacks (this);
+					googleApiClient?.Disconnect ();
+				}
+				//var result = await Auth.GoogleSignInApi.SignOut (googleApiClient).AsAsync<ResultS> ();
+				//result.
+			}
 
             public void OnConnectionFailed(ConnectionResult result)
             {
+				connectedTask?.TrySetResult (false);
+				googleApiClient?.Disconnect ();
+				var message = GoogleApiAvailability.Instance.GetErrorDialog (CurrentActivity,result.ErrorCode,SIGN_IN_REQUEST_CODE);
+				message.Show ();
+				Console.WriteLine (message);
 				tcsSignIn?.TrySetException (new Exception (result.ErrorMessage));
             }
 
@@ -173,6 +227,17 @@ namespace SimpleAuth.Providers
 			{
 				tcsSignIn?.TrySetCanceled ();
 			}
-        }
+
+			public void OnConnected (Bundle connectionHint)
+			{
+				connectedTask?.TrySetResult (true);
+				Console.WriteLine ("Connected");
+			}
+
+			public void OnConnectionSuspended (int cause)
+			{
+				googleApiClient?.Connect ();
+			}
+		}
     }
 }

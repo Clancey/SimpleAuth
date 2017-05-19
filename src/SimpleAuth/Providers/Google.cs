@@ -27,16 +27,19 @@ namespace SimpleAuth.Providers
 		/// <param name="handler">Handler.</param>
 		public GoogleApi (string identifier, string clientId, HttpMessageHandler handler = null) : this (identifier, clientId, NativeClientSecret, handler)
 		{
-
+			
 		}
 
 		public GoogleApi (string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base (identifier, CleanseClientId (clientId), clientSecret, handler)
 		{
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
 #if __UNIFIED__
-			this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator;
-			NativeSafariAuthenticator.RegisterCallbacks ();
-			IsUsingNative = true;
+			if (ForceNativeLogin)
+			{
+				this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator;
+				NativeSafariAuthenticator.RegisterCallbacks();
+				IsUsingNative = true;
+			}
 
 #endif
 			if (GoogleShowAuthenticator != null)
@@ -62,13 +65,13 @@ namespace SimpleAuth.Providers
 		public static Action<WebAuthenticator> GoogleShowAuthenticator { get; set; }
 		public static string CleanseClientId (string clientId) => clientId?.Replace (".apps.googleusercontent.com", "");
 
-        public static bool IsUsingNative { get; set; }
-		public Uri RedirectUrl { get; set; } = new Uri("http://localhost");
+		public static bool IsUsingNative { get; set; }
+		public Uri RedirectUrl { get; set; } = new Uri ("http://localhost");
 
-		protected override WebAuthenticator CreateAuthenticator()
+		protected override WebAuthenticator CreateAuthenticator ()
 		{
 			return new GoogleAuthenticator {
-				Scope = Scopes.ToList(),
+				Scope = Scopes.ToList (),
 				ClientId = ClientId,
 				ClientSecret = ClientSecret,
 				ClearCookiesBeforeLogin = CalledReset,
@@ -76,10 +79,10 @@ namespace SimpleAuth.Providers
 				IsUsingNative = IsUsingNative,
 			};
 		}
-
-        protected override Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
-        {
-            var auth = authenticator as GoogleAuthenticator;
+		public static Action<string,string> OnLogOut { get; set; }
+		protected override Task<OAuthAccount> GetAccountFromAuthCode (WebAuthenticator authenticator, string identifier)
+		{
+			var auth = authenticator as GoogleAuthenticator;
 			//Native lib returns the auth token already
 			if (IsUsingNative && auth.ClientSecret == NativeClientSecret) {
 				return Task.FromResult (new OAuthAccount () {
@@ -88,26 +91,31 @@ namespace SimpleAuth.Providers
 					Scope = authenticator.Scope?.ToArray (),
 					TokenType = "Bearer",
 					Token = auth.AuthCode,
+					RefreshToken = auth.AuthCode,
 					ClientId = ClientId,
 					Identifier = identifier,
 				});
 			}
 
-            return base.GetAccountFromAuthCode(authenticator, identifier);
-        }
+			return base.GetAccountFromAuthCode (authenticator, identifier);
+		}
 
-		public async Task<GoogleUserProfile> GetUserInfo(bool forceRefresh = false)
+		public async Task<GoogleUserProfile> GetUserInfo (bool forceRefresh = false)
 		{
 			string userInfoJson;
-			if(forceRefresh || !CurrentAccount.UserData.TryGetValue("userInfo", out userInfoJson))
-			{
-				CurrentAccount.UserData["userInfo"] =
-					userInfoJson = await Get("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
-				SaveAccount(CurrentAccount);
+			if (forceRefresh || !CurrentAccount.UserData.TryGetValue ("userInfo", out userInfoJson)) {
+				CurrentAccount.UserData ["userInfo"] =
+					userInfoJson = await Get ("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
+				SaveAccount (CurrentAccount);
 			}
 
-			return Deserialize<GoogleUserProfile>(userInfoJson);
+			return Deserialize<GoogleUserProfile> (userInfoJson);
 
+		}
+		public override void ResetData ()
+		{
+			OnLogOut?.Invoke (ClientId,ClientSecret);
+			base.ResetData ();
 		}
 	}
 
