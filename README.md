@@ -118,7 +118,7 @@ public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options
 {
 	if (SimpleAuth.Native.OpenUrl(app, url, options))
 		return true;
-	return false;
+	return base.OpenUrl(app,url,options);
 }
 ```
 
@@ -142,7 +142,7 @@ public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options
 {
 	if (SimpleAuth.Native.OpenUrl(app, url, options))
 		return true;
-	return false;
+	return base.OpenUrl(app,url,options);
 }
 
 ```
@@ -191,7 +191,7 @@ Simple Auth supports the native Google Sign-in for Android.
 	protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 	{
 	   base.OnActivityResult(requestCode, resultCode, data);
-		Native.OnActivityResult (requestCode,resultCode,data); 
+		SimpleAuth.Native.OnActivityResult (requestCode,resultCode,data); 
 	}
 	```
 
