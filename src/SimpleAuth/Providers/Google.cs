@@ -156,14 +156,15 @@ namespace SimpleAuth.Providers
 		public bool IsUsingNative { get; set; }
 		public virtual string GetRedirectUrl ()
 		{
-			if (IsUsingNative)
-				return "";
 			//Only implemented for iOS/mac right now
 #if __UNIFIED__
 			//for google, the redirect is a reverse of the client ID
 			return $"com.googleusercontent.apps.{ClientId}:/oauthredirect";
 #elif WINDOWS_UWP
             return "urn:ietf:wg:oauth:2.0:oob";
+#else
+			if (IsUsingNative)
+				return "";
 #endif
 			return RedirectUrl.AbsoluteUri;
 		}
