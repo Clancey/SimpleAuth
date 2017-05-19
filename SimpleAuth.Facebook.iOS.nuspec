@@ -2,20 +2,20 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth.Facebook.iOS</id>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Native Facebook support for SimpleAuth</description>
-        <summary>Added hookeups for SImplified plugins
+        <summary>Added hookeups for Simplified plugins
 		Required Callbacks:
 SimpleAuth.Providers.Facebook.Init(app, options);
 SimpleAuth.Native.OpenUrl(application, url, options);</summary>
         <releaseNotes>Updated dependency</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-            <dependency id="Clancey.SimpleAuth" version="1.0.29"/>
+            <dependency id="Clancey.SimpleAuth" version="1.0.37"/>
             <dependency id="Xamarin.Facebook.iOS" version="4.18.0.1"/>
         </dependencies>
     </metadata>
