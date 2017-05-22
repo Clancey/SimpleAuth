@@ -38,7 +38,6 @@ namespace SimpleAuth.Providers
 			{
 				this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator;
 				NativeSafariAuthenticator.RegisterCallbacks();
-				IsUsingNative = true;
 			}
 
 #endif
@@ -156,7 +155,6 @@ namespace SimpleAuth.Providers
 		public bool IsUsingNative { get; set; }
 		public virtual string GetRedirectUrl ()
 		{
-			//Only implemented for iOS/mac right now
 #if __UNIFIED__
 			//for google, the redirect is a reverse of the client ID
 			return $"com.googleusercontent.apps.{ClientId}:/oauthredirect";
