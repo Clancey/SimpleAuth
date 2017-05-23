@@ -156,10 +156,11 @@ namespace SimpleAuth.Providers
 				}
 				try {
 					var googleScopes = authenticator.Scope?.Select (s => new Scope (s))?.ToArray ();
-
+					var clientID = GoogleAuthenticator.GetGoogleClientId (authenticator.ClientId);
+					var serverId = GoogleAuthenticator.GetGoogleClientId (authenticator.ServerClientId) ?? clientID;
 					var gsoBuilder = new GoogleSignInOptions.Builder (GoogleSignInOptions.DefaultSignIn)
-					                                        .RequestIdToken (GoogleAuthenticator.GetGoogleClientId (authenticator.ClientId))
-					                                        .RequestServerAuthCode (GoogleAuthenticator.GetGoogleClientId (GoogleApi.CleanseClientId (authenticator.ServerClientId)) ?? authenticator.ClientId);
+					                                        .RequestIdToken (clientID)
+					                                        .RequestServerAuthCode (serverId);
 					//.RequestEmail ();
 
 					var gso = gsoBuilder.Build ();

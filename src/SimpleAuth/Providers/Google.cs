@@ -170,7 +170,7 @@ namespace SimpleAuth.Providers
 			return data;
 		}
 
-		public static string GetGoogleClientId (string clientId) => $"{clientId}.apps.googleusercontent.com";
+		public static string GetGoogleClientId (string clientId) => string.IsNullOrWhiteSpace (clientId) ? null : $"{GoogleApi.CleanseClientId(clientId)}.apps.googleusercontent.com";
 
 		public bool IsUsingNative { get; set; }
 		public virtual string GetRedirectUrl ()
