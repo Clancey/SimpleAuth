@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Clancey.SimpleAuth.Google.iOS</id>
+        <version>1.0.0</version>
+        <authors>Clancey</authors>
+        <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Native Google support for SimpleAuth</description>
+        <summary> Just call 
+SimpleAuth.Providers.Google.Init();
+Required Callbacks:
+SimpleAuth.Native.OpenUrl(application, url, options);</summary>
+        <releaseNotes>Initial version</releaseNotes>
+        <copyright>James Clancey</copyright>
+        <dependencies>
+            <dependency id="Clancey.SimpleAuth" version="1.0.39"/>
+            <dependency id="Xamarin.Google.iOS.SignIn" version="4.0.1.2">
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="src\SimpleAuth.Google.iOS\bin\Release\SimpleAuth.Google.iOS.dll" target="lib\Xamarin.iOS10\SimpleAuth.Google.iOS.dll" />
+    </files>
+</package>

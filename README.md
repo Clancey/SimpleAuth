@@ -97,8 +97,7 @@ SimpleAuth.OnePassword.Activate();
 
 
 ## Native Facebook Support via iOS SDK 
-
-Native Facebook support is for iOS Only.  
+  
 Simply add the project or the Nuget
 
 [Clancey.SimpleAuth.Facebook.iOS](https://www.nuget.org/packages/Clancey.SimpleAuth.Facebook.iOS/)
@@ -120,6 +119,42 @@ public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options
 		return true;
 	return base.OpenUrl(app,url,options);
 }
+```
+
+## Native Google Support via iOS SDK
+
+[Clancey.SimpleAuth.Facebook.iOS](https://www.nuget.org/packages/Clancey.SimpleAuth.Facebook.iOS/)
+
+The Google SDK can do Cross-Client Login.  This allows you to get tokens for the server, with one login.
+
+To use Cross-client you need to set the ServerClientId on the GoogleApi. 
+
+Call the following in your FinishedLaunching Method;
+
+```cs
+SimpleAuth.Providers.Google.Init()
+```
+
+Also add the following to your AppDelegate
+
+
+```cs
+public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
+{
+	if (SimpleAuth.Native.OpenUrl(app, url, options))
+		return true;
+	return base.OpenUrl(app,url,options);
+}
+```
+
+If you need Cross-client authentication
+
+```cs
+var api = new GoogleApi("google","client_id"){
+	ServerClientId = "server_client_id""
+};
+var account = await api.Authenticate ();
+var serverToken = account.UserData ["ServerToken"];
 ```
 
 
@@ -194,6 +229,18 @@ Simple Auth supports the native Google Sign-in for Android.
 		SimpleAuth.Native.OnActivityResult (requestCode,resultCode,data); 
 	}
 	```
+
+If you need Cross-Client authentication pass your ServerClientId into the google api
+
+```cs
+var api = new GoogleApi("google","client_id"){
+	ServerClientId = "server_client_id""
+};
+var account = await api.Authenticate ();
+var serverToken = account.UserData ["ServerToken"];
+```
+
+
 
 ### Trouble shooting
 If you get:
