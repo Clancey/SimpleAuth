@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Tests", "..\src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net45", "..\src\SimpleAuth.Net45\SimpleAuth.Net45.csproj", "{45A98478-4435-4505-BAF3-37F854AC671B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.iOS", "..\src\SimpleAuth.Google.iOS\SimpleAuth.Google.iOS.csproj", "{08277D36-1FC1-4FC6-8891-384707ABF688}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Sample.Forms\Sample.Forms\Sample.Forms.projitems*{0731db7e-88b2-4c72-bb39-bde570929c63}*SharedItemsImports = 4
@@ -687,6 +689,46 @@ Global
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|x86.ActiveCfg = Release|Any CPU
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|x86.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|Any CPU.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|Any CPU.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|ARM.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|ARM.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|iPhoneSimulator.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|x86.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Ad-Hoc|x86.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|ARM.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|ARM.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|iPhoneSimulator.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|x86.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.AppStore|x86.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|ARM.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|x86.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|ARM.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|ARM.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|iPhone.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|x86.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -710,11 +752,11 @@ Global
 		{FEC3608B-E1BD-457B-8596-B8CBDA34945E} = {C9D083AC-7B24-4EA9-88BF-45A639D6351D}
 		{7360F7D9-8C03-4144-8041-4D6ADFB73164} = {C9D083AC-7B24-4EA9-88BF-45A639D6351D}
 		{45A98478-4435-4505-BAF3-37F854AC671B} = {C9D083AC-7B24-4EA9-88BF-45A639D6351D}
+		{08277D36-1FC1-4FC6-8891-384707ABF688} = {C9D083AC-7B24-4EA9-88BF-45A639D6351D}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
 		$0.StandardHeader = $1
 		$1.Text = @\n Copyright ${Year}  ${CopyrightHolder}\n\n   Licensed under the Apache License, Version 2.0 (the "License");\n   you may not use this file except in compliance with the License.\n   You may obtain a copy of the License at\n\n       http://www.apache.org/licenses/LICENSE-2.0\n\n   Unless required by applicable law or agreed to in writing, software\n   distributed under the License is distributed on an "AS IS" BASIS,\n   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n   See the License for the specific language governing permissions and\n   limitations under the License.
-		$1.IncludeInNewFiles = True
 	EndGlobalSection
 EndGlobal

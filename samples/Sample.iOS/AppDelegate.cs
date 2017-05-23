@@ -20,24 +20,31 @@ namespace Sample.iOS
 			get;
 			set;
 		}
-		GoogleApi googleApi = new GoogleApi ("google", "992461286651-59v9jcsju9lo5ng9umuu0q0016vat5jt") {
-			Scopes = new []
-			{
-				"https://www.googleapis.com/auth/userinfo.email",
-				"https://www.googleapis.com/auth/userinfo.profile"
-			}
-		};
-		ApiKeyApi apiKeyApi = new ApiKeyApi ("myapikey", "api_key", AuthLocation.Query){
-			BaseAddress = new Uri("http://petstore.swagger.io/v2"),
-		};
-		BasicAuthApi basicApi = new BasicAuthApi ("github","encryptionstring","https://api.github.com"){UserAgent = "SimpleAuthDemo"};
-		public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+		GoogleApi googleApi;
+		ApiKeyApi apiKeyApi;
+		BasicAuthApi basicApi = new BasicAuthApi ("github", "encryptionstring", "https://api.github.com") { UserAgent = "SimpleAuthDemo" };
+		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
 			SimpleAuth.OnePassword.Activate ();
 			SimpleAuth.NativeSafariAuthenticator.Activate ();
-			Api.UnhandledException += (sender, e) =>
-			{
-				Console.WriteLine(e);
+			SimpleAuth.Providers.Google.Init ();
+
+			googleApi = new GoogleApi ("google", "419855213697-t0usvf1n0j1vd9glogcp33b4d2fnfjhn.apps.googleusercontent.com") {
+				ServerClientId = "419855213697-uq56vcune334omgqi51ou7jg08i3dnb1.apps.googleusercontent.com",
+				ForceRefresh = true,
+				Scopes = new []
+				{
+					"https://www.googleapis.com/auth/userinfo.email",
+					"https://www.googleapis.com/auth/userinfo.profile"
+				}
+			};
+			googleApi.ResetData ();
+			apiKeyApi = new ApiKeyApi ("myapikey", "api_key", AuthLocation.Query) {
+				BaseAddress = new Uri ("http://petstore.swagger.io/v2"),
+			};
+
+			Api.UnhandledException += (sender, e) => {
+				Console.WriteLine (e);
 			};
 			// create a new window instance based on the screen size
 			Window = new UIWindow(UIScreen.MainScreen.Bounds);
@@ -88,7 +95,7 @@ namespace Sample.iOS
 		}
 		public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
 		{
-			if (NativeSafariAuthenticator.ResumeAuth (url.AbsoluteString))
+			if(Native.OpenUrl (app,url,options))
 				return true;
 			return false;
 		}

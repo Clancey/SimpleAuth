@@ -29,10 +29,12 @@ namespace SimpleAuth
 		}
 		const string CFBundleUrlError = "CFBundleURLSchemes are required for Native Safari Auth";
 		static Dictionary<string, WebAuthenticator> authenticators = new Dictionary<string, WebAuthenticator> ();
+		public static bool IsActivated { get; private set; }
 		public static void Activate ()
 		{
 			RegisterCallbacks ();
 			OAuthApi.ShowAuthenticator = ShowAuthenticator;
+			IsActivated = true;
 		}
 
 		internal static void RegisterCallbacks ()

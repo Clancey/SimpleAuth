@@ -12,6 +12,13 @@ namespace SimpleAuth.Providers
 {
 	public class GoogleApi : OAuthApi
 	{
+
+		/// <summary>
+		/// Optional value that is used to get a server token when used with Native iOS. 
+		/// The server token will be added to account.UserData["ServerToken"]
+		/// </summary>
+		/// <value>The server client identifier.</value>
+		public string ServerClientId { get; set; }
 		public static bool ForceNativeLogin { get; set; } =
 #if __UNIFIED__ || __ANDROID__
 			true;
@@ -27,17 +34,17 @@ namespace SimpleAuth.Providers
 		/// <param name="handler">Handler.</param>
 		public GoogleApi (string identifier, string clientId, HttpMessageHandler handler = null) : this (identifier, clientId, NativeClientSecret, handler)
 		{
-			
+
 		}
 
 		public GoogleApi (string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base (identifier, CleanseClientId (clientId), clientSecret, handler)
 		{
 			this.TokenUrl = "https://accounts.google.com/o/oauth2/token";
 #if __UNIFIED__
-			if (ForceNativeLogin)
-			{
+			if (ForceNativeLogin) {
+				IsUsingSFSafari = true;
 				this.CurrentShowAuthenticator = NativeSafariAuthenticator.ShowAuthenticator;
-				NativeSafariAuthenticator.RegisterCallbacks();
+				NativeSafariAuthenticator.RegisterCallbacks ();
 			}
 
 #endif
@@ -49,14 +56,18 @@ namespace SimpleAuth.Providers
 #if __ANDROID__
 		const string NativeRequiredException = "Google no longer supports Web View authetnication. Add the Clancey.SimpleAuth.Google.Droid nuget, and follow the instructions found here: https://github.com/Clancey/SimpleAuth/blob/master/README.md";
 #elif __UNIFIED__
-
+		static bool IsUsingSFSafari;
 		const string NativeRequiredException = "Google no longer supports Web View authetnication. Use the SFSafariViewController and follow the instructions found here: https://github.com/Clancey/SimpleAuth/blob/master/README.md";
 #else
 		const string NativeRequiredException = "Google no longer supports Web View authetnication. Follow the instructions found here: https://github.com/Clancey/SimpleAuth/blob/master/README.md";
 #endif
 		void CheckNative ()
 		{
-			if (ForceNativeLogin && !IsUsingNative) {
+			bool isUsingNative = IsUsingNative;
+#if __UNIFIED__
+			isUsingNative = IsUsingSFSafari || NativeSafariAuthenticator.IsActivated;
+#endif
+			if (ForceNativeLogin && !isUsingNative) {
 				throw new Exception (NativeRequiredException);
 			}
 		}
@@ -76,9 +87,10 @@ namespace SimpleAuth.Providers
 				ClearCookiesBeforeLogin = CalledReset,
 				RedirectUrl = RedirectUrl,
 				IsUsingNative = IsUsingNative,
+				ServerClientId = ServerClientId,
 			};
 		}
-		public static Action<string,string> OnLogOut { get; set; }
+		public static Action<string, string> OnLogOut { get; set; }
 		protected override Task<OAuthAccount> GetAccountFromAuthCode (WebAuthenticator authenticator, string identifier)
 		{
 			var auth = authenticator as GoogleAuthenticator;
@@ -90,9 +102,14 @@ namespace SimpleAuth.Providers
 					Scope = authenticator.Scope?.ToArray (),
 					TokenType = "Bearer",
 					Token = auth.AuthCode,
-					RefreshToken = auth.AuthCode,
+					//Android wont send a refresh
+					RefreshToken = auth.RefreshToken ?? auth.AuthCode,
 					ClientId = ClientId,
 					Identifier = identifier,
+					IdToken = auth.IdToken,
+					UserData = {
+						{"ServerToken", auth.ServerToken},
+					}
 				});
 			}
 
@@ -113,33 +130,36 @@ namespace SimpleAuth.Providers
 		}
 		public override void ResetData ()
 		{
-			OnLogOut?.Invoke (ClientId,ClientSecret);
+			OnLogOut?.Invoke (ClientId, ClientSecret);
 			base.ResetData ();
 		}
 	}
 
 	public class GoogleAuthenticator : OAuthAuthenticator
-	{ 
-		public override string BaseUrl
-		{
+	{
+		/// <summary>
+		/// Optional, used to get the ServerTokens. The server token will be added to account.UserData["ServerToken"]
+		/// </summary>
+		/// <value>The server client identifier.</value>
+		public string ServerClientId { get; set; }
+		public override string BaseUrl {
 			get;
 			set;
 		} = "https://accounts.google.com/o/oauth2/auth";
 
-		public override Uri RedirectUrl
-		{
+		public override Uri RedirectUrl {
 			get;
 			set;
-		} 
+		}
 
-		public override async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
+		public override async Task<Dictionary<string, string>> GetTokenPostData (string clientSecret)
 		{
-			var data = await base.GetTokenPostData(clientSecret);
-			data["scope"] = string.Join(" ", Scope);
+			var data = await base.GetTokenPostData (clientSecret);
+			data ["scope"] = string.Join (" ", Scope);
 			data ["client_id"] = GetGoogleClientId (ClientId);
-			if (data["client_secret"] == "native")
-				data.Remove("client_secret");
-			data["redirect_uri"] = GetRedirectUrl();
+			if (data ["client_secret"] == "native")
+				data.Remove ("client_secret");
+			data ["redirect_uri"] = GetRedirectUrl ();
 			return data;
 		}
 		public override Dictionary<string, string> GetInitialUrlQueryParameters ()
@@ -166,7 +186,9 @@ namespace SimpleAuth.Providers
 #endif
 			return RedirectUrl.AbsoluteUri;
 		}
-
+		public string IdToken { get; set; }
+		public string ServerToken { get; set; }
+		public string RefreshToken { get; set; }
 		public override bool CheckUrl (Uri url, Cookie [] cookies)
 		{
 			try {
@@ -194,94 +216,83 @@ namespace SimpleAuth.Providers
 		}
 
 
-		public override async Task<Uri> GetInitialUrl()
+		public override async Task<Uri> GetInitialUrl ()
 		{
-			var uri = await base.GetInitialUrl();
-			return new Uri(uri.AbsoluteUri + "&access_type=offline");
+			var uri = await base.GetInitialUrl ();
+			return new Uri (uri.AbsoluteUri + "&access_type=offline");
 		}
 
-        public void OnRecievedAuthCode(string authCode)
-        {
-            FoundAuthCode(authCode);
-        }
+		public void OnRecievedAuthCode (string authCode)
+		{
+			FoundAuthCode (authCode);
+		}
 	}
 
 
 	public class GoogleUserProfile
 	{
-		[JsonProperty("id")]
-		public string Id
-		{
+		[JsonProperty ("id")]
+		public string Id {
 			get;
 			set;
 		}
 
-		[JsonProperty("email")]
-		public string Email
-		{
+		[JsonProperty ("email")]
+		public string Email {
 			get;
 			set;
 		}
 
-		[JsonProperty("verified_email")]
-		public bool VerifiedEmail
-		{
+		[JsonProperty ("verified_email")]
+		public bool VerifiedEmail {
 			get;
 			set;
 		}
 
-		[JsonProperty("name")]
-		public string Name
-		{
+		[JsonProperty ("name")]
+		public string Name {
 			get;
 			set;
 		}
 
-		[JsonProperty("given_name")]
-		public string GivenName
-		{
+		[JsonProperty ("given_name")]
+		public string GivenName {
 			get;
 			set;
 		}
 
-		[JsonProperty("family_name")]
-		public string FamilyName
-		{
+		[JsonProperty ("family_name")]
+		public string FamilyName {
 			get;
 			set;
 		}
 
-		[JsonProperty("link")]
-		public string Link
-		{
+		[JsonProperty ("link")]
+		public string Link {
 			get;
 			set;
 		}
 
-		[JsonProperty("picture")]
-		public string Picture
-		{
+		[JsonProperty ("picture")]
+		public string Picture {
 			get;
 			set;
 		}
 
-		[JsonProperty("gender")]
-		public string Gender
-		{
+		[JsonProperty ("gender")]
+		public string Gender {
 			get;
 			set;
 		}
 
-		[JsonProperty("locale")]
-		public string Locale
-		{
+		[JsonProperty ("locale")]
+		public string Locale {
 			get;
 			set;
 		}
 
-		[JsonProperty("hd")]
-		public string Hd
-		{
+		[JsonProperty ("hd")]
+		public string Hd {
 			get;
 			set;
 		}

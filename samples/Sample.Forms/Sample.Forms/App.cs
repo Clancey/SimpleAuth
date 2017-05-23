@@ -24,7 +24,7 @@ namespace Sample.Forms
 			string GoogleSecret = GoogleApi.NativeClientSecret; //"uzj06SA8A66Y9mOA1rSjmQH7";
 #else
 			string GoogleClientId = "992461286651-k3tsbcreniknqptanrugsetiimt0lkvo.apps.googleusercontent.com";
-			string GoogleSecret = avrYAIxweNZwcHpsBlIzTp04;
+			string GoogleSecret = "avrYAIxweNZwcHpsBlIzTp04";
 #endif
 			// The root page of your application
 			MainPage = new NavigationPage(new ContentPage

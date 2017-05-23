@@ -34,8 +34,7 @@ namespace SimpleAuth.Providers
 
 		static async void LogOut (string clientId, string clientsecret)
 		{
-			if (googleSignInProvider != null)
-				googleSignInProvider.Canceled ();
+			googleSignInProvider?.Canceled ();
 			googleSignInProvider = new GoogleSignInProvider ();
 			await googleSignInProvider.SignOut (clientId);
 		}
@@ -45,14 +44,13 @@ namespace SimpleAuth.Providers
             var currentActivity = activityLifecycle.CurrentActivity;
 
             var googleAuth = authenticator as GoogleAuthenticator;
-			if (googleSignInProvider != null)
-				googleSignInProvider.Canceled ();
+			googleSignInProvider?.Canceled ();
             googleSignInProvider = new GoogleSignInProvider();
 
             GoogleSignInResult result = null;
             try
             {
-                result = await googleSignInProvider.Authenticate(GoogleAuthenticator.GetGoogleClientId (googleAuth.ClientId), googleAuth.Scope.ToArray ());
+                result = await googleSignInProvider.Authenticate(googleAuth);
 
                 if (result == null || result.Status.IsCanceled || result.Status.IsInterrupted)
                 {
@@ -70,6 +68,9 @@ namespace SimpleAuth.Providers
                     return;
                 }
 
+				var gauth = authenticator as GoogleAuthenticator;
+				gauth.IdToken = result?.SignInAccount?.IdToken;
+				gauth.ServerToken = result?.SignInAccount?.ServerAuthCode;
 				string accessToken;
 				//Going to use standard OAuth Flow since we have a Secret
 				if (googleAuth.ClientSecret != GoogleApi.NativeClientSecret) {
@@ -77,6 +78,7 @@ namespace SimpleAuth.Providers
 				} else {
 					if (result?.SignInAccount?.Account == null) {
 						accessToken = result.SignInAccount.IdToken;
+
 					}
 					else {
 						//Just rely on the native lib for refresh
@@ -138,7 +140,7 @@ namespace SimpleAuth.Providers
                     tcsSignIn.TrySetResult(result);
             }
 
-            public async Task<GoogleSignInResult> Authenticate(string serverClientId, params string[] scopes)
+            public async Task<GoogleSignInResult> Authenticate(GoogleAuthenticator authenticator)
             {
 
 				var activity = CurrentActivity;
@@ -153,11 +155,11 @@ namespace SimpleAuth.Providers
 					}
 				}
 				try {
-					var googleScopes = scopes?.Select (s => new Scope (s))?.ToArray ();
+					var googleScopes = authenticator.Scope?.Select (s => new Scope (s))?.ToArray ();
 
 					var gsoBuilder = new GoogleSignInOptions.Builder (GoogleSignInOptions.DefaultSignIn)
-															.RequestIdToken (serverClientId)
-															.RequestServerAuthCode (serverClientId);
+					                                        .RequestIdToken (GoogleAuthenticator.GetGoogleClientId (authenticator.ClientId))
+					                                        .RequestServerAuthCode (GoogleAuthenticator.GetGoogleClientId (GoogleApi.CleanseClientId (authenticator.ServerClientId)) ?? authenticator.ClientId);
 					//.RequestEmail ();
 
 					var gso = gsoBuilder.Build ();
