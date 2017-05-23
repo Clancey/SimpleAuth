@@ -157,6 +157,14 @@ var account = await api.Authenticate ();
 var serverToken = account.UserData ["ServerToken"];
 ```
 
+### Troubleshooting
+
+```
+System.Exception: Error Domain=com.google.GIDSignIn Code=-2 "keychain error" UserInfo={NSLocalizedDescription=keychain error}
+```
+
+Under the iOS Build Signing, Custom Entitlements: make sure an entitlement.plist is set 
+
 
 ## Native SFSafariViewController iOS/MacOS
 
