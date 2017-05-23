@@ -37,8 +37,8 @@
     <WarningLevel>4</WarningLevel>
     <AndroidLinkMode>None</AndroidLinkMode>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
-    <AndroidKeyStore></AndroidKeyStore>
-    <AndroidSigningKeyStore>/Users/clancey/Projects/SimpleAuth/samples/Sample.Forms/Sample.Forms.Droid/SimpleAuth.keystore</AndroidSigningKeyStore>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>SimpleAuth.keystore</AndroidSigningKeyStore>
     <AndroidSigningStorePass>simpleauth</AndroidSigningStorePass>
     <AndroidSigningKeyAlias>simpleauth</AndroidSigningKeyAlias>
     <AndroidSigningKeyPass>simpleauth</AndroidSigningKeyPass>
@@ -53,6 +53,11 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>SimpleAuth.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>simpleauth</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>simpleauth</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>simpleauth</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ModernHttpClient, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">

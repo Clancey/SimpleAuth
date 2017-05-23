@@ -60,11 +60,12 @@ namespace SimpleAuth.Providers
 
                 if (!result.IsSuccess)
                 {
-					//This is a cursed error. This meands something is wrong with the tokens. Easiest to regenerate new Web ones
+					//This is a cursed error. This means something is wrong with the tokens. Easiest to regenerate new Web ones
 					if (result.Status.StatusCode == 12501) {
-						googleAuth.OnError ("Your tokens/signing is bad. Go regenerate new OAuth/Web application tokens");
+						googleAuth.OnError ("Status Code 12501 (unknown) Your app signing or tokens are invalid.");
+					} else {
+						googleAuth.OnError (result.Status.StatusMessage ?? result.Status.ToString ());
 					}
-					googleAuth.OnError(result.Status.StatusMessage ?? result.Status.ToString ());
                     return;
                 }
 
@@ -76,15 +77,20 @@ namespace SimpleAuth.Providers
 				if (googleAuth.ClientSecret != GoogleApi.NativeClientSecret) {
 					accessToken = result.SignInAccount.ServerAuthCode;
 				} else {
-					if (result?.SignInAccount?.Account == null) {
-						accessToken = result.SignInAccount.IdToken;
-
+					var scopes = string.Join (" ", googleAuth.Scope);
+					var tokenScopes = $"oauth2:{scopes}";
+					var androidAccount = result?.SignInAccount?.Account ?? Android.Accounts.AccountManager.FromContext (currentActivity)
+										?.GetAccounts ()
+										?.FirstOrDefault (a => a.Name?.Equals (result?.SignInAccount?.Email, StringComparison.InvariantCultureIgnoreCase) ?? false);
+					if (androidAccount == null) {
+						accessToken = await Task.Run (() => {
+							return Android.Gms.Auth.GoogleAuthUtil.GetToken (currentActivity, result?.SignInAccount?.Email,tokenScopes );
+						});
 					}
 					else {
 						//Just rely on the native lib for refresh
-						var tokenScopes = googleAuth.Scope.Select (s => "oauth2:" + s);
 						accessToken = await Task.Run (() => {
-							return Android.Gms.Auth.GoogleAuthUtil.GetToken (currentActivity, result?.SignInAccount?.Account, string.Join (" ", tokenScopes));
+							return Android.Gms.Auth.GoogleAuthUtil.GetToken (currentActivity, androidAccount, tokenScopes);
 						});
 					}
 				}
@@ -151,9 +157,12 @@ namespace SimpleAuth.Providers
 					var clientID = GoogleAuthenticator.GetGoogleClientId (authenticator.ClientId);
 					var serverId = GoogleAuthenticator.GetGoogleClientId (authenticator.ServerClientId) ?? clientID;
 					var gsoBuilder = new GoogleSignInOptions.Builder (GoogleSignInOptions.DefaultSignIn)
-					                                        .RequestIdToken (clientID)
-					                                        .RequestServerAuthCode (serverId);
-					//.RequestEmail ();
+					                                        .RequestIdToken (clientID).RequestServerAuthCode (serverId).RequestEmail ();
+
+
+					if (authenticator.Scope != null)
+						foreach (var scope in authenticator.Scope)
+							gsoBuilder.RequestScopes (new Scope (scope));
 
 					var gso = gsoBuilder.Build ();
 
