@@ -86,7 +86,7 @@ namespace SimpleAuth.Providers
 			{
 				authenticatorReference = new WeakReference (authenticator);
 				SignIn.ClientID = GoogleAuthenticator.GetGoogleClientId (authenticator.ClientId);
-				SignIn.ServerClientID = authenticator.ServerClientId;
+				SignIn.ServerClientID = GoogleAuthenticator.GetGoogleClientId(authenticator.ServerClientId);
 				SignIn.Scopes = authenticator.Scope.ToArray ();
 				SignIn.Delegate = this;
 				SignIn.UIDelegate = this;
