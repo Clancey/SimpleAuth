@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth.Google.Droid</id>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
@@ -12,7 +12,7 @@
         <releaseNotes>Now works with Xamarin.Forms</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-			<dependency id="Clancey.SimpleAuth" version="1.0.37"/>			
+			<dependency id="Clancey.SimpleAuth" version="1.0.39"/>			
 			<dependency id="Xamarin.Android.Support.v4" version="23.3.0"/>
 			<dependency id="Xamarin.GooglePlayServices.Auth" version="29.0.0.2"/>
 			<dependency id="Xamarin.GooglePlayServices.Base" version="29.0.0.2"/>

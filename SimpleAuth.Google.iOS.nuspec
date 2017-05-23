@@ -16,7 +16,7 @@ SimpleAuth.Native.OpenUrl(application, url, options);</summary>
         <copyright>James Clancey</copyright>
         <dependencies>
             <dependency id="Clancey.SimpleAuth" version="1.0.39"/>
-            <dependency id="Xamarin.Google.iOS.SignIn" version="4.0.1.2">
+            <dependency id="Xamarin.Google.iOS.SignIn" version="4.0.1.2"/>
         </dependencies>
     </metadata>
     <files>
