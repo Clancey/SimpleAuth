@@ -144,16 +144,8 @@ namespace SimpleAuth.Providers
             {
 
 				var activity = CurrentActivity;
-				var availabilityApi = GoogleApiAvailability.Instance;
-				var isAvailable = availabilityApi.IsGooglePlayServicesAvailable (activity);
-				if (isAvailable != ConnectionResult.Success) {
-					if (availabilityApi.IsUserResolvableError (isAvailable)) {
-						availabilityApi.GetErrorDialog (activity, isAvailable, SIGN_IN_REQUEST_CODE);
-						throw new Exception (availabilityApi.GetErrorString (isAvailable));
-					} else {
-						throw new Exception ("This device is not Supported");
-					}
-				}
+				CheckGooglePlayServices (activity);
+
 				try {
 					var googleScopes = authenticator.Scope?.Select (s => new Scope (s))?.ToArray ();
 					var clientID = GoogleAuthenticator.GetGoogleClientId (authenticator.ClientId);
@@ -188,6 +180,47 @@ namespace SimpleAuth.Providers
 					googleApiClient?.Disconnect ();
 				}
             }
+			void CheckGooglePlayServices (Activity activity)
+			{
+				try {
+					CheckNewGooglePlayServices (activity);
+				} catch (Exception ex) {
+					Console.WriteLine (ex);
+					//Error with updated bindings. Fallback!
+					if(ex.Message.StartsWith ("Method 'Android.Gms.Common."))
+						CheckOldGooglePlayServices (activity);
+				}
+			}
+			void CheckNewGooglePlayServices ( Activity activity)
+			{
+				//First try the new way...
+				var availabilityApi = GoogleApiAvailability.Instance;
+				var isAvailable = availabilityApi.IsGooglePlayServicesAvailable (activity);
+				if (isAvailable != ConnectionResult.Success) {
+					if (availabilityApi.IsUserResolvableError (isAvailable)) {
+						var dialog = availabilityApi.GetErrorDialog (activity, isAvailable, SIGN_IN_REQUEST_CODE);
+						dialog.Show ();
+						throw new Exception (availabilityApi.GetErrorString (isAvailable));
+					} else {
+						throw new Exception ("This device is not Supported");
+					}
+				}
+				
+			}
+			void CheckOldGooglePlayServices (Activity activity)
+			{
+				var isAvailable = GooglePlayServicesUtil.IsGooglePlayServicesAvailable (activity);
+				if (isAvailable != ConnectionResult.Success) {
+					if (GooglePlayServicesUtil.IsUserRecoverableError (isAvailable)) {
+						var dialog = GooglePlayServicesUtil.GetErrorDialog (isAvailable, activity, SIGN_IN_REQUEST_CODE);
+						dialog.Show ();
+						throw new Exception (GooglePlayServicesUtil.GetErrorString (isAvailable));
+					} else {
+						throw new Exception ("This device is not Supported");
+					}
+				}
+			}
+
 			TaskCompletionSource<bool> connectedTask = new TaskCompletionSource<bool> ();
 			public async Task<bool> SignOut (string serverClientId)
 			{
