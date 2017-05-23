@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.Droid", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net", "SimpleAuth.Net\SimpleAuth.Net.csproj", "{6E455ECC-62CA-44A2-AF09-CB734C6A1C83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.iOS", "SimpleAuth.Google.iOS\SimpleAuth.Google.iOS.csproj", "{08277D36-1FC1-4FC6-8891-384707ABF688}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SimpleAuth\SimpleAuth.projitems*{2c2264a6-2534-485e-8772-623d1abeefff}*SharedItemsImports = 4
@@ -237,6 +239,22 @@ Global
 		{6E455ECC-62CA-44A2-AF09-CB734C6A1C83}.Release|x64.Build.0 = Release|Any CPU
 		{6E455ECC-62CA-44A2-AF09-CB734C6A1C83}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E455ECC-62CA-44A2-AF09-CB734C6A1C83}.Release|x86.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|ARM.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|x64.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Debug|x86.Build.0 = Debug|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|ARM.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|ARM.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|x64.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|x64.Build.0 = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|x86.ActiveCfg = Release|Any CPU
+		{08277D36-1FC1-4FC6-8891-384707ABF688}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
