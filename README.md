@@ -220,8 +220,10 @@ Simple Auth supports the native Google Sign-in for Android.
 1. Add the nuget 
 [Clancey.SimpleAuth.Google.Droid](https://www.nuget.org/packages/Clancey.SimpleAuth.Google.Droid/)
 2. Create OAuth Client Id (Web Application): [Link](https://console.developers.google.com/apis/credentials)
-3. Use both the Web Application ClientID. ClientSecret is not required but reccomended.
-4. Add the following code to your Main Activity
+3. Create and OAuth Android app: [Link](https://console.developers.google.com/apis/credentials)
+	* Sign your app using the same Keystore
+4. Use both the Web Application ClientID. ClientSecret is not required but reccomended.
+5. Add the following code to your Main Activity
 
 	```cs
 	protected override void OnCreate(Bundle bundle)
@@ -249,8 +251,7 @@ var serverToken = account.UserData ["ServerToken"];
 ```
 
 
-
-### Trouble shooting
+### Troubleshooting
 If you get:
  ```Unable to find explicit activity class {com.google.android.gms.auth.api.signin.internal.SignInHubActivity}; have you declared this activity in your AndroidManifest.xml?```
 
@@ -262,8 +263,9 @@ Add the following to your AndroidManifest.xml
 		android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
 	</application>
 ```
-### Dreaded 12501 error on Auth....
-Regenerate new OAuth 2 Client id, create the WebApplication kind.
+### Status Code 12501 (unknown) Your app signing or tokens are invalid
+1. Check your app is signed with the same KeyStore noted in for your android app [Link](https://console.developers.google.com/apis/credentials)
+2. Regenerate new OAuth 2 Client id, create the WebApplication kind.
 
 ## Native Facebook for Android
 
