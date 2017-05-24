@@ -211,7 +211,7 @@ For Google: com.googleusercontent.apps.YOUR_CLIENT_ID
 
 
 
-#Android
+# Android
 
 ## Google Sign-In on Android
 
