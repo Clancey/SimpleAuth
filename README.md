@@ -280,7 +280,7 @@ Simple Auth supports the native Facebook SDK for Android.
 	<string name="fb_login_protocol_scheme">fb1066763793431980</string>
 	```
 4. Add a meta-data element to the application element: 
-	``
+	```
 	[assembly: MetaData("com.facebook.sdk.ApplicationId", Value = "@string/facebook_app_id")]
 	```
 5. 	Add FacebookActivity to your AndroidManifest.xml:
