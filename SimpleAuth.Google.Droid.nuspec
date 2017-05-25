@@ -2,14 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth.Google.Droid</id>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Native Google support for SimpleAuth</description>
-        <summary>Fixed issues on older OS versions.</summary>
-        <releaseNotes>Updated dependencies</releaseNotes>
+        <releaseNotes>Now properly swaps out auth tokens, without client secret</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
 			<dependency id="Clancey.SimpleAuth" version="1.0.40"/>			

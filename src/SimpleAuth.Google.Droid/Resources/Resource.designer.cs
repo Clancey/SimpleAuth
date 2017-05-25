@@ -58,35 +58,38 @@ namespace SimpleAuth.Google.Droid
 		public partial class Color
 		{
 			
-			// aapt resource value: 0x7f040008
-			public static int common_google_signin_btn_text_dark = 2130968584;
+			// aapt resource value: 0x7f060008
+			public static int common_google_signin_btn_text_dark = 2131099656;
 			
-			// aapt resource value: 0x7f040000
-			public static int common_google_signin_btn_text_dark_default = 2130968576;
+			// aapt resource value: 0x7f060000
+			public static int common_google_signin_btn_text_dark_default = 2131099648;
 			
-			// aapt resource value: 0x7f040001
-			public static int common_google_signin_btn_text_dark_disabled = 2130968577;
+			// aapt resource value: 0x7f060001
+			public static int common_google_signin_btn_text_dark_disabled = 2131099649;
 			
-			// aapt resource value: 0x7f040002
-			public static int common_google_signin_btn_text_dark_focused = 2130968578;
+			// aapt resource value: 0x7f060002
+			public static int common_google_signin_btn_text_dark_focused = 2131099650;
 			
-			// aapt resource value: 0x7f040003
-			public static int common_google_signin_btn_text_dark_pressed = 2130968579;
+			// aapt resource value: 0x7f060003
+			public static int common_google_signin_btn_text_dark_pressed = 2131099651;
 			
-			// aapt resource value: 0x7f040009
-			public static int common_google_signin_btn_text_light = 2130968585;
+			// aapt resource value: 0x7f060009
+			public static int common_google_signin_btn_text_light = 2131099657;
 			
-			// aapt resource value: 0x7f040004
-			public static int common_google_signin_btn_text_light_default = 2130968580;
+			// aapt resource value: 0x7f060004
+			public static int common_google_signin_btn_text_light_default = 2131099652;
 			
-			// aapt resource value: 0x7f040005
-			public static int common_google_signin_btn_text_light_disabled = 2130968581;
+			// aapt resource value: 0x7f060005
+			public static int common_google_signin_btn_text_light_disabled = 2131099653;
 			
-			// aapt resource value: 0x7f040006
-			public static int common_google_signin_btn_text_light_focused = 2130968582;
+			// aapt resource value: 0x7f060006
+			public static int common_google_signin_btn_text_light_focused = 2131099654;
 			
-			// aapt resource value: 0x7f040007
-			public static int common_google_signin_btn_text_light_pressed = 2130968583;
+			// aapt resource value: 0x7f060007
+			public static int common_google_signin_btn_text_light_pressed = 2131099655;
+			
+			// aapt resource value: 0x7f06000a
+			public static int common_google_signin_btn_tint = 2131099658;
 			
 			static Color()
 			{
@@ -108,61 +111,61 @@ namespace SimpleAuth.Google.Droid
 			public static int common_google_signin_btn_icon_dark = 2130837505;
 			
 			// aapt resource value: 0x7f020002
-			public static int common_google_signin_btn_icon_dark_disabled = 2130837506;
+			public static int common_google_signin_btn_icon_dark_focused = 2130837506;
 			
 			// aapt resource value: 0x7f020003
-			public static int common_google_signin_btn_icon_dark_focused = 2130837507;
+			public static int common_google_signin_btn_icon_dark_normal = 2130837507;
 			
 			// aapt resource value: 0x7f020004
-			public static int common_google_signin_btn_icon_dark_normal = 2130837508;
+			public static int common_google_signin_btn_icon_dark_normal_background = 2130837508;
 			
 			// aapt resource value: 0x7f020005
-			public static int common_google_signin_btn_icon_dark_pressed = 2130837509;
+			public static int common_google_signin_btn_icon_disabled = 2130837509;
 			
 			// aapt resource value: 0x7f020006
 			public static int common_google_signin_btn_icon_light = 2130837510;
 			
 			// aapt resource value: 0x7f020007
-			public static int common_google_signin_btn_icon_light_disabled = 2130837511;
+			public static int common_google_signin_btn_icon_light_focused = 2130837511;
 			
 			// aapt resource value: 0x7f020008
-			public static int common_google_signin_btn_icon_light_focused = 2130837512;
+			public static int common_google_signin_btn_icon_light_normal = 2130837512;
 			
 			// aapt resource value: 0x7f020009
-			public static int common_google_signin_btn_icon_light_normal = 2130837513;
+			public static int common_google_signin_btn_icon_light_normal_background = 2130837513;
 			
 			// aapt resource value: 0x7f02000a
-			public static int common_google_signin_btn_icon_light_pressed = 2130837514;
+			public static int common_google_signin_btn_text_dark = 2130837514;
 			
 			// aapt resource value: 0x7f02000b
-			public static int common_google_signin_btn_text_dark = 2130837515;
+			public static int common_google_signin_btn_text_dark_focused = 2130837515;
 			
 			// aapt resource value: 0x7f02000c
-			public static int common_google_signin_btn_text_dark_disabled = 2130837516;
+			public static int common_google_signin_btn_text_dark_normal = 2130837516;
 			
 			// aapt resource value: 0x7f02000d
-			public static int common_google_signin_btn_text_dark_focused = 2130837517;
+			public static int common_google_signin_btn_text_dark_normal_background = 2130837517;
 			
 			// aapt resource value: 0x7f02000e
-			public static int common_google_signin_btn_text_dark_normal = 2130837518;
+			public static int common_google_signin_btn_text_disabled = 2130837518;
 			
 			// aapt resource value: 0x7f02000f
-			public static int common_google_signin_btn_text_dark_pressed = 2130837519;
+			public static int common_google_signin_btn_text_light = 2130837519;
 			
 			// aapt resource value: 0x7f020010
-			public static int common_google_signin_btn_text_light = 2130837520;
+			public static int common_google_signin_btn_text_light_focused = 2130837520;
 			
 			// aapt resource value: 0x7f020011
-			public static int common_google_signin_btn_text_light_disabled = 2130837521;
+			public static int common_google_signin_btn_text_light_normal = 2130837521;
 			
 			// aapt resource value: 0x7f020012
-			public static int common_google_signin_btn_text_light_focused = 2130837522;
+			public static int common_google_signin_btn_text_light_normal_background = 2130837522;
 			
 			// aapt resource value: 0x7f020013
-			public static int common_google_signin_btn_text_light_normal = 2130837523;
+			public static int googleg_disabled_color_18 = 2130837523;
 			
 			// aapt resource value: 0x7f020014
-			public static int common_google_signin_btn_text_light_pressed = 2130837524;
+			public static int googleg_standard_color_18 = 2130837524;
 			
 			static Drawable()
 			{
@@ -226,8 +229,8 @@ namespace SimpleAuth.Google.Droid
 		public partial class Integer
 		{
 			
-			// aapt resource value: 0x7f060000
-			public static int google_play_services_version = 2131099648;
+			// aapt resource value: 0x7f040000
+			public static int google_play_services_version = 2130968576;
 			
 			static Integer()
 			{
@@ -264,56 +267,56 @@ namespace SimpleAuth.Google.Droid
 			// aapt resource value: 0x7f050011
 			public static int Hello = 2131034129;
 			
-			// aapt resource value: 0x7f050000
-			public static int common_google_play_services_enable_button = 2131034112;
-			
 			// aapt resource value: 0x7f050001
-			public static int common_google_play_services_enable_text = 2131034113;
+			public static int common_google_play_services_enable_button = 2131034113;
 			
 			// aapt resource value: 0x7f050002
-			public static int common_google_play_services_enable_title = 2131034114;
+			public static int common_google_play_services_enable_text = 2131034114;
 			
 			// aapt resource value: 0x7f050003
-			public static int common_google_play_services_install_button = 2131034115;
+			public static int common_google_play_services_enable_title = 2131034115;
 			
 			// aapt resource value: 0x7f050004
-			public static int common_google_play_services_install_text = 2131034116;
+			public static int common_google_play_services_install_button = 2131034116;
 			
 			// aapt resource value: 0x7f050005
-			public static int common_google_play_services_install_title = 2131034117;
+			public static int common_google_play_services_install_text = 2131034117;
 			
 			// aapt resource value: 0x7f050006
-			public static int common_google_play_services_notification_ticker = 2131034118;
-			
-			// aapt resource value: 0x7f050010
-			public static int common_google_play_services_unknown_issue = 2131034128;
+			public static int common_google_play_services_install_title = 2131034118;
 			
 			// aapt resource value: 0x7f050007
-			public static int common_google_play_services_unsupported_text = 2131034119;
+			public static int common_google_play_services_notification_ticker = 2131034119;
+			
+			// aapt resource value: 0x7f050000
+			public static int common_google_play_services_unknown_issue = 2131034112;
 			
 			// aapt resource value: 0x7f050008
-			public static int common_google_play_services_update_button = 2131034120;
+			public static int common_google_play_services_unsupported_text = 2131034120;
 			
 			// aapt resource value: 0x7f050009
-			public static int common_google_play_services_update_text = 2131034121;
+			public static int common_google_play_services_update_button = 2131034121;
 			
 			// aapt resource value: 0x7f05000a
-			public static int common_google_play_services_update_title = 2131034122;
+			public static int common_google_play_services_update_text = 2131034122;
 			
 			// aapt resource value: 0x7f05000b
-			public static int common_google_play_services_updating_text = 2131034123;
+			public static int common_google_play_services_update_title = 2131034123;
 			
 			// aapt resource value: 0x7f05000c
-			public static int common_google_play_services_wear_update_text = 2131034124;
+			public static int common_google_play_services_updating_text = 2131034124;
 			
 			// aapt resource value: 0x7f05000d
-			public static int common_open_on_phone = 2131034125;
+			public static int common_google_play_services_wear_update_text = 2131034125;
 			
 			// aapt resource value: 0x7f05000e
-			public static int common_signin_button_text = 2131034126;
+			public static int common_open_on_phone = 2131034126;
 			
 			// aapt resource value: 0x7f05000f
-			public static int common_signin_button_text_long = 2131034127;
+			public static int common_signin_button_text = 2131034127;
+			
+			// aapt resource value: 0x7f050010
+			public static int common_signin_button_text_long = 2131034128;
 			
 			// aapt resource value: 0x7f050013
 			public static int library_name = 2131034131;
