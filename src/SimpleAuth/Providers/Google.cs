@@ -7,7 +7,11 @@ using System.Text;
 using System.Web;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-
+#if __ANDROID__
+using Android.Runtime;
+#elif __IOS__
+using Foundation;
+#endif
 namespace SimpleAuth.Providers
 {
 	public class GoogleApi : OAuthApi
@@ -170,7 +174,7 @@ namespace SimpleAuth.Providers
 			return data;
 		}
 
-		public static string GetGoogleClientId (string clientId) => string.IsNullOrWhiteSpace (clientId) ? null : $"{GoogleApi.CleanseClientId(clientId)}.apps.googleusercontent.com";
+		public static string GetGoogleClientId (string clientId) => string.IsNullOrWhiteSpace (clientId) ? null : $"{GoogleApi.CleanseClientId (clientId)}.apps.googleusercontent.com";
 
 		public bool IsUsingNative { get; set; }
 		public virtual string GetRedirectUrl ()
@@ -228,7 +232,9 @@ namespace SimpleAuth.Providers
 		}
 	}
 
-
+#if __MOBILE__
+	[Preserve (AllMembers = true)]
+#endif
 	public class GoogleUserProfile
 	{
 		[JsonProperty ("id")]

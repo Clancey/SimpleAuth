@@ -8,6 +8,7 @@ using Javax.Crypto;
 
 namespace SimpleAuth
 {
+	[Preserve (AllMembers = true)]
 	public class AuthStorage : IAuthStorage
 	{
 		static Dictionary<string,KeyStore> keyStores = new Dictionary<string, KeyStore>();

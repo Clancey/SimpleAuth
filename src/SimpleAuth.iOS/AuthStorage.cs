@@ -4,6 +4,7 @@ using Security;
 
 namespace SimpleAuth
 {
+	[Preserve (AllMembers = true)]
 	public class AuthStorage : IAuthStorage
 	{
 		public void SetSecured(string key, string value, string clientId, string service, string sharedGroupId)
