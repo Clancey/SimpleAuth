@@ -260,7 +260,7 @@ namespace SimpleAuth
 			if(!(headers?.TryGetValue ("Content-Type", out mediaType) ?? false))
 				mediaType = DefaultMediaType;
 
-			var bodyJson = body.ToJson();
+			var bodyJson = SerializeObject (body);
 			var content = new StringContent(bodyJson, System.Text.Encoding.UTF8, mediaType);
 
 			return SendObjectMessage(path, content, method, queryParameters, headers, authenticated, methodName);
