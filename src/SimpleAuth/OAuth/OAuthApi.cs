@@ -213,14 +213,9 @@ namespace SimpleAuth
 				var account = accaccount as OAuthAccount;
 				if (account == null)
 					throw new Exception("Invalid Account");
+				var postData = await GetRefreshTokenPostData(account);
 				var message = new HttpRequestMessage (HttpMethod.Post, TokenUrl) {
-					Content = new FormUrlEncodedContent (new Dictionary<string, string>
-					{
-						{"grant_type","refresh_token"},
-						{"refresh_token",account.RefreshToken},
-						{"client_id",ClientId},
-						{"client_secret",ClientSecret},
-					}),
+					Content = new FormUrlEncodedContent (postData),
 					Headers = {
 					{"Accept","application/json"}
 				}
@@ -258,6 +253,22 @@ namespace SimpleAuth
 				OnException(this, ex);
 			}
 			return false;
+		}
+
+		public virtual Task<Dictionary<string, string>> GetRefreshTokenPostData(Account account)
+		{
+			var oaccount = account as OAuthAccount;
+
+			if (oaccount == null)
+				throw new Exception("Invalid Account");
+
+			var tokenPostData = new Dictionary<string, string> {
+				{"grant_type","refresh_token"},
+				{"refresh_token",oaccount.RefreshToken},
+				{"client_id",ClientId},
+				{"client_secret",ClientSecret},
+			};
+			return Task.FromResult(tokenPostData);
 		}
 
 		Task<bool> refreshTask;

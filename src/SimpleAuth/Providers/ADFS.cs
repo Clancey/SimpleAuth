@@ -72,6 +72,13 @@ namespace SimpleAuth.Providers
 			CurrentAccount = account;
 			return account;
 		}
+		public override async Task<Dictionary<string, string>> GetRefreshTokenPostData(Account account)
+		{
+			var data = await base.GetRefreshTokenPostData(account);
+			if(data.ContainsKey("client_secret"))
+				data.Remove("client_secret");
+			return data;
+		}
 	}
 
 	class ADFSAuthenticator : OAuthAuthenticator
@@ -102,6 +109,8 @@ namespace SimpleAuth.Providers
 		{
 			var data = await base.GetTokenPostData(clientSecret);
 			data["redirect_uri"] = RedirectUrl.OriginalString;
+			if (data.ContainsKey("client_secret"))
+				data.Remove("client_secret");
 			return data;
 		}
 	}
