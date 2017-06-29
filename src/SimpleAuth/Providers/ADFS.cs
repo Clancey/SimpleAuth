@@ -10,11 +10,23 @@ namespace SimpleAuth.Providers
 		private string AuthorizeUrl { get; set; }
 		private string Resource { get; set; }
 		private string RedirectUrl { get; set; }
-
+		bool UsesClientSecret;
 		public ADFSApi(string identifier, string clientId, string authorizeUrl,
 					   string tokenUrl, string resource, string redirectUrl = "http://localhost", HttpMessageHandler handler = null)
-			: base(identifier, clientId, clientId, handler) // ADFS doesn't use client_secret (so just use client_id)
+			: base(identifier, clientId, clientId, handler) // ADFS doesn't need to use client_secret (so just use client_id)
 		{
+			UsesClientSecret = false;
+			this.AuthorizeUrl = authorizeUrl;
+			this.TokenUrl = tokenUrl;
+			this.Resource = resource;
+			this.RedirectUrl = redirectUrl;
+		}
+
+		public ADFSApi(string identifier, string clientId,string clientSecret, string authorizeUrl,
+					   string tokenUrl, string resource, string redirectUrl = "http://localhost", HttpMessageHandler handler = null)
+			: base(identifier, clientId,clientSecret, handler)
+		{
+			UsesClientSecret = true;
 			this.AuthorizeUrl = authorizeUrl;
 			this.TokenUrl = tokenUrl;
 			this.Resource = resource;
@@ -23,7 +35,7 @@ namespace SimpleAuth.Providers
 
 		protected override WebAuthenticator CreateAuthenticator()
 		{
-			return new ADFSAuthenticator(ClientId, AuthorizeUrl, TokenUrl, Resource, RedirectUrl);
+			return new ADFSAuthenticator(ClientId, AuthorizeUrl, TokenUrl, Resource, RedirectUrl) { UsesClientSecret = UsesClientSecret};
 		}
 
 		protected override async Task<Account> PerformAuthenticate()
@@ -75,7 +87,7 @@ namespace SimpleAuth.Providers
 		public override async Task<Dictionary<string, string>> GetRefreshTokenPostData(Account account)
 		{
 			var data = await base.GetRefreshTokenPostData(account);
-			if(data.ContainsKey("client_secret"))
+			if(!UsesClientSecret && data.ContainsKey("client_secret"))
 				data.Remove("client_secret");
 			return data;
 		}
@@ -84,6 +96,7 @@ namespace SimpleAuth.Providers
 	class ADFSAuthenticator : OAuthAuthenticator
 	{
 		private string Resource { get; set; }
+		public bool UsesClientSecret { get; set; }
 
 		public ADFSAuthenticator(string clientId,
 								 string authorizeUrl,
@@ -109,7 +122,7 @@ namespace SimpleAuth.Providers
 		{
 			var data = await base.GetTokenPostData(clientSecret);
 			data["redirect_uri"] = RedirectUrl.OriginalString;
-			if (data.ContainsKey("client_secret"))
+			if (!UsesClientSecret && data.ContainsKey("client_secret"))
 				data.Remove("client_secret");
 			return data;
 		}
