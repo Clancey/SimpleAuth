@@ -10,62 +10,93 @@ namespace SimpleAuth
 {
 	public class OAuthApi : AuthenticatedApi
 	{
-		
-		static OAuthApi ()
+
+		static OAuthApi()
 		{
 			//Setup default ShowAuthenticator
-			#if __IOS__
-			OAuthApi.ShowAuthenticator = (authenticator) => {
-				var invoker = new Foundation.NSObject ();
-				invoker.BeginInvokeOnMainThread (() => {
-					var vc = new iOS.WebAuthenticatorViewController (authenticator);
-					var window = UIKit.UIApplication.SharedApplication.KeyWindow;
-					var root = window.RootViewController;
-					if (root != null) {
-						var current = root;
-						while (current.PresentedViewController != null) {
-							current = current.PresentedViewController;
+#if __IOS__
+			OAuthApi.ShowAuthenticator = (authenticator) =>
+			{
+				var invoker = new Foundation.NSObject();
+				invoker.BeginInvokeOnMainThread(async () =>
+				{
+					try
+					{
+						var vc = new iOS.WebAuthenticatorViewController(authenticator);
+						var window = UIKit.UIApplication.SharedApplication.KeyWindow;
+						var root = window.RootViewController;
+						if (root != null)
+						{
+							var current = root;
+							while (current.PresentedViewController != null)
+							{
+								current = current.PresentedViewController;
+							}
+							await current.PresentViewControllerAsync(new UIKit.UINavigationController(vc), true);
 						}
-						current.PresentViewControllerAsync (new UIKit.UINavigationController (vc), true);
+					}
+					catch (Exception ex)
+					{
+						authenticator.OnError(ex.Message);
 					}
 				});
 			};
 
-			#elif __ANDROID__
+#elif __ANDROID__
 			OAuthApi.ShowAuthenticator = (authenticator) =>
 			{
-				var context = Android.App.Application.Context;
-				var i = new global::Android.Content.Intent(context, typeof(WebAuthenticatorActivity));
-				var state = new WebAuthenticatorActivity.State
+				try
 				{
-					Authenticator = authenticator,
-				};
-				i.SetFlags(Android.Content.ActivityFlags.NewTask);
-				i.PutExtra("StateKey", WebAuthenticatorActivity.StateRepo.Add(state));
-				context.StartActivity(i);
+					var context = Android.App.Application.Context;
+					var i = new global::Android.Content.Intent(context, typeof(WebAuthenticatorActivity));
+					var state = new WebAuthenticatorActivity.State
+					{
+						Authenticator = authenticator,
+					};
+					i.SetFlags(Android.Content.ActivityFlags.NewTask);
+					i.PutExtra("StateKey", WebAuthenticatorActivity.StateRepo.Add(state));
+					context.StartActivity(i);
+				}
+				catch( Exception ex)
+				{
+					authenticator.OnError(ex.Message);
+				}
 			};
-			#elif __OSX__
+#elif __OSX__
 			OAuthApi.ShowAuthenticator = (authenticator) =>
 			{
 				var invoker = new Foundation.NSObject();
 				invoker.BeginInvokeOnMainThread(() =>
 				{
-					var vc = new SimpleAuth.Mac.WebAuthenticatorWebView(authenticator);
-					SimpleAuth.Mac.WebAuthenticatorWebView.ShowWebivew(vc);
+					try
+					{
+						var vc = new SimpleAuth.Mac.WebAuthenticatorWebView(authenticator);
+						SimpleAuth.Mac.WebAuthenticatorWebView.ShowWebivew(vc);
+					}
+					catch (Exception ex)
+					{
+						authenticator.OnError(ex.Message);	
+					}
 				});
 			};
 
-            #elif WINDOWS_UWP
+#elif WINDOWS_UWP
 			OAuthApi.ShowAuthenticator = async (authenticator) =>
 			{
 				await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-				{
-					var vc = new SimpleAuth.UWP.WebAuthenticatorWebView(authenticator);
-					await vc.ShowAsync();
+				{	try
+					{
+						var vc = new SimpleAuth.UWP.WebAuthenticatorWebView(authenticator);
+						await vc.ShowAsync();
+					}
+					catch (Exception ex)
+					{
+						authenticator.OnError(ex.Message);	
+					}
 				});
 			};
 
-			#endif
+#endif
 		}
 
 		/// <summary>

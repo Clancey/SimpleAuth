@@ -92,6 +92,11 @@ namespace SimpleAuth
 			AuthStorage.SetSecured(Identifier,"",ClientId,ClientSecret,SharedGroupAccess);
 		}
 
+		public virtual void Logout()
+		{
+			ResetData();
+		}
+
 		public virtual async Task PrepareClient(HttpClient client)
 		{
 			await VerifyCredentials();
