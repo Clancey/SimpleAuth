@@ -15,7 +15,7 @@ Every API needs authentication, yet no developer wants to deal with authenticati
 
 ### Current Built in Providers
 
-* Aure Active Directory
+* Azure Active Directory
 * Amazon
 * Dropbox
 * Facebook
