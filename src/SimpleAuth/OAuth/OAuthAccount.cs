@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace SimpleAuth
 {
+    [DataContract]
     public class OAuthAccount : Account
     {
+
 		string tokenType;
-		public string TokenType
+        [DataMember]
+        public string TokenType
 		{
 			get
 			{
@@ -20,21 +24,23 @@ namespace SimpleAuth
 				tokenType = value;
 			}
 		}
-		public string IdToken { get; set; }
-
-		public string Token { get; set; }
-
-		public string RefreshToken { get; set; }
-
-		public long ExpiresIn { get; set; }
-		//UTC Datetime created
-		public DateTime Created { get; set; }
-
-		public string[] Scope { get; set; } = new string [0];
-
-		public string ClientId { get; set; }
-
-		public CookieHolder [] Cookies { get; set; }
+        [DataMember]
+        public string IdToken { get; set; }
+        [DataMember]
+        public string Token { get; set; }
+        [DataMember]
+        public string RefreshToken { get; set; }
+        [DataMember]
+        public long ExpiresIn { get; set; }
+        //UTC Datetime created
+        [DataMember]
+        public DateTime Created { get; set; }
+        [DataMember]
+        public string[] Scope { get; set; } = new string [0];
+        [DataMember]
+        public string ClientId { get; set; }
+        [DataMember]
+        public CookieHolder [] Cookies { get; set; }
 
 	    public override bool IsValid()
 	    {
