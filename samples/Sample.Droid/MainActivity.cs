@@ -40,7 +40,7 @@ namespace Sample.Droid
                 };
 
                 var account = await AuthAsync(google);
-
+				var user = await google.GetUserInfo();
                 // .. Do something with account
             };
 
