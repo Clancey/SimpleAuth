@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#if !NETSTANDARD2_0
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -35,3 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.40")]
 [assembly: AssemblyFileVersion("1.0.40")]
 [assembly: InternalsVisibleTo("SimpleAuth.OnePassword.iOS")]
+
+#endif
