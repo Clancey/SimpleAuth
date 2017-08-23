@@ -123,9 +123,9 @@ namespace SimpleAuth.Providers
 		public async Task<GoogleUserProfile> GetUserInfo (bool forceRefresh = false)
 		{
 			string userInfoJson;
-			if (forceRefresh || !CurrentAccount.UserData.TryGetValue ("userInfo", out userInfoJson)) {
-				CurrentAccount.UserData ["userInfo"] =
-					userInfoJson = await Get ("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
+			if (forceRefresh || CurrentAccount == null || !CurrentAccount.UserData.TryGetValue ("userInfo", out userInfoJson)) {
+				userInfoJson = await Get ("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
+				CurrentAccount.UserData["userInfo"] = userInfoJson;
 				SaveAccount (CurrentAccount);
 			}
 
