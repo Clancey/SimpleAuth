@@ -121,9 +121,15 @@ namespace SimpleAuth.Providers
         {
 			// Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 			if (requestCode == GoogleSignInProvider.SIGN_IN_REQUEST_CODE) {
-				var googleSignInResult = Auth.GoogleSignInApi.GetSignInResultFromIntent (data);
-
-				googleSignInProvider?.FoundResult (googleSignInResult);
+                if (result == Result.Canceled)
+                {
+                    googleSignInProvider?.FoundResult(new GoogleSignInResult(null, new Statuses(CommonStatusCodes.Canceled)));
+                }
+                else
+                {
+                    var googleSignInResult = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+                    googleSignInProvider?.FoundResult(googleSignInResult);
+                }
 				return true;
 			} 
 			//else if (result == Result.Canceled) {

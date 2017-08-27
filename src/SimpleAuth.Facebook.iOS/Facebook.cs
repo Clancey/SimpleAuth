@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 using UIKit;
 using Foundation;
+using System.Linq;
+
 namespace SimpleAuth.Providers
 {
 	public static class Facebook
@@ -14,8 +16,18 @@ namespace SimpleAuth.Providers
 			FacebookApi.IsUsingNative = true;
 			fb.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(app, launchOptions);
 			FacebookApi.ShowFacebookAuthenticator = (a) => invoker.BeginInvokeOnMainThread(() => Login(a));
-			Native.RegisterCallBack ("facebook",(UIApplication appplication, NSUrl url, NSDictionary options) => OpenUrl(appplication,url,options as NSDictionary<NSString, NSObject>));
+			Native.RegisterCallBack ("facebook", Callback);
 		}
+
+		private static bool Callback(UIApplication application, NSUrl url, NSDictionary options)
+		{
+			NSDictionary<NSString, NSObject> converted = new NSDictionary<NSString, NSObject>(
+				   options.Keys.Select(x => x as NSString).ToArray(),
+				   options.Values);
+
+			return OpenUrl(application, url, converted);
+		}
+
 		public static bool OpenUrl(UIApplication app, NSUrl url, string sourceApp, NSObject annotation)
 		{
 			return fb.CoreKit.ApplicationDelegate.SharedInstance.OpenUrl(app, url, sourceApp, annotation);
