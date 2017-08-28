@@ -18,6 +18,9 @@ namespace SimpleAuth.Providers
 			BaseAddress = new Uri("https://api.twitter.com/1.1/");
 			TokenUrl = "https://api.twitter.com/oauth2/token";
 		}
+
+		public static bool IsUsingNative { get; set; }
+		public static Action<WebAuthenticator> ShowTwitterAuthenticator { get; set; }
 		public Uri RedirectUrl { get; set; } = new Uri("https://google.com");
 		protected override WebAuthenticator CreateAuthenticator()
 		{
