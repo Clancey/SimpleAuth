@@ -201,3 +201,5 @@ FakesAssemblies/
 project.lock.json
 
 .DS_Store
+*.bak
+*.bak
