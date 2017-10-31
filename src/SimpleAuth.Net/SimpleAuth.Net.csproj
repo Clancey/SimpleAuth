@@ -8,6 +8,8 @@
     <Product>SimpleAuth</Product>
     <Authors>SimpleAuth</Authors>
     <Company></Company>
+    <AssemblyName>SimpleAuth</AssemblyName>
+    <RootNamespace>SimpleAuth</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
