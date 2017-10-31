@@ -107,24 +107,30 @@ namespace SimpleAuth
 			});
 		}
 
-		static bool VerifyHasUrlScheme (string scheme)
+		public static bool VerifyHasUrlScheme (string scheme)
 		{
-			var schemes = GetCFBundleURLSchemes ();
-			return schemes.Any (x => x == scheme);
-		}
-		static string [] GetCFBundleURLSchemes ()
-		{
-			NSObject nsobj;
-			if (!NSBundle.MainBundle.InfoDictionary.TryGetValue ((NSString)"CFBundleURLTypes", out nsobj))
-				return new string [0];
-			var d = (nsobj as NSArray)?.GetItem<NSDictionary> (0);
-			if (!d?.TryGetValue ((NSString)"CFBundleURLSchemes", out nsobj) ?? false)
-				return new string [0];
-			var a = nsobj as NSArray;
-			var urls = ConvertToIEnumerable<NSString> (a).Select (x => x.ToString ()).ToArray ();
-			return urls;
+			var cleansed = scheme.Replace("://", "");
+			var schemes = GetCFBundleURLSchemes ().ToList();
+			return schemes.Any (x => x == cleansed);
 		}
 
+		static IEnumerable<string> GetCFBundleURLSchemes()
+		{
+			NSObject nsobj = null;
+			if (!NSBundle.MainBundle.InfoDictionary.TryGetValue((NSString)"CFBundleURLTypes", out nsobj))
+				yield return null;
+			var array = nsobj as NSArray;
+			for (nuint i = 0; i < array.Count; i++)
+			{
+				var d = array.GetItem<NSDictionary>(i);
+				if (!d?.TryGetValue((NSString)"CFBundleURLSchemes", out  nsobj) ?? false)
+					yield return null;
+				var a = nsobj as NSArray;
+				var urls = ConvertToIEnumerable<NSString>(a).Select(x => x.ToString()).ToArray();
+				foreach (var url in urls)
+					yield return url;
+			}
+		}
 		static IEnumerable<T> ConvertToIEnumerable<T> (NSArray array) where T : class, ObjCRuntime.INativeObject
 		{
 			for (nuint i = 0; i < array.Count; i++) {
