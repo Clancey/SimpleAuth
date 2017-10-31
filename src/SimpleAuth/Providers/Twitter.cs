@@ -17,10 +17,18 @@ namespace SimpleAuth.Providers
 			ScopesRequired = false;
 			BaseAddress = new Uri("https://api.twitter.com/1.1/");
 			TokenUrl = "https://api.twitter.com/oauth2/token";
+			CurrentShowAuthenticator = (a) =>
+			{
+				a.Cookies = CurrentOAuthAccount?.Cookies;
+				if (ShowTwitterAuthenticator != null)
+					ShowTwitterAuthenticator(a, ShowAuthenticator);
+				else
+					ShowAuthenticator(a);
+			};
 		}
 
-		public static bool IsUsingNative { get; set; }
-		public static Action<WebAuthenticator> ShowTwitterAuthenticator { get; set; }
+		public static bool IsUsingNative { get; internal set; }
+		public static Action<WebAuthenticator,Action<WebAuthenticator>> ShowTwitterAuthenticator { get; set; }
 		public Uri RedirectUrl { get; set; } = new Uri("https://google.com");
 		protected override WebAuthenticator CreateAuthenticator()
 		{
@@ -31,6 +39,7 @@ namespace SimpleAuth.Providers
 				ClientId = ClientId,
 				ClientSecret = ClientSecret,
 				RedirectUrl = RedirectUrl,
+				Identifier = Identifier,
 			};
 			return authenticator = ta;
 		}
@@ -39,6 +48,21 @@ namespace SimpleAuth.Providers
 		{
 			var ta = authenticator as TwitterAuthenticator;
 			OauthToken = ta.AuthCode;
+			if (ta.NativeCheck)
+			{
+				return new TwitterAccount()
+				{
+					ExpiresIn = 0,
+					Created = DateTime.UtcNow,
+					RefreshToken = ta.AuthCode,
+					Scope = authenticator.Scope?.ToArray(),
+					TokenType = "Oauth",
+					Token = ta.AuthCode,
+					OAuthSecret = ta.CodeVerifier,
+					ClientId = ClientId,
+					Identifier = identifier,
+				};
+			}
 			var resp = await PostMessage("https://api.twitter.com/oauth/access_token", new FormUrlEncodedContent(new Dictionary<string, string> { { "oauth_verifier", ta.CodeVerifier } }), authenticated: false);
 			var data = HttpUtility.ParseQueryString(await resp.Content.ReadAsStringAsync());
 			var account = new TwitterAccount()
@@ -156,6 +180,7 @@ namespace SimpleAuth.Providers
 
 	public class TwitterAuthenticator : OAuthAuthenticator
 	{
+		public string OAuthSecret { get; set; }
 		public TwitterAuthenticator()
 		{
 			BaseUrl = "https://api.twitter.com/oauth/authenticate";
@@ -191,6 +216,31 @@ namespace SimpleAuth.Providers
 				if (!string.IsNullOrWhiteSpace(code) && TokenTask != null)
 				{
 					CodeVerifier = parts["oauth_verifier"];
+					FoundAuthCode(code);
+					return true;
+				}
+
+			}
+			catch (Exception ex)
+			{
+				Api?.OnException(this, ex);
+			}
+			return false;
+		}
+		public bool NativeCheck { get; set; }
+		public bool CheckNativeUrl(string query)
+		{
+			try
+			{
+				if (string.IsNullOrWhiteSpace(query))
+					return false;
+				var parts = HttpUtility.ParseQueryString(query);
+				var code = parts["token"];
+				var secret = parts["secret"];
+				if (!string.IsNullOrWhiteSpace(code) && TokenTask != null)
+				{
+					NativeCheck = true;
+					CodeVerifier = secret;
 					FoundAuthCode(code);
 					return true;
 				}

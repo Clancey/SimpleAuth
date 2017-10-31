@@ -15,60 +15,78 @@
 using System;
 using UIKit;
 using Foundation;
+using System.Linq;
+using System.Web;
+using System.Collections.Generic;
 namespace SimpleAuth.Providers
 {
 	public static class Twitter
 	{
 		static Foundation.NSObject invoker = new Foundation.NSObject();
-		public static void Init(UIKit.UIApplication app, Foundation.NSDictionary launchOptions)
+		public static void Init()
 		{
-			TwitterApi.ShowTwitterAuthenticator = (a) => invoker.BeginInvokeOnMainThread(() => Login(a));
-			Native.RegisterCallBack("twitter", (UIApplication appplication, NSUrl url, NSDictionary options) => OpenUrl(appplication, url, options as NSDictionary<NSString, NSObject>));
-		}
-		public static bool OpenUrl(UIApplication app, NSUrl url, string sourceApp, NSObject annotation)
-		{
-			return false;
+
+			TwitterApi.IsUsingNative = true;
+
+			TwitterApi.ShowTwitterAuthenticator = (a, fallback) => invoker.BeginInvokeOnMainThread(() => Login(a, fallback));
+			Native.RegisterCallBack("twitter", Callback);
 		}
 
-		public static bool OpenUrl(UIApplication app, NSUrl url, NSDictionary<NSString, NSObject> options)
+		private static bool Callback(UIApplication application, NSUrl url, NSDictionary options)
 		{
-			return false;
+			var converted = new Dictionary<string, NSObject>();
+			foreach (var key in options.Keys)
+				converted.Add(key.ToString(), options.ObjectForKey(key));
+			foreach (var pair in converted)
+			{
+				Console.WriteLine($"{pair.Key} - {pair.Value.DebugDescription}");
+			}
+			Console.WriteLine(url);
+			return OpenUrl(application, url, converted);
 		}
 
-		public static async void Login(WebAuthenticator authenticator)
+		public static bool OpenUrl(UIApplication app, NSUrl url, Dictionary<string, NSObject> options)
 		{
-			var twitterAuth = authenticator as TwitterAuthenticator;
 			try
 			{
-
-				var url = $"twitterauth://authorize?consumer_key={twitterAuth.ClientId}&consumer_secret={twitterAuth.ClientSecret}&oauth_callback=twitterkit-{twitterAuth.ClientId}";
-				fb.CoreKit.Settings.AppID = fbAuth.ClientId;
-				var loginManager = new fb.LoginKit.LoginManager();
-				var window = UIKit.UIApplication.SharedApplication.KeyWindow;
-				var root = window.RootViewController;
-				if (root != null)
-				{
-					var current = root;
-					while (current.PresentedViewController != null)
-					{
-						current = current.PresentedViewController;
-					}
-
-					var resp = await loginManager.LogInWithReadPermissionsAsync(authenticator.Scope.ToArray(), current);
-					if (resp.IsCancelled)
-					{
-						authenticator.OnCancelled();
-						return;
-					}
-					var date = (DateTime)resp.Token.ExpirationDate;
-					var expiresIn = (long)(date - DateTime.Now).TotalSeconds;
-					fbAuth.OnRecievedAuthCode(resp.Token.TokenString, expiresIn);
-				}
+				if (!url.Scheme.StartsWith("twitterkit-", StringComparison.Ordinal))
+					return false;
+				var pieces = url.AbsoluteString.Split(new[] { "://" },StringSplitOptions.None);
+				var id = pieces[1];
+				var query = pieces[2];
+				if (!CurrentAuthenticators.TryGetValue(id, out var currentAuthenticator))
+					return false;
+				return currentAuthenticator.CheckNativeUrl(query);
 			}
 			catch (Exception ex)
 			{
-				authenticator.OnError(ex.Message);
+	
 			}
+			return false;
+		}
+		static Dictionary<string, TwitterAuthenticator> CurrentAuthenticators = new Dictionary<string, TwitterAuthenticator>();
+		public static async void Login(WebAuthenticator authenticator, Action<WebAuthenticator> fallback)
+		{
+			var ta = authenticator as TwitterAuthenticator;
+			var scheme = $"twitterkit-{ta.ClientId}";
+			if (!NativeSafariAuthenticator.VerifyHasUrlScheme(scheme))
+			{
+				authenticator.OnError($"Unable to redirect {scheme}, Please add the Url Scheme to the info.plist");
+				return;
+			}
+			var returnUrl = HttpUtility.UrlEncode($"{scheme}://{ta.Identifier}");
+			var nativeUrl = new NSUrl($"twitterauth://authorize?consumer_key={ta.ClientId}&consumer_secret={ta.ClientSecret}&oauth_callback={returnUrl}");
+			if (UIApplication.SharedApplication.CanOpenUrl(nativeUrl))
+			{
+				if ((await UIApplication.SharedApplication.OpenUrlAsync(nativeUrl, new UIApplicationOpenUrlOptions())))
+				{
+					CurrentAuthenticators[ta.Identifier] = ta;
+					return;
+				}
+
+			}
+			fallback(authenticator);
 		}
 	}
 }
+
