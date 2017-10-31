@@ -174,7 +174,7 @@ namespace SimpleAuth.Providers
 			var m = await Api.PostMessage("https://api.twitter.com/oauth/request_token", null, false);
 			var s = await m.Content.ReadAsStringAsync().ConfigureAwait(false);
 			var d = HttpUtility.ParseQueryString(s);
-			var u = new Uri(BaseUrl).AddParameters("oauth_token", d["oauth_token"]);
+			var u = new Uri(BaseUrl).AddParameters("oauth_token", d["oauth_token"]).AddParameters("redirect_uri",RedirectUrl.AbsoluteUri);
 			return u;
 		}
 		public string CodeVerifier { get; set; }
