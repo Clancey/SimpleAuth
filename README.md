@@ -95,6 +95,44 @@ Then call the following line in your iOS project prior to calling api.Authentica
 SimpleAuth.OnePassword.Activate();
 ```
 
+## Native Twitter Support via Twitter App
+You can use the Twitter app to authenticate with SimpleAuth on iOS. 
+
+Add the following to your Info.Plist
+```
+// Info.plist
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>twitterkit-<consumerKey></string>
+    </array>
+  </dict>
+</array>
+<key>LSApplicationQueriesSchemes</key>
+<array>
+    <string>twitter</string>
+    <string>twitterauth</string>
+</array>
+```
+
+Then call the following line in your iOS AppDelegate FinishedLaunching method;
+
+```cs
+SimpleAuth.Providers.Twitter.Init();
+```
+
+Also add the following override in your AppDelegate
+
+```cs
+public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
+{
+	if (SimpleAuth.Native.OpenUrl(app, url, options))
+		return true;
+	return base.OpenUrl(app,url,options);
+}
+```
 
 ## Native Facebook Support via iOS SDK 
   
