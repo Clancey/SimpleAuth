@@ -94,6 +94,7 @@
     <Compile Include="AuthStorage.cs" />
     <Compile Include="NativeSafariAuthenticator.cs" />
     <Compile Include="Native.cs" />
+    <Compile Include="Twitter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
