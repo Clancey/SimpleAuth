@@ -14,7 +14,8 @@ namespace SimpleAuth.Providers
             : base(identifier, client_id, client_secret, handler)
         {
             this.ScopesRequired = false;
-            this.TokenUrl = "https://api.dropbox.com/1/oauth2/token";
+            this.TokenUrl = "https://api.dropbox.com/oauth2/token";
+			BaseAddress = new Uri("https://api.dropbox.com");
         }
 
         protected override WebAuthenticator CreateAuthenticator()
@@ -48,7 +49,7 @@ namespace SimpleAuth.Providers
     {
         public DropBoxAuthenticator()
         {
-            BaseUrl = "https://www.dropbox.com/1/oauth2/authorize";
+			BaseUrl = "https://www.dropbox.com/oauth2/authorize";
             RedirectUrl = new Uri("http://localhost");
         }
 
