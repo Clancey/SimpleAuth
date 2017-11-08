@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using Android.Runtime;
 #elif __IOS__
 using Foundation;
+#elif WINDOWS_UWP
+using Windows.Security.Authentication.Web;
 #endif
 namespace SimpleAuth.Providers
 {
@@ -52,7 +54,27 @@ namespace SimpleAuth.Providers
 			}
 
 #endif
-			if (GoogleShowAuthenticator != null)
+#if WINDOWS_UWP
+            GoogleShowAuthenticator = async (authenticator) =>
+            {
+                var url = await authenticator.GetInitialUrl();
+                var endURI = WebAuthenticationBroker.GetCurrentApplicationCallbackUri();
+                var result = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.UseTitle, url, new Uri("https://accounts.google.com/o/oauth2/approval"));
+
+                if (result.ResponseStatus == WebAuthenticationStatus.UserCancel)
+                {
+                    authenticator.OnCancelled();
+                    return;
+                }
+                if (result.ResponseStatus == WebAuthenticationStatus.ErrorHttp)
+                    throw new Exception(result.ResponseErrorDetail.ToString());
+                //Cleanse the response data
+                var startIndex = result.ResponseData.IndexOf("code");
+                var codeString = $"http://localhost/?{result.ResponseData.Substring(startIndex)}";
+                authenticator.CheckUrl(new Uri(codeString), new System.Net.Cookie[0]);
+            };
+#endif
+            if (GoogleShowAuthenticator != null)
 				CurrentShowAuthenticator = GoogleShowAuthenticator;
 			CheckNative ();
 		}
@@ -84,7 +106,7 @@ namespace SimpleAuth.Providers
 
 		protected override WebAuthenticator CreateAuthenticator ()
 		{
-			return new GoogleAuthenticator {
+			var authenticator = new GoogleAuthenticator {
 				Scope = Scopes.ToList (),
 				ClientId = ClientId,
 				ClientSecret = ClientSecret,
@@ -93,6 +115,8 @@ namespace SimpleAuth.Providers
 				IsUsingNative = IsUsingNative,
 				ServerClientId = ServerClientId,
 			};
+            authenticator.RedirectUrl = new Uri(authenticator.GetRedirectUrl());
+            return authenticator;
 		}
 		public static Action<string, string> OnLogOut { get; set; }
 		protected override Task<OAuthAccount> GetAccountFromAuthCode (WebAuthenticator authenticator, string identifier)
@@ -150,11 +174,7 @@ namespace SimpleAuth.Providers
 			get;
 			set;
 		} = "https://accounts.google.com/o/oauth2/auth";
-
-		public override Uri RedirectUrl {
-			get;
-			set;
-		}
+        
 
 		public override async Task<Dictionary<string, string>> GetTokenPostData (string clientSecret)
 		{
