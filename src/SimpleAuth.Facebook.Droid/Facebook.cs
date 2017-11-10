@@ -18,6 +18,7 @@ namespace SimpleAuth.Providers
 			Native.RegisterCallBack ("facebook",OnActivityResult);
             FacebookApi.IsUsingNative = true;
             FacebookApi.ShowFacebookAuthenticator = Login;
+			FacebookApi.OnLogOut = Logout;
         }
 
         public static void Uninit(Android.App.Application app)

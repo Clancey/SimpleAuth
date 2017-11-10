@@ -9,7 +9,7 @@ namespace SimpleAuth.Providers
 	{
 		public static bool IsUsingNative { get; set; }
 		public static Action<WebAuthenticator> ShowFacebookAuthenticator { get; set; }
-		public static Action LogoutNative { get; set; }
+		public static Action OnLogOut { get; set; }
 		public FacebookApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, clientId, clientSecret, handler)
 		{
 			InitFacebook();
@@ -89,7 +89,7 @@ namespace SimpleAuth.Providers
 		public override void ResetData()
 		{
 			base.ResetData();
-			LogoutNative?.Invoke();
+			OnLogOut?.Invoke();
 		}
 	}
 
