@@ -17,6 +17,7 @@ namespace SimpleAuth.Providers
 			fb.CoreKit.ApplicationDelegate.SharedInstance.FinishedLaunching(app, launchOptions);
 			FacebookApi.ShowFacebookAuthenticator = (a) => invoker.BeginInvokeOnMainThread(() => Login(a));
 			Native.RegisterCallBack ("facebook", Callback);
+			FacebookApi.LogoutNative = Logout;
 		}
 
 		private static bool Callback(UIApplication application, NSUrl url, NSDictionary options)
@@ -70,6 +71,11 @@ namespace SimpleAuth.Providers
 			{
 				authenticator.OnError(ex.Message);
 			}
+		}
+		public static void  Logout()
+		{
+			var manager = new fb.LoginKit.LoginManager();
+			manager.LogOut();
 		}
 	}
 }

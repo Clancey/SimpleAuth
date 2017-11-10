@@ -82,6 +82,10 @@ namespace SimpleAuth.Providers
 
             fbAuthenticator.OnRecievedAuthCode(result?.AccessToken.Token, expiresIn);
         }
+		public static void Logout()
+		{
+			LoginManager.Instance.LogOut();
+		}
     }
 
     class FbCallbackHandler : Java.Lang.Object, IFacebookCallback
