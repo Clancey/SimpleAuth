@@ -120,7 +120,7 @@ namespace SimpleAuth
 			if (!NSBundle.MainBundle.InfoDictionary.TryGetValue((NSString)"CFBundleURLTypes", out nsobj))
 				yield return null;
 			var array = nsobj as NSArray;
-			for (nuint i = 0; i < array.Count; i++)
+			for (nuint i = 0; i < (array?.Count ?? 0); i++)
 			{
 				var d = array.GetItem<NSDictionary>(i);
 				if (!d?.TryGetValue((NSString)"CFBundleURLSchemes", out  nsobj) ?? false)
