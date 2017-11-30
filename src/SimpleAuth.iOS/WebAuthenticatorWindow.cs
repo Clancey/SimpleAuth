@@ -20,6 +20,7 @@ namespace SimpleAuth
 {
 	public class WebAuthenticatorWindow : UIWindow
 	{
+		
 		public WebAuthenticatorWindow() : this(UIScreen.MainScreen)
 		{
 
@@ -28,21 +29,20 @@ namespace SimpleAuth
 		{
 
 		}
-		public static void PresentAuthenticator(WebAuthenticator authenticator)
-		{
-			PresentAuthenticator(authenticator, UIScreen.MainScreen);
+		static WebAuthenticatorWindow shared;
+		static WebAuthenticatorWindow Shared {
+			get => shared ?? (shared = new WebAuthenticatorWindow());
+			set => shared = value;
 		}
-
-		public static void PresentAuthenticator(WebAuthenticator authenticator, UIScreen screen)
+		public static void PresentAuthenticator(WebAuthenticator authenticator)
 		{
 			var invoker = new Foundation.NSObject();
 			invoker.BeginInvokeOnMainThread(async () =>
 			{
 				try
 				{
-					var window = new WebAuthenticatorWindow(screen);
 					var vc = new iOS.WebAuthenticatorViewController(authenticator);
-					await window.Show(vc);
+					await Shared.Show(vc);
 				}
 				catch (Exception ex)
 				{
@@ -54,11 +54,14 @@ namespace SimpleAuth
 		UIWindow previousKeyWindow;
 		public async Task Show(WebAuthenticatorViewController authenticator)
 		{
-			previousKeyWindow = UIKit.UIApplication.SharedApplication.KeyWindow;
+			if (!this.IsKeyWindow)
+			{
+				previousKeyWindow = UIKit.UIApplication.SharedApplication.KeyWindow;
+				this.RootViewController = new UIViewController();
+				this.MakeKeyAndVisible();
+			}
 			authenticator.Dismiss = async ()=> await Dismiss();
-			this.RootViewController = new UIViewController();
-			this.MakeKeyAndVisible();
-			this.RootViewController.PresentViewControllerAsync(new UINavigationController(authenticator), true);
+			await this.RootViewController.PresentViewControllerAsync(new UINavigationController(authenticator), true);
 		}
 		public async Task Dismiss()
 		{
@@ -67,10 +70,6 @@ namespace SimpleAuth
 			this.RootViewController = null;
 			this.Hidden = true;
 			this.RemoveFromSuperview();
-		}
-		protected override void Dispose(bool disposing)
-		{
-			base.Dispose(disposing);
 		}
 	}
 }
