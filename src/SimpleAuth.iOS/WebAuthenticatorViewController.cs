@@ -22,11 +22,13 @@ namespace SimpleAuth.iOS
 		bool webViewVisible = true;
 
 		const double TransitionTime = 0.25;
+		public Action Dismiss { get; set; }
 
 		//bool keepTryingAfterError = true;
 		internal static WebAuthenticatorViewController Shared { get; set; }
 		public WebAuthenticatorViewController (WebAuthenticator authenticator)
 		{
+			Dismiss = () => this.DismissViewControllerAsync(true);
 			Shared = this;
 			this.Authenticator = authenticator;
 			MonitorAuthenticator ();
@@ -79,7 +81,7 @@ namespace SimpleAuth.iOS
 			try{
 				await Authenticator.GetAuthCode ();
 				if (Authenticator.HasCompleted)
-					await this.DismissViewControllerAsync (true);
+					Dismiss?.Invoke();
 			}
 			catch(Exception ex) {
 				Console.WriteLine (ex);
@@ -88,7 +90,7 @@ namespace SimpleAuth.iOS
 
 		void Cancel ()
 		{
-			this.DismissViewControllerAsync (true);
+			Dismiss?.Invoke();
 			Authenticator.OnCancelled ();
 		}
 

@@ -15,32 +15,7 @@ namespace SimpleAuth
 		{
 			//Setup default ShowAuthenticator
 #if __IOS__
-			OAuthApi.ShowAuthenticator = (authenticator) =>
-			{
-				var invoker = new Foundation.NSObject();
-				invoker.BeginInvokeOnMainThread(async () =>
-				{
-					try
-					{
-						var vc = new iOS.WebAuthenticatorViewController(authenticator);
-						var window = UIKit.UIApplication.SharedApplication.KeyWindow;
-						var root = window.RootViewController;
-						if (root != null)
-						{
-							var current = root;
-							while (current.PresentedViewController != null)
-							{
-								current = current.PresentedViewController;
-							}
-							await current.PresentViewControllerAsync(new UIKit.UINavigationController(vc), true);
-						}
-					}
-					catch (Exception ex)
-					{
-						authenticator.OnError(ex.Message);
-					}
-				});
-			};
+			OAuthApi.ShowAuthenticator = WebAuthenticatorWindow.PresentAuthenticator;
 
 #elif __ANDROID__
 			OAuthApi.ShowAuthenticator = (authenticator) =>
