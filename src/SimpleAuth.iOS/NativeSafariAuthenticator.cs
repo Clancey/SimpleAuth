@@ -66,7 +66,7 @@ namespace SimpleAuth
 				string redirectUrl = uri.GetParameter ("redirect_uri");
 				var scheme = new Uri (redirectUrl).Scheme;
 				if (!VerifyHasUrlScheme(scheme)) {
-					authenticator.OnError ($"Unable to redirect {redirectUrl}, Please add the Url Scheme to the info.plist");
+					authenticator.OnError ($"Unable to redirect {scheme}, Please add the Url Scheme to the info.plist");
 					return;
 				}
 				var url = new NSUrl (uri.AbsoluteUri);
