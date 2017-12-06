@@ -5,6 +5,7 @@ using Foundation;
 using System.Threading.Tasks;
 using System.Net;
 using System.Linq;
+using CoreGraphics;
 
 namespace SimpleAuth.Mac
 {
@@ -27,7 +28,7 @@ namespace SimpleAuth.Mac
 				BeginInvokeOnMainThread (() => {
 					try {
 						var app = NSApplication.SharedApplication;
-						app.EndSheet (shownInWindow);
+						app.StopModal();
 						window.OrderOut (this);
 					} catch (Exception ex) {
 						Console.WriteLine (ex);
@@ -166,18 +167,38 @@ namespace SimpleAuth.Mac
 		{
 			var app = NSApplication.SharedApplication;
 			var rect = new CoreGraphics.CGRect (0, 0, 400, 600);
-			webview.Frame = rect;
-			window = new NSWindow (rect, NSWindowStyle.Closable | NSWindowStyle.Titled, NSBackingStore.Buffered, false);
-			window.ContentView = webview;
-			window.IsVisible = false;
-			window.Title = webview.Authenticator.Title;
+			window = new ModalWindow(webview, rect);
 			while (shownInWindow == null) {
 				shownInWindow = app.MainWindow;
 				if (shownInWindow == null)
 					await Task.Delay (1000);
 			}
-			app.BeginSheet (window, shownInWindow);
-			webview.BeginLoadingInitialUrl ();
+
+			webview.BeginLoadingInitialUrl();
+			app.RunModalForWindow(window);
+			//app.BeginSheet (window, shownInWindow);
+		}
+		class ModalWindow : NSWindow, INSWindowDelegate
+		{
+			static NSWindowStyle GetStyle(WebAuthenticatorWebView webView) => webView.Authenticator.AllowsCancel ? NSWindowStyle.Closable | NSWindowStyle.Titled : NSWindowStyle.Titled;
+			WeakReference webview;
+			public ModalWindow(WebAuthenticatorWebView webView, CGRect rect) : base(rect,GetStyle(webView), NSBackingStore.Buffered, false)
+			{
+				webview = new WeakReference(webView);
+				webView.Frame = rect;
+				ContentView = webView;
+				IsVisible = false;
+				Title = webView.Authenticator.Title;
+				this.Delegate = this;
+			}
+			[Export("windowWillClose:")]
+			public void WindowWillClose(NSNotification notification)
+			{
+				var auth = (webview?.Target as WebAuthenticatorWebView)?.Authenticator;
+				if (!auth.HasCompleted)
+					auth.OnCancelled();
+				NSApplication.SharedApplication.StopModal();
+			}
 		}
 	}
 }

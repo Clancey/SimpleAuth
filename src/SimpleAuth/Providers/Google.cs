@@ -26,7 +26,7 @@ namespace SimpleAuth.Providers
 		/// <value>The server client identifier.</value>
 		public string ServerClientId { get; set; }
 		public static bool ForceNativeLogin { get; set; } =
-#if __UNIFIED__ || __ANDROID__
+#if __IOS || __ANDROID__
 			true;
 #else
 			false;

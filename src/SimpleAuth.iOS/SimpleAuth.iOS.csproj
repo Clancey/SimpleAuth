@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Entitlements.plist" />
   </ItemGroup>
   <Import Project="..\SimpleAuth\SimpleAuth.projitems" Label="Shared" Condition="Exists('..\SimpleAuth\SimpleAuth.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
