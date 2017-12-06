@@ -114,6 +114,9 @@
     <Compile Include="Native.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <None Include="Entitlements.plist" />
+  </ItemGroup>
   <Import Project="..\SimpleAuth\SimpleAuth.projitems" Label="Shared" Condition="Exists('..\SimpleAuth\SimpleAuth.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>
