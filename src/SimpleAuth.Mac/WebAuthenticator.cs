@@ -180,7 +180,14 @@ namespace SimpleAuth.Mac
 		}
 		class ModalWindow : NSWindow, INSWindowDelegate
 		{
-			static NSWindowStyle GetStyle(WebAuthenticatorWebView webView) => webView.Authenticator.AllowsCancel ? NSWindowStyle.Closable | NSWindowStyle.Titled : NSWindowStyle.Titled;
+			static NSWindowStyle GetStyle(WebAuthenticatorWebView webView)
+			{
+				var baseStyle = NSWindowStyle.Titled | NSWindowStyle.Resizable;
+				if (webView.Authenticator.AllowsCancel)
+					baseStyle = baseStyle | NSWindowStyle.Closable;
+				return baseStyle;
+			}
+
 			WeakReference webview;
 			public ModalWindow(WebAuthenticatorWebView webView, CGRect rect) : base(rect,GetStyle(webView), NSBackingStore.Buffered, false)
 			{
