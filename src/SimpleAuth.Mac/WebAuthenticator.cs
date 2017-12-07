@@ -202,8 +202,8 @@ namespace SimpleAuth.Mac
 			public void WindowWillClose(NSNotification notification)
 			{
 				var auth = (webview?.Target as WebAuthenticatorWebView)?.Authenticator;
-				if (!auth.HasCompleted)
-					auth.OnCancelled();
+				if (!auth?.HasCompleted ?? true)
+					auth?.OnCancelled();
 				NSApplication.SharedApplication.StopModal();
 			}
 		}
