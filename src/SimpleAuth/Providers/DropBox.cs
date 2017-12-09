@@ -97,7 +97,7 @@ namespace SimpleAuth.Providers
             {
                 {"client_id", ClientId},
                 {"response_type","token"},
-                {"redirect_uri",RedirectUrl.AbsoluteUri},
+				{"redirect_uri",RedirectUrl.OriginalString},
             };
             if (string.IsNullOrEmpty(State))
                 result["state"] = State;

@@ -37,7 +37,7 @@ namespace SimpleAuth.Providers
 		public override async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
 		{
 			var data = await base.GetTokenPostData(clientSecret);
-			data["redirect_uri"] = RedirectUrl.AbsoluteUri;
+			data["redirect_uri"] = RedirectUrl.OriginalString;
 			return data;
 		}
 	}

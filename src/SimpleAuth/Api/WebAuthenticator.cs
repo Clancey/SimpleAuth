@@ -63,7 +63,7 @@ namespace SimpleAuth
 			{
 				{"client_id",ClientId},
 				{"response_type","code"},
-				{"redirect_uri",RedirectUrl.AbsoluteUri}
+				{"redirect_uri",RedirectUrl.OriginalString}
 			};
 			if (Scope?.Count > 0) {
 				var scope = string.Join (" ", Scope);
@@ -93,7 +93,7 @@ namespace SimpleAuth
 
 			if (RedirectUrl != null)
 			{
-				tokenPostData["redirect_uri"] = RedirectUrl.ToString();
+				tokenPostData["redirect_uri"] = RedirectUrl.OriginalString;
 			}
 
 			return Task.FromResult(tokenPostData);

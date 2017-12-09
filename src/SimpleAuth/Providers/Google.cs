@@ -208,7 +208,7 @@ namespace SimpleAuth.Providers
 			if (IsUsingNative)
 				return "";
 #endif
-			return RedirectUrl.AbsoluteUri;
+			return RedirectUrl.OriginalString;
 		}
 		public string IdToken { get; set; }
 		public string ServerToken { get; set; }
