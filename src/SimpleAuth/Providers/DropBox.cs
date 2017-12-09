@@ -10,19 +10,23 @@ namespace SimpleAuth.Providers
 {
     public class DropBoxApi : OAuthApi
     {
-        public DropBoxApi(string identifier,string client_id, string client_secret, HttpMessageHandler handler = null)
+		public DropBoxApi(string identifier,string client_id, string client_secret, string redirectUrl = "http://localhost", HttpMessageHandler handler = null)
             : base(identifier, client_id, client_secret, handler)
         {
             this.ScopesRequired = false;
             this.TokenUrl = "https://api.dropbox.com/oauth2/token";
 			BaseAddress = new Uri("https://api.dropbox.com");
+			RedirectUrl = new Uri(redirectUrl);
         }
+
+		public Uri RedirectUrl { get; private set; }
 
         protected override WebAuthenticator CreateAuthenticator()
         {
             return new DropBoxAuthenticator
             {
                 ClientId = ClientId,
+				RedirectUrl = RedirectUrl,
             };
         }
 
@@ -50,7 +54,6 @@ namespace SimpleAuth.Providers
         public DropBoxAuthenticator()
         {
 			BaseUrl = "https://www.dropbox.com/oauth2/authorize";
-            RedirectUrl = new Uri("http://localhost");
         }
 
         ///Up to 500 bytes of arbitrary data that will be passed back to <paramref name="redirectUri"/>
