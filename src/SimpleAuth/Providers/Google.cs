@@ -115,7 +115,9 @@ namespace SimpleAuth.Providers
 				IsUsingNative = IsUsingNative,
 				ServerClientId = ServerClientId,
 			};
-            authenticator.RedirectUrl = new Uri(authenticator.GetRedirectUrl());
+			var redirect = authenticator.GetRedirectUrl();
+			if(!string.IsNullOrWhiteSpace(redirect))
+				authenticator.RedirectUrl = new Uri(redirect);
             return authenticator;
 		}
 		public static Action<string, string> OnLogOut { get; set; }
