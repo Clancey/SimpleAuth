@@ -12,7 +12,7 @@ namespace SimpleAuth.Tests
 					new RequestMessage{
 						Url = "https://localhost/o/oauth2/token",
 						Method = HttpMethod.Post,
-						Content = "grant_type=authorization_code&code=authtoken&client_id=clientId&client_secret=clientSecret&redirect_uri=http%3A%2F%2Flocalhost%2F",
+						Content = "grant_type=authorization_code&code=authtoken&client_id=clientId&client_secret=clientSecret&redirect_uri=http%3A%2F%2Flocalhost",
 
 					},
 					new RequestResponse{
@@ -73,7 +73,7 @@ namespace SimpleAuth.Tests
 					new RequestMessage{
 						Url = "https://localhost/o/oauth2/token",
 						Method = HttpMethod.Post,
-						Content = "grant_type=authorization_code&code=authtoken&client_id=clientId&client_secret=clientSecret&redirect_uri=http%3A%2F%2Flocalhost%2F",
+						Content = "grant_type=authorization_code&code=authtoken&client_id=clientId&client_secret=clientSecret&redirect_uri=http%3A%2F%2Flocalhost",
 
 					},
 					new RequestResponse{
@@ -105,7 +105,7 @@ namespace SimpleAuth.Tests
 					new RequestMessage{
 						Url = "https://localhost/o/oauth2/token",
 						Method = HttpMethod.Post,
-						Content = "grant_type=authorization_code&code=authtoken&client_id=clientId&client_secret=clientSecret&redirect_uri=http%3A%2F%2Flocalhost%2F",
+						Content = "grant_type=authorization_code&code=authtoken&client_id=clientId&client_secret=clientSecret&redirect_uri=http%3A%2F%2Flocalhost",
 
 					},
 					new RequestResponse{
