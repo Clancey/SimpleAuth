@@ -22,7 +22,15 @@ namespace SimpleAuth.Providers
 {
 	public class FitBitApi : SimpleAuth.OAuthApi
 	{
-		public FitBitApi(string serviceId, string clientId, string secret, bool isImplicit, string redirectUrl) : base(serviceId, clientId, secret)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:SimpleAuth.Providers.FitBitApi"/> class.
+		/// </summary>
+		/// <param name="serviceId">Service identifier.</param>
+		/// <param name="clientId">Client identifier.</param>
+		/// <param name="secret">If Implicit, Encryption key for storing data. If not, this is the client secret</param>
+		/// <param name="isImplicit">If set to is implicit auth, no client secret required.</param>
+		/// <param name="redirectUrl">Redirect URL.</param>
+		public FitBitApi(string serviceId, string clientId, string secret, bool isImplicit, string redirectUrl = "http://localhost") : base(serviceId, clientId, secret)
 		{
 			BaseAddress = new Uri("https://api.fitbit.com/1/");
 			RedirecUri = new Uri(redirectUrl);
