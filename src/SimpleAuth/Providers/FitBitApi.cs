@@ -64,6 +64,7 @@ namespace SimpleAuth.Providers
 					Cookies = authenticator.Cookies,
 				};
 			}
+			//Fitbit does a weird AuthHeader before swaping tokens
 			var authHeader = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes($"{ClientId}:{ClientSecret}"));
 			Client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", authHeader);
 			var account = await base.GetAccountFromAuthCode(authenticator, identifier);
