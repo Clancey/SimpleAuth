@@ -190,7 +190,7 @@ namespace SimpleAuth
 			var result = Deserialize<OauthResponse>(resp);
 			if (!string.IsNullOrEmpty(result?.Error))
  				throw new Exception($"{result.Error} : {result.ErrorDescription}");
-
+			reply.EnsureSuccessStatusCode();
 			var account = new OAuthAccount () {
 				ExpiresIn = result.ExpiresIn,
 				Created = DateTime.UtcNow,
