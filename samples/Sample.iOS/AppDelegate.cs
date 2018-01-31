@@ -22,7 +22,10 @@ namespace Sample.iOS
 		GoogleApi googleApi;
 		ApiKeyApi apiKeyApi;
 		BasicAuthApi basicApi = new BasicAuthApi ("github", "encryptionstring", "https://api.github.com") { UserAgent = "SimpleAuthDemo" };
-		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
+
+        OAuthApi oAuthApi = new OAuthApi("oauth", "A8375B66", "A32D8C3CBE9A", "http://ent172-auth.azurewebsites.net/oauth/token", "http://ent172-auth.azurewebsites.net/oauth/authorize", "SimpleAuthScheme://local");
+
+        public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
 			SimpleAuth.OnePassword.Activate ();
 			SimpleAuth.NativeSafariAuthenticator.Activate ();
@@ -48,43 +51,53 @@ namespace Sample.iOS
 			// create a new window instance based on the screen size
 			Window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-			Window.RootViewController = new DialogViewController (new RootElement ("Simple Auth") {
-				new Section("Google Api"){
-					new StringElement("Authenticate", async() => {
-						try{
-						var account = await googleApi.Authenticate();
-						ShowAlert("Success","Authenticate");
-						}
-						catch(TaskCanceledException){
-							ShowAlert("Canceled","");
-						}
-						catch(Exception ex)
-						{
-							ShowAlert("Error",ex.ToString());
-						}
-					}),
-					new StringElement("Log out", () => {
-						googleApi.ResetData();
-						ShowAlert ("Success", "Logged out");
-					}),
-				},
-				new Section("Api Key Api")
-				{
-					new StringElement("Get", async () => await RunWithSpinner ("Querying", async () => {
-						var account = await apiKeyApi.Get ("http://petstore.swagger.io/v2/store/inventory?test=test1");
-						ShowAlert ("Success", "Querying");
-					})),
-				},
-				new Section("Basic Auth"){
-					new StringElement("Login to Github", async () => {
-						var account = await basicApi.Authenticate();
-						ShowAlert ("Success", "Authenticated");
-					}),
-					new StringElement("Log out", () => {
-						basicApi.ResetData();
-						ShowAlert ("Success", "Logged out");
-					}),
-				}
+            Window.RootViewController = new DialogViewController(new RootElement("Simple Auth") {
+                new Section("Google Api"){
+                    new StringElement("Authenticate", async() => {
+                        try{
+                        var account = await googleApi.Authenticate();
+                        ShowAlert("Success","Authenticate");
+                        }
+                        catch(TaskCanceledException){
+                            ShowAlert("Canceled","");
+                        }
+                        catch(Exception ex)
+                        {
+                            ShowAlert("Error",ex.ToString());
+                        }
+                    }),
+                    new StringElement("Log out", () => {
+                        googleApi.ResetData();
+                        ShowAlert ("Success", "Logged out");
+                    }),
+                },
+                new Section("Api Key Api")
+                {
+                    new StringElement("Get", async () => await RunWithSpinner ("Querying", async () => {
+                        var account = await apiKeyApi.Get ("http://petstore.swagger.io/v2/store/inventory?test=test1");
+                        ShowAlert ("Success", "Querying");
+                    })),
+                },
+                new Section("Basic Auth"){
+                    new StringElement("Login to Github", async () => {
+                        var account = await basicApi.Authenticate();
+                        ShowAlert ("Success", "Authenticated");
+                    }),
+                    new StringElement("Log out", () => {
+                        basicApi.ResetData();
+                        ShowAlert ("Success", "Logged out");
+                    }),
+                },
+                new Section("OAuth")
+                {
+                    new StringElement("Login to server", async () =>
+                    {
+                        oAuthApi.ScopesRequired = false;
+
+                        var account = await oAuthApi.Authenticate();
+                        ShowAlert ("Success", "Authenticated");
+                    })
+                }
 			});
 
 			// make the window visible
