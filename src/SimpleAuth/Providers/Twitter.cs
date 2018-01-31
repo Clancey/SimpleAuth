@@ -161,18 +161,18 @@ namespace SimpleAuth.Providers
 
 		public static string GetSignature(string method, Uri uri, IDictionary<string, string> parameters, string clientSecret, string tokenSecret)
 		{
-			var stringBuilder = new StringBuilder($"{method.ToUpper()}&{Uri.EscapeDataString(uri.AbsoluteUri)}&");
-			foreach (var keyValuePair in parameters)
-			{
-				stringBuilder.Append(Uri.EscapeDataString($"{keyValuePair.Key}={keyValuePair.Value}&"));
-			}
-			string signatureBaseString = stringBuilder.ToString().Substring(0, stringBuilder.Length - 3);
+			var url = uri.AbsoluteUri;
+			if (!string.IsNullOrWhiteSpace(uri.Query))
+				url = url.Replace(uri.Query, "");
+			var urlString = $"{method.ToUpper()}&{Uri.EscapeDataString(url)}";
+			var parametersString = string.Join("&", parameters.Select(x => $"{Uri.EscapeDataString(x.Key)}={Uri.EscapeDataString(x.Value)}"));
 
+			string signatureBaseString = $"{urlString}&{Uri.EscapeDataString(parametersString)}";
 			string signatureKey = $"{Uri.EscapeDataString(clientSecret)}&{Uri.EscapeDataString(tokenSecret)}";
-            var hmacsha1 = new System.Security.Cryptography.HMACSHA1(Encoding.UTF8.GetBytes(signatureKey));
+			var hmacsha1 = new System.Security.Cryptography.HMACSHA1(Encoding.UTF8.GetBytes(signatureKey));
 
 
-            string signatureString = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(signatureBaseString)));
+			string signatureString = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(signatureBaseString)));
 
 			return signatureString;
 		}
