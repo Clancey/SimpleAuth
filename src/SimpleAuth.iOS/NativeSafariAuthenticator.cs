@@ -47,13 +47,17 @@ namespace SimpleAuth
 
 		public static void ShowAuthenticator (UIViewController presentingController, WebAuthenticator authenticator)
 		{
-			var urls = GetCFBundleURLSchemes ();
-			if (!urls.Any ()) {
-				authenticator.OnError (CFBundleUrlError);
-				return;
-			}
-
-			//TODO: validate the proper url is in there
+            //ios 11 uses sfAuthenticationSession which doesn't require registered URL in info.plist
+            if ( ! UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            {
+                var urls = GetCFBundleURLSchemes();
+                if (!urls.Any())
+                {
+                    authenticator.OnError(CFBundleUrlError);
+                    return;
+                }
+                //TODO: validate the proper url is in there
+            }
 
 			var invoker = new Foundation.NSObject ();
 			invoker.BeginInvokeOnMainThread (async () => await BeginAuthentication (presentingController, authenticator));
@@ -65,12 +69,33 @@ namespace SimpleAuth
 				var uri = (await authenticator.GetInitialUrl ());
 				string redirectUrl = uri.GetParameter ("redirect_uri");
 				var scheme = new Uri (redirectUrl).Scheme;
-				if (!VerifyHasUrlScheme(scheme)) {
+				if (!VerifyHasUrlSchemeOrDoesntRequire(scheme)) {
 					authenticator.OnError ($"Unable to redirect {scheme}, Please add the Url Scheme to the info.plist");
 					return;
 				}
 				var url = new NSUrl (uri.AbsoluteUri);
-				if (UIDevice.CurrentDevice.CheckSystemVersion (9, 0)) {
+                if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0)){
+                    var AuthTask = new TaskCompletionSource<object>();
+                    authenticators[scheme] = authenticator;
+                    var sf = new SFAuthenticationSession(url, scheme, 
+                        (callbackUrl, Error) => {
+                           if (Error == null)
+                            {
+                                ResumeAuth(callbackUrl.AbsoluteString);
+                                AuthTask.SetResult(null);
+                            }
+                            else
+                            {
+                                AuthTask.SetException(new Exception($"SFAuthenticationSession Error: {Error.ToString()}"));
+                            }
+                        }
+                    );
+                    sf.Start();
+                    await AuthTask.Task;
+                    return;
+                }
+
+               if (UIDevice.CurrentDevice.CheckSystemVersion (9, 0)) {
 					var controller = new SFSafariViewController (url, false) {
 						Delegate = new NativeSFSafariViewControllerDelegate (authenticator),
 					};
@@ -107,11 +132,16 @@ namespace SimpleAuth
 			});
 		}
 
-		public static bool VerifyHasUrlScheme (string scheme)
+		public static bool VerifyHasUrlSchemeOrDoesntRequire(string scheme)
 		{
-			var cleansed = scheme.Replace("://", "");
+            if (UIDevice.CurrentDevice.CheckSystemVersion(11, 0))
+            {//ios11+ uses sfAuthenticationSession which handles its own url routing
+                return true;
+            }
+
+            var cleansed = scheme.Replace("://", "");
 			var schemes = GetCFBundleURLSchemes ().ToList();
-			return schemes.Any (x => x == cleansed);
+            return schemes.Any (x => x.Equals(cleansed, StringComparison.InvariantCultureIgnoreCase));
 		}
 
 		static IEnumerable<string> GetCFBundleURLSchemes()
