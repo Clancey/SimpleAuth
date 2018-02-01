@@ -141,7 +141,7 @@ namespace SimpleAuth
 
             var cleansed = scheme.Replace("://", "");
 			var schemes = GetCFBundleURLSchemes ().ToList();
-			return schemes.Any (x => x == cleansed);
+            return schemes.Any (x => x.Equals(cleansed, StringComparison.InvariantCultureIgnoreCase));
 		}
 
 		static IEnumerable<string> GetCFBundleURLSchemes()

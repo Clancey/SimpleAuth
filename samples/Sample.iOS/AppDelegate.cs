@@ -23,7 +23,7 @@ namespace Sample.iOS
 		ApiKeyApi apiKeyApi;
 		BasicAuthApi basicApi = new BasicAuthApi ("github", "encryptionstring", "https://api.github.com") { UserAgent = "SimpleAuthDemo" };
 
-        OAuthApi oAuthApi = new OAuthApi("oauth", "A8375B66", "A32D8C3CBE9A", "http://ent172-auth.azurewebsites.net/oauth/token", "http://ent172-auth.azurewebsites.net/oauth/authorize", "SimpleAuthScheme://local");
+        FitBitApi fitBitApi = new FitBitApi("fitbit", "fitbitClientId", "", true, "SimpleAuthScheme://local");
 
         public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
@@ -88,14 +88,22 @@ namespace Sample.iOS
                         ShowAlert ("Success", "Logged out");
                     }),
                 },
-                new Section("OAuth")
+                new Section("Fitbit")
                 {
                     new StringElement("Login to server", async () =>
                     {
-                        oAuthApi.ScopesRequired = false;
-
-                        var account = await oAuthApi.Authenticate();
+                        fitBitApi.Scopes = new []{"profile", "settings"};
+                        var account = await fitBitApi.Authenticate();
                         ShowAlert ("Success", "Authenticated");
+                    }),
+                    new StringElement("Call Api", async ()=>
+                    {
+                        var devices = await fitBitApi.Get("https://api.fitbit.com/1/user/-/devices.json");
+                        ShowAlert("Success", devices);
+                    }),
+                    new StringElement("Log out", () => {
+                        fitBitApi.ResetData();
+                        ShowAlert("Success", "Logged Out");
                     })
                 }
 			});
