@@ -102,7 +102,7 @@ namespace SimpleAuth
         {
 
             public CustomTabsActivityManager CustomTabsActivityManager { get; set; }
-            public Android.Support.V4.App.FragmentActivity ParentActivity { get; set; }
+            public Activity ParentActivity { get; set; }
             public WebAuthenticator Authenticator { get; set; }
         }
 
