@@ -24,7 +24,7 @@ namespace Sample.iOS
 		BasicAuthApi basicApi = new BasicAuthApi ("github", "encryptionstring", "https://api.github.com") { UserAgent = "SimpleAuthDemo" };
 
         FitBitApi fitBitApi = new FitBitApi("fitbit", "fitbitClientId", "", true, "SimpleAuthScheme://local");
-
+		ADFSApi azureApi;
         public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
 			SimpleAuth.OnePassword.Activate ();
@@ -44,7 +44,11 @@ namespace Sample.iOS
 			apiKeyApi = new ApiKeyApi ("myapikey", "api_key", AuthLocation.Query) {
 				BaseAddress = new Uri ("http://petstore.swagger.io/v2"),
 			};
-
+			string azureTennant = "";
+			string azureClientId = "";
+			azureApi = new ADFSApi("Azure", azureClientId,
+								   $"https://login.microsoftonline.com/{azureTennant}/oauth2/authorize",
+								   $"https://login.microsoftonline.com/{azureTennant}/oauth2/token", "");
 			Api.UnhandledException += (sender, e) => {
 				Console.WriteLine (e);
 			};
@@ -105,7 +109,19 @@ namespace Sample.iOS
                         fitBitApi.ResetData();
                         ShowAlert("Success", "Logged Out");
                     })
-                }
+                },
+				new Section("Azure AD")
+				{
+					new StringElement("Login", async () => {
+						var account = await azureApi.Authenticate();
+						var userData = await azureApi.Get("https://graph.windows.net/me?api-version=1.6");
+						ShowAlert ("Success", "Authenticated");
+					}),
+					new StringElement("Log out", () => {
+						azureApi.Logout();
+						ShowAlert ("Success", "Logged out");
+					}),
+				}
 			});
 
 			// make the window visible
