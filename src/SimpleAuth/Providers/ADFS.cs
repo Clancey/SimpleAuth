@@ -39,7 +39,7 @@ namespace SimpleAuth.Providers
 			{
 				UsesClientSecret = UsesClientSecret
 #if __IOS__
-					|| !NativeSafariAuthenticator.IsActivated
+					&& !NativeSafariAuthenticator.IsActivated
 #endif
 			};
 		}
