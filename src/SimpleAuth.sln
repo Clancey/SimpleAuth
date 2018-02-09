@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.iOS", "SimpleAuth.iOS\SimpleAuth.iOS.csproj", "{2C2264A6-2534-485E-8772-623D1ABEEFFF}"
 EndProject
@@ -36,7 +36,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.Droid", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.iOS", "SimpleAuth.Google.iOS\SimpleAuth.Google.iOS.csproj", "{08277D36-1FC1-4FC6-8891-384707ABF688}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net", "SimpleAuth.Net\SimpleAuth.Net.csproj", "{78B056CA-A0E6-440D-9259-F377C61BCD93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAuth.Net", "SimpleAuth.Net\SimpleAuth.Net.csproj", "{78B056CA-A0E6-440D-9259-F377C61BCD93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Droid.CustomTabs", "SimpleAuth.Droid.CustomTabs\SimpleAuth.Droid.CustomTabs.csproj", "{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -255,11 +257,30 @@ Global
 		{78B056CA-A0E6-440D-9259-F377C61BCD93}.Release|x64.Build.0 = Release|Any CPU
 		{78B056CA-A0E6-440D-9259-F377C61BCD93}.Release|x86.ActiveCfg = Release|Any CPU
 		{78B056CA-A0E6-440D-9259-F377C61BCD93}.Release|x86.Build.0 = Release|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Debug|x64.Build.0 = Debug|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Debug|x86.Build.0 = Debug|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|ARM.Build.0 = Release|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|x64.ActiveCfg = Release|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|x64.Build.0 = Release|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|x86.ActiveCfg = Release|Any CPU
+		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7360F7D9-8C03-4144-8041-4D6ADFB73164} = {16848DB4-C3DD-4CCB-A665-DD94E200B6EB}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E2D49B8D-6B7B-4AAB-AE97-66D6C1F0B92E}
 	EndGlobalSection
 EndGlobal

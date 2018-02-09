@@ -10,6 +10,7 @@
     <Company></Company>
     <AssemblyName>SimpleAuth</AssemblyName>
     <RootNamespace>SimpleAuth</RootNamespace>
+    <Version>1.0.47</Version>
   </PropertyGroup>
 
   <ItemGroup>
