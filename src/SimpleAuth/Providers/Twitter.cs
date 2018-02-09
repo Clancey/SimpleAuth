@@ -112,7 +112,7 @@ namespace SimpleAuth.Providers
 			{
 				var data = HttpUtility.ParseQueryString(content);
                 //PCLs have a different return type for HttpUtility. For shame...
-#if __PCL__ || WINDOWS_UWP || NETSTANDARD1_4
+#if __PCL__  || NETSTANDARD1_4
                 foreach (var k in data)
 				{
 					keyValues[k.Key] = data[k.Value];
@@ -127,7 +127,7 @@ namespace SimpleAuth.Providers
 #endif
 			}
 			var param = HttpUtility.ParseQueryString(uri.Query);
-#if __PCL__ || WINDOWS_UWP || NETSTANDARD1_4
+#if __PCL__ || NETSTANDARD1_4
             foreach (var k in param)
 			{
 				keyValues[k.Key] = param[k.Value];
