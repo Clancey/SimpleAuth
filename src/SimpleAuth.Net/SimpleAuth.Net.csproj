@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Clancey.SimpleAuth</PackageId>
-    <AssemblyVersion>1.0.47.0</AssemblyVersion>
-    <FileVersion>1.0.47.0</FileVersion>
+    <AssemblyVersion>1.0.48.0</AssemblyVersion>
+    <FileVersion>1.0.48.0</FileVersion>
     <Product>SimpleAuth</Product>
     <Authors>SimpleAuth</Authors>
     <Company></Company>

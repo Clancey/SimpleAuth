@@ -11,12 +11,19 @@ namespace SimpleAuth.Mac
 {
 	public class WebAuthenticatorWebView : WebKit.WebView, IWebFrameLoadDelegate
 	{
+
+		public static string UserAgent;
 		public readonly WebAuthenticator Authenticator;
 		public WebAuthenticatorWebView(WebAuthenticator authenticator)
 		{
 			this.Authenticator = authenticator;
 			MonitorAuthenticator ();
 			this.FrameLoadDelegate = this;
+			if (!string.IsNullOrEmpty(UserAgent))
+			{
+				this.ApplicationNameForUserAgent = UserAgent;
+				this.CustomUserAgent = UserAgent;
+			}
 		}
 
 		async Task MonitorAuthenticator ()

@@ -69,7 +69,7 @@ namespace SimpleAuth.Providers
 		{
 			var ta = authenticator as TwitterAuthenticator;
 			var scheme = $"twitterkit-{ta.ClientId}";
-			if (!NativeSafariAuthenticator.VerifyHasUrlScheme(scheme))
+			if (!NativeSafariAuthenticator.VerifyHasUrlSchemeOrDoesntRequire(scheme))
 			{
 				authenticator.OnError($"Unable to redirect {scheme}, Please add the Url Scheme to the info.plist");
 				return;

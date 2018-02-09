@@ -25,6 +25,11 @@ namespace System.Collections.Specialized
             }
         }
 
+        public string[] AllKeys
+        {
+            get { return this.Select(x => x.Key).ToArray(); }
+        }
+
         #endregion
 
         #region Private Methods
