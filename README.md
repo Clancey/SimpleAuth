@@ -56,6 +56,17 @@ Restful Api Requests couldnt be simpler
 var song = await api.Get<Song>("http://myapi/Song/",songId);
 ```
 
+Paramaters can be added as part of the path
+
+```cs
+var todoItem = await api.Get<TodoItem>("http://myapi/user/{UserId}/TodoItem",new Dictionary<string,string>{["UserId"] = "1", ["itemID"] = "22"});
+```
+Generates the following Url:
+
+```cs
+http://myapi/user/1/TodoItem?itemID=22
+```
+
 
 ## Attribute your Api Requests (Optional)
 

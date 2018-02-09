@@ -54,6 +54,19 @@
 			<key>CFBundleURLName</key>
 			<string>googleLogin</string>
 		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>SimpleAuthScheme</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>SimpleAuthScheme</string>
+		</dict>
 	</array>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

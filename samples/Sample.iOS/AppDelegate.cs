@@ -22,7 +22,10 @@ namespace Sample.iOS
 		GoogleApi googleApi;
 		ApiKeyApi apiKeyApi;
 		BasicAuthApi basicApi = new BasicAuthApi ("github", "encryptionstring", "https://api.github.com") { UserAgent = "SimpleAuthDemo" };
-		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
+
+        FitBitApi fitBitApi = new FitBitApi("fitbit", "fitbitClientId", "", true, "SimpleAuthScheme://local");
+		ADFSApi azureApi;
+        public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
 			SimpleAuth.OnePassword.Activate ();
 			SimpleAuth.NativeSafariAuthenticator.Activate ();
@@ -41,47 +44,81 @@ namespace Sample.iOS
 			apiKeyApi = new ApiKeyApi ("myapikey", "api_key", AuthLocation.Query) {
 				BaseAddress = new Uri ("http://petstore.swagger.io/v2"),
 			};
-
+			string azureTennant = "";
+			string azureClientId = "";
+			azureApi = new ADFSApi("Azure", azureClientId,
+								   $"https://login.microsoftonline.com/{azureTennant}/oauth2/authorize",
+								   $"https://login.microsoftonline.com/{azureTennant}/oauth2/token", "");
 			Api.UnhandledException += (sender, e) => {
 				Console.WriteLine (e);
 			};
 			// create a new window instance based on the screen size
 			Window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-			Window.RootViewController = new DialogViewController (new RootElement ("Simple Auth") {
-				new Section("Google Api"){
-					new StringElement("Authenticate", async() => {
-						try{
-						var account = await googleApi.Authenticate();
-						ShowAlert("Success","Authenticate");
-						}
-						catch(TaskCanceledException){
-							ShowAlert("Canceled","");
-						}
-						catch(Exception ex)
-						{
-							ShowAlert("Error",ex.ToString());
-						}
-					}),
-					new StringElement("Log out", () => {
-						googleApi.ResetData();
-						ShowAlert ("Success", "Logged out");
-					}),
-				},
-				new Section("Api Key Api")
+            Window.RootViewController = new DialogViewController(new RootElement("Simple Auth") {
+                new Section("Google Api"){
+                    new StringElement("Authenticate", async() => {
+                        try{
+                        var account = await googleApi.Authenticate();
+                        ShowAlert("Success","Authenticate");
+                        }
+                        catch(TaskCanceledException){
+                            ShowAlert("Canceled","");
+                        }
+                        catch(Exception ex)
+                        {
+                            ShowAlert("Error",ex.ToString());
+                        }
+                    }),
+                    new StringElement("Log out", () => {
+                        googleApi.ResetData();
+                        ShowAlert ("Success", "Logged out");
+                    }),
+                },
+                new Section("Api Key Api")
+                {
+                    new StringElement("Get", async () => await RunWithSpinner ("Querying", async () => {
+                        var account = await apiKeyApi.Get ("http://petstore.swagger.io/v2/store/inventory?test=test1");
+                        ShowAlert ("Success", "Querying");
+                    })),
+                },
+                new Section("Basic Auth"){
+                    new StringElement("Login to Github", async () => {
+                        var account = await basicApi.Authenticate();
+                        ShowAlert ("Success", "Authenticated");
+                    }),
+                    new StringElement("Log out", () => {
+                        basicApi.ResetData();
+                        ShowAlert ("Success", "Logged out");
+                    }),
+                },
+                new Section("Fitbit")
+                {
+                    new StringElement("Login to server", async () =>
+                    {
+                        fitBitApi.Scopes = new []{"profile", "settings"};
+                        var account = await fitBitApi.Authenticate();
+                        ShowAlert ("Success", "Authenticated");
+                    }),
+                    new StringElement("Call Api", async ()=>
+                    {
+                        var devices = await fitBitApi.Get("https://api.fitbit.com/1/user/-/devices.json");
+                        ShowAlert("Success", devices);
+                    }),
+                    new StringElement("Log out", () => {
+                        fitBitApi.ResetData();
+                        ShowAlert("Success", "Logged Out");
+                    })
+                },
+				new Section("Azure AD")
 				{
-					new StringElement("Get", async () => await RunWithSpinner ("Querying", async () => {
-						var account = await apiKeyApi.Get ("http://petstore.swagger.io/v2/store/inventory?test=test1");
-						ShowAlert ("Success", "Querying");
-					})),
-				},
-				new Section("Basic Auth"){
-					new StringElement("Login to Github", async () => {
-						var account = await basicApi.Authenticate();
+					new StringElement("Login", async () => {
+						var account = await azureApi.Authenticate();
+						var userData = await azureApi.Get("https://graph.windows.net/me?api-version=1.6");
 						ShowAlert ("Success", "Authenticated");
 					}),
 					new StringElement("Log out", () => {
-						basicApi.ResetData();
+						azureApi.Logout();
 						ShowAlert ("Success", "Logged out");
 					}),
 				}

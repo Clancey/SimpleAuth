@@ -35,7 +35,13 @@ namespace SimpleAuth.Providers
 
 		protected override WebAuthenticator CreateAuthenticator()
 		{
-			return new ADFSAuthenticator(ClientId, AuthorizeUrl, TokenUrl, Resource, RedirectUrl) { UsesClientSecret = UsesClientSecret};
+			return new ADFSAuthenticator(ClientId, AuthorizeUrl, TokenUrl, Resource, RedirectUrl)
+			{
+				UsesClientSecret = UsesClientSecret
+#if __IOS__
+					&& !NativeSafariAuthenticator.IsActivated
+#endif
+			};
 		}
 
 		protected override async Task<Account> PerformAuthenticate()
@@ -114,6 +120,8 @@ namespace SimpleAuth.Providers
 		public override Dictionary<string, string> GetInitialUrlQueryParameters()
 		{
 			var parameters = base.GetInitialUrlQueryParameters();
+			if (!UsesClientSecret && parameters.ContainsKey("client_secret"))
+				parameters.Remove("client_secret");
 			parameters["resource"] = Resource;
 			return parameters;
 		}

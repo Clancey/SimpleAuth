@@ -44,5 +44,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\CookieHolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Github.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\IBasicAuthenicator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\FitBitApi.cs" />
   </ItemGroup>
 </Project>
