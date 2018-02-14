@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.48</version>
+        <version>1.0.49</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>The Simplest OAuth client for Xamarin and UWP</description>
         <summary>Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it.</summary>
-        <releaseNotes>Added Fitbit API, Fixed a signing bug with Twitter.</releaseNotes>
+        <releaseNotes>Fixed ADFS bug, Fixed UWP Twitter Login.</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
 			<group>
