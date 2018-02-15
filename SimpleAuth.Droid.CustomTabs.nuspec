@@ -2,13 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth.Droid.CustomTabs</id>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Adds CustomTabs support to SimpleAuth</description>
-        <releaseNotes>Initial Version</releaseNotes>
+        <releaseNotes>No longer gets early cancellation</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
 			<dependency id="Clancey.SimpleAuth" version="1.0.49"/>
