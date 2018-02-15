@@ -33,9 +33,13 @@ namespace SimpleAuth
 
 		public static void OnResume()
 		{
-			foreach (var auth in authenticators)
+			var auths = authenticators.ToList();
+			if (!auths.Any())
+				return;
+			foreach (var auth in auths)
 			{
 				auth.Value.Authenticator?.OnCancelled();
+				authenticators.Remove(auth.Key);
 			}
 		}
 
@@ -51,7 +55,12 @@ namespace SimpleAuth
 
             if (!authenticators.TryGetValue(scheme, out var authenticator))
                 return false;
-            return authenticator.Authenticator.CheckUrl(uri, null);
+			if (authenticator.Authenticator.CheckUrl(uri, null))
+			{
+				authenticators.Remove(scheme);
+				return true;
+			}
+			return false;
         }
 
         public static async void ShowAuthenticator(WebAuthenticator authenticator)
@@ -88,8 +97,11 @@ namespace SimpleAuth
                     customTabsIntent.LaunchUrl(authSession.ParentActivity, Android.Net.Uri.Parse(uri.AbsoluteUri));
                 };
 
-                if (!authSession.CustomTabsActivityManager.BindService())
-                    authenticator.OnError("CustomTabs not supported.");
+				if (!authSession.CustomTabsActivityManager.BindService())
+				{
+					authenticator.OnError("CustomTabs not supported.");
+					authenticators.Remove(scheme);
+				}
 
             }
             catch (Exception ex)
