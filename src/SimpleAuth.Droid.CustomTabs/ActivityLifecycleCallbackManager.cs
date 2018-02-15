@@ -2,9 +2,9 @@
 using Android.App;
 using Android.OS;
 using Android.Support.V4.App;
+using SimpleAuth.Droid.CustomTabs;
 namespace SimpleAuth
 {
-    
     internal class ActivityLifecycleCallbackManager : Java.Lang.Object, global::Android.App.Application.IActivityLifecycleCallbacks
     {
         public Activity CurrentActivity { get; private set; }
@@ -27,6 +27,8 @@ namespace SimpleAuth
         public void OnActivityResumed(Activity activity)
         {
             CurrentActivity = activity as Activity;
+			if (!(activity is SimpleAuthCallbackActivity))
+				NativeCustomTabsAuthenticator.OnResume();
         }
 
         public void OnActivitySaveInstanceState(Activity activity, Bundle outState)

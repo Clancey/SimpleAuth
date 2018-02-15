@@ -31,6 +31,13 @@ namespace SimpleAuth
             IsActivated = true;
         }
 
+		public static void OnResume()
+		{
+			foreach (var auth in authenticators)
+			{
+				auth.Value.Authenticator?.OnCancelled();
+			}
+		}
 
         public static bool OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent intent)
         {
@@ -68,14 +75,6 @@ namespace SimpleAuth
 
                 authenticators[scheme] = authSession;
                 authSession.CustomTabsActivityManager = new CustomTabsActivityManager(authSession.ParentActivity);
-                authSession.CustomTabsActivityManager.NavigationEvent += (navigationEvent, extras) =>
-                {
-                    if (navigationEvent == CustomTabsCallback.TabHidden)
-                    {
-                        authenticator.OnCancelled();
-                    }
-
-                };
                 authSession.CustomTabsActivityManager.CustomTabsServiceConnected += delegate
                 {
                     var builder = new CustomTabsIntent.Builder(authSession.CustomTabsActivityManager.Session)
