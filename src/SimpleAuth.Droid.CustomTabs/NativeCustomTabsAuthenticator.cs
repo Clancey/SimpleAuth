@@ -13,23 +13,23 @@ using Android.Widget;
 
 namespace SimpleAuth
 {
-   public class NativeCustomTabsAuthenticator
-    {
-        static ActivityLifecycleCallbackManager activityLifecycleManager;
-        static Dictionary<string, CustomTabsAuthSession> authenticators = new Dictionary<string, CustomTabsAuthSession>();
-        public static bool IsActivated { get; private set; }
-        public static void Activate(Android.App.Application app)
-        {
-            Native.RegisterCallBack("CustomTabs", OnActivityResult);
-            OAuthApi.ShowAuthenticator = ShowAuthenticator;
+	public class NativeCustomTabsAuthenticator
+	{
+		static ActivityLifecycleCallbackManager activityLifecycleManager;
+		static Dictionary<string, CustomTabsAuthSession> authenticators = new Dictionary<string, CustomTabsAuthSession>();
+		public static bool IsActivated { get; private set; }
+		public static void Activate(Android.App.Application app)
+		{
+			Native.RegisterCallBack("CustomTabs", OnActivityResult);
+			OAuthApi.ShowAuthenticator = ShowAuthenticator;
 
-            if (activityLifecycleManager == null)
-            {
-                activityLifecycleManager = new ActivityLifecycleCallbackManager();
-                app.RegisterActivityLifecycleCallbacks(activityLifecycleManager);
-            }
-            IsActivated = true;
-        }
+			if (activityLifecycleManager == null)
+			{
+				activityLifecycleManager = new ActivityLifecycleCallbackManager();
+				app.RegisterActivityLifecycleCallbacks(activityLifecycleManager);
+			}
+			IsActivated = true;
+		}
 
 		public static void OnResume()
 		{
@@ -43,59 +43,67 @@ namespace SimpleAuth
 			}
 		}
 
-        public static bool OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent intent)
-        {
-            if (intent == null)
-                return false;
-
-            var uri = new Uri(intent.Data.ToString());
-
-            // Only handle schemes we expect
-            var scheme = uri.Scheme;
-
-            if (!authenticators.TryGetValue(scheme, out var authenticator))
-                return false;
-			if (authenticator.Authenticator.CheckUrl(uri, null))
+		public static bool OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent intent)
+		{
+			try
 			{
-				authenticators.Remove(scheme);
-				return true;
+				if (intent == null || string.IsNullOrWhiteSpace(intent.Data?.ToString()))
+					return false;
+
+				var uri = new Uri(intent.Data.ToString());
+
+				// Only handle schemes we expect
+				var scheme = uri.Scheme;
+
+				if (!authenticators.TryGetValue(scheme, out var authenticator))
+					return false;
+				if (authenticator.Authenticator.CheckUrl(uri, null))
+				{
+					authenticators.Remove(scheme);
+					return true;
+				}
+				return false;
 			}
-			return false;
-        }
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex);
+				return false;
+			}
+		}
 
-        public static async void ShowAuthenticator(WebAuthenticator authenticator)
-        {
-            await BeginAuthentication(authenticator);
-        }
+		public static async void ShowAuthenticator(WebAuthenticator authenticator)
+		{
+			await BeginAuthentication(authenticator);
+		}
 
-        static async Task BeginAuthentication(WebAuthenticator authenticator)
-        {
-            try
-            {
-                var uri = (await authenticator.GetInitialUrl());
-                string redirectUrl = uri.GetParameter("redirect_uri");
-                var scheme = new Uri(redirectUrl).Scheme;
+		static async Task BeginAuthentication(WebAuthenticator authenticator)
+		{
+			try
+			{
+				var uri = (await authenticator.GetInitialUrl());
+				string redirectUrl = uri.GetParameter("redirect_uri");
+				var scheme = new Uri(redirectUrl).Scheme;
 
-                var authSession = new CustomTabsAuthSession
-                {
-                    Authenticator = authenticator,
-                    ParentActivity = activityLifecycleManager.CurrentActivity,
-                };
+				var authSession = new CustomTabsAuthSession
+				{
+					Authenticator = authenticator,
+					ParentActivity = activityLifecycleManager.CurrentActivity,
+				};
 
-                authenticators[scheme] = authSession;
-                authSession.CustomTabsActivityManager = new CustomTabsActivityManager(authSession.ParentActivity);
-                authSession.CustomTabsActivityManager.CustomTabsServiceConnected += delegate
-                {
-                    var builder = new CustomTabsIntent.Builder(authSession.CustomTabsActivityManager.Session)
-                                                      .SetShowTitle(true);
+				authenticators[scheme] = authSession;
+				authSession.CustomTabsActivityManager = new CustomTabsActivityManager(authSession.ParentActivity);
+				authSession.CustomTabsActivityManager.CustomTabsServiceConnected += delegate
+				{
+					var builder = new CustomTabsIntent.Builder(authSession.CustomTabsActivityManager.Session)
+													  .SetShowTitle(true);
 
-                    var customTabsIntent = builder.Build();
-                    customTabsIntent.Intent.AddFlags(Android.Content.ActivityFlags.SingleTop | ActivityFlags.NoHistory | ActivityFlags.NewTask);
+					var customTabsIntent = builder.Build();
+					customTabsIntent.Intent.AddFlags(Android.Content.ActivityFlags.SingleTop | ActivityFlags.NoHistory | ActivityFlags.NewTask);
 
-                    CustomTabsHelper.AddKeepAliveExtra(authSession.ParentActivity, customTabsIntent.Intent);
+					CustomTabsHelper.AddKeepAliveExtra(authSession.ParentActivity, customTabsIntent.Intent);
 
-                    customTabsIntent.LaunchUrl(authSession.ParentActivity, Android.Net.Uri.Parse(uri.AbsoluteUri));
-                };
+					customTabsIntent.LaunchUrl(authSession.ParentActivity, Android.Net.Uri.Parse(uri.AbsoluteUri));
+				};
 
 				if (!authSession.CustomTabsActivityManager.BindService())
 				{
@@ -103,19 +111,19 @@ namespace SimpleAuth
 					authenticators.Remove(scheme);
 				}
 
-            }
-            catch (Exception ex)
-            {
-                authenticator.OnError(ex.Message);
-            }
-        }
-        class CustomTabsAuthSession
-        {
+			}
+			catch (Exception ex)
+			{
+				authenticator.OnError(ex.Message);
+			}
+		}
+		class CustomTabsAuthSession
+		{
 
-            public CustomTabsActivityManager CustomTabsActivityManager { get; set; }
-            public Activity ParentActivity { get; set; }
-            public WebAuthenticator Authenticator { get; set; }
-        }
+			public CustomTabsActivityManager CustomTabsActivityManager { get; set; }
+			public Activity ParentActivity { get; set; }
+			public WebAuthenticator Authenticator { get; set; }
+		}
 
-    }
+	}
 }
