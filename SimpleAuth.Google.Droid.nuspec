@@ -2,23 +2,20 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth.Google.Droid</id>
-        <version>1.0.9</version>
+        <version>1.0.10</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Native Google support for SimpleAuth</description>
-        <releaseNotes>Bug fixes</releaseNotes>
+        <releaseNotes>Updated Dependencies</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-			<dependency id="Clancey.SimpleAuth" version="1.0.40"/>			
-			<dependency id="Xamarin.Android.Support.v4" version="25.3.1"/>
-			<dependency id="Xamarin.GooglePlayServices.Auth" version="42.1021.1"/>
-			<dependency id="Xamarin.GooglePlayServices.Base" version="42.1021.1"/>
-			<dependency id="Xamarin.GooglePlayServices.Basement" version="42.1021.1"/>
+			<dependency id="Clancey.SimpleAuth" version="1.0.49"/>
+			<dependency id="Xamarin.GooglePlayServices.Auth" version="60.1142.1"/>
         </dependencies>
     </metadata>
     <files>
-        <file src="src\SimpleAuth.Google.Droid\bin\Release\SimpleAuth.Google.Droid.dll" target="lib\MonoAndroid\SimpleAuth.Google.Droid.dll" />
+        <file src="src\SimpleAuth.Google.Droid\bin\Debug\SimpleAuth.Google.Droid.dll" target="lib\MonoAndroid\SimpleAuth.Google.Droid.dll" />
     </files>
 </package>

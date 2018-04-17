@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -7,13 +7,14 @@
     <OutputType>Library</OutputType>
     <RootNamespace>SimpleAuth.Facebook.Droid</RootNamespace>
     <AssemblyName>SimpleAuth.Facebook.Droid</AssemblyName>
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>true</AndroidUseLatestPlatformSdk>
-    <AndroidTlsProvider></AndroidTlsProvider>
+    <AndroidTlsProvider>
+    </AndroidTlsProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,22 +36,6 @@
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Bolts" Version="1.4.0.1" />
-    <PackageReference Include="Xamarin.Android.Support.Animated.Vector.Drawable" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.Compat" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.Core.UI" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.CustomTabs" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.Fragment" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.Media.Compat" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.v4" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Android.Support.Vector.Drawable" Version="25.1.1" />
-    <PackageReference Include="Xamarin.Build.Download" Version="0.4.2" />
-    <PackageReference Include="Xamarin.Facebook.Android" Version="4.16.1" />
-  </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -74,6 +59,11 @@
       <Project>{5B44ED27-DAD7-43FA-8A06-BA2469A1AF9E}</Project>
       <Name>SimpleAuth.Droid</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Facebook.Android">
+      <Version>4.26.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

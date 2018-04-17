@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth.Facebook.iOS</id>
-        <version>1.0.5</version>
+        <version>1.0.6</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
@@ -12,11 +12,11 @@
 		Required Callbacks:
 SimpleAuth.Providers.Facebook.Init(app, options);
 SimpleAuth.Native.OpenUrl(application, url, options);</summary>
-        <releaseNotes>Now logs out properly</releaseNotes>
+        <releaseNotes>Updated Dependencies</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-            <dependency id="Clancey.SimpleAuth" version="1.0.45"/>
-            <dependency id="Xamarin.Facebook.iOS" version="4.18.0.1"/>
+            <dependency id="Clancey.SimpleAuth" version="1.0.49"/>
+            <dependency id="Xamarin.Facebook.iOS" version="4.30.0"/>
         </dependencies>
     </metadata>
     <files>
