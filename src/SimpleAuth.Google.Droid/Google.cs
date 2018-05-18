@@ -176,7 +176,7 @@ namespace SimpleAuth.Providers
 					var clientID = GoogleAuthenticator.GetGoogleClientId(authenticator.ClientId);
 					var serverId = GoogleAuthenticator.GetGoogleClientId(authenticator.ServerClientId) ?? clientID;
 					var gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-															.RequestIdToken(clientID).RequestServerAuthCode(serverId).RequestEmail();
+															.RequestServerAuthCode(serverId).RequestEmail();
 
 
 					if (authenticator.Scope != null)
@@ -267,8 +267,7 @@ namespace SimpleAuth.Providers
 			{
 				try
 				{
-					var gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-																.RequestIdToken(serverClientId)
+					var gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)															
 																.RequestServerAuthCode(serverClientId)
 																.RequestEmail();
 
