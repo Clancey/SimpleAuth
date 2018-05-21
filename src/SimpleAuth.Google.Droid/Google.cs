@@ -174,12 +174,14 @@ namespace SimpleAuth.Providers
 				{
 					var googleScopes = authenticator.Scope?.Select(s => new Scope(s))?.ToArray();
 					var clientID = GoogleAuthenticator.GetGoogleClientId(authenticator.ClientId);
-					var serverId = GoogleAuthenticator.GetGoogleClientId(authenticator.ServerClientId) ?? clientID;
+					var serverId = GoogleAuthenticator.GetGoogleClientId(authenticator.ServerClientId);
 					var gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)
-															.RequestServerAuthCode(serverId).RequestEmail();
+															.RequestEmail();
 
+                    if (serverId != null)
+                        gsoBuilder.RequestServerAuthCode(serverId);
 
-					if (authenticator.Scope != null)
+                    if (authenticator.Scope != null)
 						foreach (var scope in authenticator.Scope)
 							gsoBuilder.RequestScopes(new Scope(scope));
 
