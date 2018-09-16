@@ -369,4 +369,22 @@ Simple Auth supports the native Facebook SDK for Android.
 	}
 	```
 
+## CustomTabs for Android
 
+SimpleAuth supports using Custom Tabs for authorization.
+
+1. Add the nuget [Clancey.SimpleAuth.Droid.CustomTabs](https://www.nuget.org/packages/Clancey.SimpleAuth.Droid.CustomTabs)
+2. Create a subclass of SimpleAuthCallbackActivity to handle your url scheme, replacing the value of DataScheme with the scheme you used for the redirectUrl parameter of the Api constructor 
+
+	```cs
+	/// <summary>
+    	/// Receives the redirect to the url scheme when authing
+    	/// </summary>
+    	[Activity(NoHistory = true, LaunchMode = Android.Content.PM.LaunchMode.SingleTop)]
+    	[IntentFilter(new [] { Intent.ActionView},
+        	Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable},
+        	DataScheme = "YOUR CUSTOM SCHEME")]
+    	public class MyCallbackActivity : SimpleAuthCallbackActivity
+    	{
+    	}
+	```
