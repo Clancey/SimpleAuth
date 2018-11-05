@@ -179,7 +179,7 @@ namespace SimpleAuth.Providers
 															.RequestEmail();
 
                     if (serverId != null)
-                        gsoBuilder.RequestServerAuthCode(serverId);
+                        gsoBuilder.RequestIdToken(serverId);
 
                     if (authenticator.Scope != null)
 						foreach (var scope in authenticator.Scope)
@@ -270,7 +270,7 @@ namespace SimpleAuth.Providers
 				try
 				{
 					var gsoBuilder = new GoogleSignInOptions.Builder(GoogleSignInOptions.DefaultSignIn)															
-																.RequestServerAuthCode(serverClientId)
+																.RequestIdToken(serverClientId)
 																.RequestEmail();
 
 					var gso = gsoBuilder.Build();
