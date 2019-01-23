@@ -2,13 +2,13 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth.Google.Droid</id>
-        <version>1.0.10</version>
+        <version>1.0.12</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Native Google support for SimpleAuth</description>
-        <releaseNotes>Updated Dependencies</releaseNotes>
+        <releaseNotes>Fixed login.</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
 			<dependency id="Clancey.SimpleAuth" version="1.0.49"/>
