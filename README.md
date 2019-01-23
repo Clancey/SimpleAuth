@@ -1,6 +1,8 @@
 # Simple Auth
 
 Every API needs authentication, yet no developer wants to deal with authentication. Simple Auth embeds authentication into the API so you dont need to deal with it. Most importantly it works great with traditional Xamarin and Xamarin.Forms
+  
+  [![Join the chat at https://gitter.im/simpleauth/community](https://badges.gitter.im/simpleauth/community.svg)](https://gitter.im/simpleauth/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Android: [![Android Build status](https://build.appcenter.ms/v0.1/apps/7e5acfa7-b0fb-4468-8e0a-f947abcded95/branches/master/badge)](https://appcenter.ms)
 
