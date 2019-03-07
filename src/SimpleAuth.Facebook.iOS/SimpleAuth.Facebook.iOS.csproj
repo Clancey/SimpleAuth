@@ -29,7 +29,9 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Facebook.iOS" Version="4.30.0" />
+    <PackageReference Include="Xamarin.Facebook.LoginKit.iOS">
+      <Version>4.39.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

@@ -111,8 +111,7 @@ namespace SimpleAuth.Providers
 
 				return success;
 			}
-			catch (Exception e)
-			{
+			catch {
 				return false;
 			}
 		}
