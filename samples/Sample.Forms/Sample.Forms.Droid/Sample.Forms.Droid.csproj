@@ -1,4 +1,4 @@
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -13,14 +13,13 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
     <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
     <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
     <JavaMaximumHeapSize>
     </JavaMaximumHeapSize>
     <JavaOptions />
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <AndroidTlsProvider>
@@ -59,81 +58,10 @@
     <AndroidSigningKeyPass>simpleauth</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
-    <PackageReference Include="Microsoft.NETCore.Platforms" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Win32.Primitives" Version="4.3.0" />
     <PackageReference Include="modernhttpclient" Version="2.4.2" />
-    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-    <PackageReference Include="System.AppContext" Version="4.3.0" />
-    <PackageReference Include="System.Collections" Version="4.3.0" />
-    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
-    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
-    <PackageReference Include="System.Console" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.Tools" Version="4.3.0" />
-    <PackageReference Include="System.Diagnostics.Tracing" Version="4.3.0" />
-    <PackageReference Include="System.Globalization" Version="4.3.0" />
-    <PackageReference Include="System.Globalization.Calendars" Version="4.3.0" />
-    <PackageReference Include="System.IO" Version="4.3.0" />
-    <PackageReference Include="System.IO.Compression" Version="4.3.0" />
-    <PackageReference Include="System.IO.Compression.ZipFile" Version="4.3.0" />
-    <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
-    <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Linq" Version="4.3.0" />
-    <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.0" />
-    <PackageReference Include="System.Net.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Net.Sockets" Version="4.3.0" />
-    <PackageReference Include="System.ObjectModel" Version="4.3.0" />
-    <PackageReference Include="System.Reflection" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
-    <PackageReference Include="System.Runtime" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Handles" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Numerics" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.Encoding" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Security.Cryptography.X509Certificates" Version="4.3.0" />
-    <PackageReference Include="System.Text.Encoding" Version="4.3.0" />
-    <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.0" />
-    <PackageReference Include="System.Threading" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Tasks" Version="4.3.0" />
-    <PackageReference Include="System.Threading.Timer" Version="4.3.0" />
-    <PackageReference Include="System.Xml.ReaderWriter" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XDocument" Version="4.3.0" />
-    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
-    <PackageReference Include="Xamarin.Android.Support.Animated.Vector.Drawable" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Annotations" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Compat" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Core.UI" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Core.Utils" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Design" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Fragment" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Media.Compat" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Transition" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.v4" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.CardView" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.MediaRouter" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.Palette" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.v7.RecyclerView" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Android.Support.Vector.Drawable" Version="25.3.1" />
-    <PackageReference Include="Xamarin.Build.Download" Version="0.4.4" />
-    <PackageReference Include="Xamarin.Forms" Version="2.3.4.247" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="42.1001.0" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Auth.Base" Version="42.1001.0" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="42.1001.0" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Basement" Version="42.1001.0" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Tasks" Version="42.1001.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Xamarin.Forms" Version="3.6.0.220655" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="60.1142.1" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />

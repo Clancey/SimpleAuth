@@ -1,4 +1,4 @@
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
@@ -23,7 +23,8 @@
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <CodesignEntitlements></CodesignEntitlements>
+    <CodesignEntitlements>
+    </CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -86,13 +87,8 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="BTProgressHUD" Version="1.2.0.3" />
-    <PackageReference Include="Xamarin.Build.Download" Version="0.4.3" />
-    <PackageReference Include="Xamarin.Firebase.iOS.Analytics" Version="3.6.0.2" />
-    <PackageReference Include="Xamarin.Firebase.iOS.Core" Version="3.4.6" />
-    <PackageReference Include="Xamarin.Firebase.iOS.InstanceID" Version="1.0.8.1" />
-    <PackageReference Include="Xamarin.Google.iOS.Core" Version="3.0.3.3" />
-    <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="4.0.1.2" />
+    <PackageReference Include="BTProgressHUD" Version="1.2.0.6" />
+    <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="4.4.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />

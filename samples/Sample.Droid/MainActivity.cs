@@ -25,7 +25,7 @@ namespace Sample.Droid
 
             // Initialize our native providers
             SimpleAuth.Providers.Google.Init(this.Application);
-            SimpleAuth.Providers.Facebook.Init(this.Application, false);
+            //SimpleAuth.Providers.Facebook.Init(this.Application, false);
 
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
