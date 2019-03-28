@@ -29,7 +29,7 @@ namespace SimpleAuth.Providers
 
 		public static bool IsUsingNative { get; internal set; }
 		public static Action<WebAuthenticator,Action<WebAuthenticator>> ShowTwitterAuthenticator { get; set; }
-		public Uri RedirectUrl { get; set; } = new Uri("https://google.com");
+		public Uri RedirectUrl { get; set; } = new Uri("http://localhost");
 		protected override WebAuthenticator CreateAuthenticator()
 		{
 			var ta = authenticator as TwitterAuthenticator ?? new TwitterAuthenticator
@@ -184,7 +184,6 @@ namespace SimpleAuth.Providers
 		public TwitterAuthenticator()
 		{
 			BaseUrl = "https://api.twitter.com/oauth/authenticate";
-			RedirectUrl = new Uri("http://localhost");
 		}
 
 		WeakReference api;
