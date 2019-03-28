@@ -62,10 +62,6 @@ namespace SimpleAuth.Providers
 				Console.WriteLine (ex);
 				authenticator.OnError (ex.Message);
 			}
-
-
-
-
 		}
 		static async void LogOut (string clientId, string clientsecret)
 		{
