@@ -90,12 +90,8 @@ namespace SimpleAuth.Providers
 		public override async System.Threading.Tasks.Task<HttpResponseMessage> SendMessage(HttpRequestMessage message, bool authenticated = true, HttpCompletionOption completionOption = 0)
 		{
 			var uri = message.RequestUri;
-			var contentT = (message?.Content as FormUrlEncodedContent)?.ReadAsStringAsync();
-			string content = "";
-			if (contentT != null)
-				content = await contentT;
 
-			var timestamp = ((int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds).ToString();
+			var timestamp = ((int)(DateTime.UtcNow - new DateTime (1970, 1, 1)).TotalSeconds).ToString ();
 			var headers = new SortedDictionary<string, string>
 			{
 				{"oauth_consumer_key" , ClientId},
@@ -105,39 +101,44 @@ namespace SimpleAuth.Providers
 				{"oauth_version" , "1.0"}
 			};
 			var token = CurrentOAuthAccount?.Token ?? OauthToken;
-			if (!string.IsNullOrWhiteSpace(token))
-				headers.Add("oauth_token", token);
-			var keyValues = new SortedDictionary<string, string>(headers);
-			if (!string.IsNullOrWhiteSpace(content))
-			{
-				var data = HttpUtility.ParseQueryString(content);
-                //PCLs have a different return type for HttpUtility. For shame...
-#if __PCL__  || NETSTANDARD1_4
-                foreach (var k in data)
-				{
-					keyValues[k.Key] = data[k.Value];
-				}
+			if (!string.IsNullOrWhiteSpace (token))
+				headers.Add ("oauth_token", token);
+			var keyValues = new SortedDictionary<string, string> (headers);
+
+			//Only add extra stuff it is not multipart form!
+			if (!(message?.Content is MultipartFormDataContent)) {
+				var contentT = (message?.Content as FormUrlEncodedContent)?.ReadAsStringAsync ();
+				string content = "";
+				if (contentT != null)
+					content = await contentT;
+
+				if (!string.IsNullOrWhiteSpace (content)) {
+					var data = HttpUtility.ParseQueryString (content);
+					//PCLs have a different return type for HttpUtility. For shame...
+#if __PCL__ || NETSTANDARD1_4
+					foreach (var k in data)
+					{
+						keyValues[k.Key] = data[k.Value];
+					}
 
 #else
-				foreach (var k in data?.AllKeys)
-				{
-					keyValues[k] = data[k];
-				}
+					foreach (var k in data?.AllKeys) {
+						keyValues [k] = data [k];
+					}
 
 #endif
-			}
-			var param = HttpUtility.ParseQueryString(uri.Query);
+				}
+				var param = HttpUtility.ParseQueryString (uri.Query);
 #if __PCL__ || NETSTANDARD1_4
-            foreach (var k in param)
-			{
-				keyValues[k.Key] = param[k.Value];
-			}
+				foreach (var k in param)
+				{
+					keyValues[k.Key] = param[k.Value];
+				}
 
 #else
-			foreach (var k in param?.AllKeys)
-			{
-				keyValues[k] = param[k];
-			}
+				foreach (var k in param?.AllKeys) {
+					keyValues [k] = param [k];
+				}
 
 #endif
 
