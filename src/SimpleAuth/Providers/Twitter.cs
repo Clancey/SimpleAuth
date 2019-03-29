@@ -8,32 +8,28 @@ using System.Text;
 using System.Web;
 using System.Threading.Tasks;
 
-namespace SimpleAuth.Providers
-{
-	public class TwitterApi : OAuthApi
-	{
-		public TwitterApi(string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base(identifier, clientId, clientSecret, handler)
+namespace SimpleAuth.Providers {
+	public class TwitterApi : OAuthApi {
+		public TwitterApi (string identifier, string clientId, string clientSecret, HttpMessageHandler handler = null) : base (identifier, clientId, clientSecret, handler)
 		{
 			ScopesRequired = false;
-			BaseAddress = new Uri("https://api.twitter.com/1.1/");
+			BaseAddress = new Uri ("https://api.twitter.com/1.1/");
 			TokenUrl = "https://api.twitter.com/oauth2/token";
-			CurrentShowAuthenticator = (a) =>
-			{
+			CurrentShowAuthenticator = (a) => {
 				a.Cookies = CurrentOAuthAccount?.Cookies;
 				if (ShowTwitterAuthenticator != null)
-					ShowTwitterAuthenticator(a, ShowAuthenticator);
+					ShowTwitterAuthenticator (a, ShowAuthenticator);
 				else
-					ShowAuthenticator(a);
+					ShowAuthenticator (a);
 			};
 		}
 
 		public static bool IsUsingNative { get; internal set; }
-		public static Action<WebAuthenticator,Action<WebAuthenticator>> ShowTwitterAuthenticator { get; set; }
-		public Uri RedirectUrl { get; set; } = new Uri("http://localhost");
-		protected override WebAuthenticator CreateAuthenticator()
+		public static Action<WebAuthenticator, Action<WebAuthenticator>> ShowTwitterAuthenticator { get; set; }
+		public Uri RedirectUrl { get; set; } = new Uri ("http://localhost");
+		protected override WebAuthenticator CreateAuthenticator ()
 		{
-			var ta = authenticator as TwitterAuthenticator ?? new TwitterAuthenticator
-			{
+			var ta = authenticator as TwitterAuthenticator ?? new TwitterAuthenticator {
 				Api = this,
 				TokenUrl = TokenUrl,
 				ClientId = ClientId,
@@ -44,18 +40,16 @@ namespace SimpleAuth.Providers
 			return authenticator = ta;
 		}
 
-		protected override async Task<OAuthAccount> GetAccountFromAuthCode(WebAuthenticator authenticator, string identifier)
+		protected override async Task<OAuthAccount> GetAccountFromAuthCode (WebAuthenticator authenticator, string identifier)
 		{
 			var ta = authenticator as TwitterAuthenticator;
 			OauthToken = ta.AuthCode;
-			if (ta.NativeCheck)
-			{
-				return new TwitterAccount()
-				{
+			if (ta.NativeCheck) {
+				return new TwitterAccount () {
 					ExpiresIn = 0,
 					Created = DateTime.UtcNow,
 					RefreshToken = ta.AuthCode,
-					Scope = authenticator.Scope?.ToArray(),
+					Scope = authenticator.Scope?.ToArray (),
 					TokenType = "Oauth",
 					Token = ta.AuthCode,
 					OAuthSecret = ta.CodeVerifier,
@@ -63,32 +57,36 @@ namespace SimpleAuth.Providers
 					Identifier = identifier,
 				};
 			}
-			var resp = await PostMessage("https://api.twitter.com/oauth/access_token", new FormUrlEncodedContent(new Dictionary<string, string> { { "oauth_verifier", ta.CodeVerifier } }), authenticated: false);
-			var data = HttpUtility.ParseQueryString(await resp.Content.ReadAsStringAsync());
-			var account = new TwitterAccount()
-			{
+			var resp = await PostMessage ("https://api.twitter.com/oauth/access_token", new FormUrlEncodedContent (new Dictionary<string, string> { { "oauth_verifier", ta.CodeVerifier } }), authenticated: false);
+			var data = HttpUtility.ParseQueryString (await resp.Content.ReadAsStringAsync ());
+			var account = new TwitterAccount () {
 				ExpiresIn = 0,
 				Created = DateTime.UtcNow,
 				RefreshToken = ta.AuthCode,
-				Scope = authenticator.Scope?.ToArray(),
+				Scope = authenticator.Scope?.ToArray (),
 				TokenType = "Oauth",
-				Token = data["oauth_token"],
-				OAuthSecret = data["oauth_token_secret"],
+				Token = data ["oauth_token"],
+				OAuthSecret = data ["oauth_token_secret"],
 				ClientId = ClientId,
 				Identifier = identifier,
 			};
+			SaveAccount (account);
 			return account;
 
 		}
 
-		protected override T GetAccount<T>(string identifier)
+		protected override T GetAccount<T> (string identifier)
 		{
 			//Yes this is ugly, but we wan it to be TwitterAccount
-			return (T)((object)base.GetAccount<TwitterAccount>(identifier));
+			var account = (T)((object)base.GetAccount<TwitterAccount> (identifier));
+			return account;
 		}
+
 		string OauthToken = "";
-		public override async System.Threading.Tasks.Task<HttpResponseMessage> SendMessage(HttpRequestMessage message, bool authenticated = true, HttpCompletionOption completionOption = 0)
+		public override async System.Threading.Tasks.Task<HttpResponseMessage> SendMessage (HttpRequestMessage message, bool authenticated = true, HttpCompletionOption completionOption = 0)
 		{
+			if (authenticated)
+				await VerifyCredentials ();
 			var uri = message.RequestUri;
 
 			var timestamp = ((int)(DateTime.UtcNow - new DateTime (1970, 1, 1)).TotalSeconds).ToString ();
@@ -142,125 +140,117 @@ namespace SimpleAuth.Providers
 
 #endif
 
-			var hash = ComputeHash(message.Method, uri, keyValues, ClientSecret, authenticated ? (CurrentAccount as TwitterAccount).OAuthSecret : "");
 
-			headers.Add("oauth_signature", hash);
-			var auth = string.Join(",", headers.Select(x => $"{x.Key}=\"{Uri.EscapeDataString(x.Value)}\""));
-			message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("OAuth", auth);
 
-			return await Client.SendAsync(message, completionOption);
+			}
+			var hash = ComputeHash (message.Method, uri, keyValues, ClientSecret, authenticated ? (CurrentAccount as TwitterAccount).OAuthSecret : "");
+
+			headers.Add ("oauth_signature", hash);
+			var auth = string.Join (",", headers.Select (x => $"{x.Key}=\"{Uri.EscapeDataString (x.Value)}\""));
+			message.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue ("OAuth", auth);
+
+			return await Client.SendAsync (message, completionOption);
 		}
-		public override Task PrepareClient(HttpClient client)
+		public override Task PrepareClient (HttpClient client)
 		{
-			return Task.FromResult(true);
+			return Task.FromResult (true);
 		}
-		public static string ComputeHash(HttpMethod method, Uri url, SortedDictionary<string, string> keyValues, string clientSecret, string appSecret)
+		public static string ComputeHash (HttpMethod method, Uri url, SortedDictionary<string, string> keyValues, string clientSecret, string appSecret)
 		{
-			var sig = GetSignature(method.ToString().ToUpper(), url, keyValues, clientSecret, appSecret);
+			var sig = GetSignature (method.ToString ().ToUpper (), url, keyValues, clientSecret, appSecret);
 			return sig;
 		}
 
-		public static string GetSignature(string method, Uri uri, IDictionary<string, string> parameters, string clientSecret, string tokenSecret)
+		public static string GetSignature (string method, Uri uri, IDictionary<string, string> parameters, string clientSecret, string tokenSecret)
 		{
 			var url = uri.AbsoluteUri;
-			if (!string.IsNullOrWhiteSpace(uri.Query))
-				url = url.Replace(uri.Query, "");
-			var urlString = $"{method.ToUpper()}&{Uri.EscapeDataString(url)}";
-			var parametersString = string.Join("&", parameters.Select(x => $"{Uri.EscapeDataString(x.Key)}={Uri.EscapeDataString(x.Value)}"));
+			if (!string.IsNullOrWhiteSpace (uri.Query))
+				url = url.Replace (uri.Query, "");
+			var urlString = $"{method.ToUpper ()}&{Uri.EscapeDataString (url)}";
+			var parametersString = string.Join ("&", parameters.Select (x => $"{Uri.EscapeDataString (x.Key)}={Uri.EscapeDataString (x.Value)}"));
 
-			string signatureBaseString = $"{urlString}&{Uri.EscapeDataString(parametersString)}";
-			string signatureKey = $"{Uri.EscapeDataString(clientSecret)}&{Uri.EscapeDataString(tokenSecret)}";
-			var hmacsha1 = new System.Security.Cryptography.HMACSHA1(Encoding.UTF8.GetBytes(signatureKey));
+			string signatureBaseString = $"{urlString}&{Uri.EscapeDataString (parametersString)}";
+			string signatureKey = $"{Uri.EscapeDataString (clientSecret)}&{Uri.EscapeDataString (tokenSecret)}";
+			var hmacsha1 = new System.Security.Cryptography.HMACSHA1 (Encoding.UTF8.GetBytes (signatureKey));
 
 
-			string signatureString = Convert.ToBase64String(hmacsha1.ComputeHash(Encoding.UTF8.GetBytes(signatureBaseString)));
+			string signatureString = Convert.ToBase64String (hmacsha1.ComputeHash (Encoding.UTF8.GetBytes (signatureBaseString)));
 
 			return signatureString;
 		}
 	}
 
-	public class TwitterAuthenticator : OAuthAuthenticator
-	{
+	public class TwitterAuthenticator : OAuthAuthenticator {
 		public string OAuthSecret { get; set; }
-		public TwitterAuthenticator()
+		public TwitterAuthenticator ()
 		{
 			BaseUrl = "https://api.twitter.com/oauth/authenticate";
 		}
 
 		WeakReference api;
-		public TwitterApi Api
-		{
+		public TwitterApi Api {
 			get { return api?.Target as TwitterApi; }
-			set { api = new WeakReference(value); }
+			set { api = new WeakReference (value); }
 		}
 
-		public override async System.Threading.Tasks.Task<Uri> GetInitialUrl()
+		public override async System.Threading.Tasks.Task<Uri> GetInitialUrl ()
 		{
-			var m = await Api.PostMessage("https://api.twitter.com/oauth/request_token", null, false);
-			var s = await m.Content.ReadAsStringAsync().ConfigureAwait(false);
-			var d = HttpUtility.ParseQueryString(s);
-			var u = new Uri(BaseUrl).AddParameters("oauth_token", d["oauth_token"]).AddParameters("redirect_uri",RedirectUrl.AbsoluteUri);
+			var m = await Api.PostMessage ("https://api.twitter.com/oauth/request_token", null, false);
+			var s = await m.Content.ReadAsStringAsync ().ConfigureAwait (false);
+			var d = HttpUtility.ParseQueryString (s);
+			var u = new Uri (BaseUrl).AddParameters ("oauth_token", d ["oauth_token"]).AddParameters ("redirect_uri", RedirectUrl.AbsoluteUri);
 			return u;
 		}
 		public string CodeVerifier { get; set; }
-		public override bool CheckUrl(Uri url, System.Net.Cookie[] cookies)
+		public override bool CheckUrl (Uri url, System.Net.Cookie [] cookies)
 		{
-			try
-			{
-				if (url == null || string.IsNullOrWhiteSpace(url.Query))
+			try {
+				if (url == null || string.IsNullOrWhiteSpace (url.Query))
 					return false;
 				if (url.Host != RedirectUrl.Host)
 					return false;
-				var parts = HttpUtility.ParseQueryString(url.Query);
-				var code = parts["oauth_token"];
-				if (!string.IsNullOrWhiteSpace(code) && TokenTask != null)
-				{
-					CodeVerifier = parts["oauth_verifier"];
-					FoundAuthCode(code);
+				var parts = HttpUtility.ParseQueryString (url.Query);
+				var code = parts ["oauth_token"];
+				if (!string.IsNullOrWhiteSpace (code) && TokenTask != null) {
+					CodeVerifier = parts ["oauth_verifier"];
+					FoundAuthCode (code);
 					return true;
 				}
 
-			}
-			catch (Exception ex)
-			{
-				Api?.OnException(this, ex);
+			} catch (Exception ex) {
+				Api?.OnException (this, ex);
 			}
 			return false;
 		}
 		public bool NativeCheck { get; set; }
-		public bool CheckNativeUrl(string query)
+		public bool CheckNativeUrl (string query)
 		{
-			try
-			{
-				if (string.IsNullOrWhiteSpace(query))
+			try {
+				if (string.IsNullOrWhiteSpace (query))
 					return false;
-				var parts = HttpUtility.ParseQueryString(query);
-				var code = parts["token"];
-				var secret = parts["secret"];
-				if (!string.IsNullOrWhiteSpace(code) && TokenTask != null)
-				{
+				var parts = HttpUtility.ParseQueryString (query);
+				var code = parts ["token"];
+				var secret = parts ["secret"];
+				if (!string.IsNullOrWhiteSpace (code) && TokenTask != null) {
 					NativeCheck = true;
 					CodeVerifier = secret;
-					FoundAuthCode(code);
+					FoundAuthCode (code);
 					return true;
 				}
 
-			}
-			catch (Exception ex)
-			{
-				Api?.OnException(this, ex);
+			} catch (Exception ex) {
+				Api?.OnException (this, ex);
 			}
 			return false;
 		}
 	}
 
-	public class TwitterAccount : OAuthAccount
-	{
+	public class TwitterAccount : OAuthAccount {
 		public string OAuthSecret { get; set; }
 
-		public override bool IsValid()
+		public override bool IsValid ()
 		{
-			return !string.IsNullOrWhiteSpace(OAuthSecret) && !string.IsNullOrWhiteSpace(Token);
+			return !string.IsNullOrWhiteSpace (OAuthSecret) && !string.IsNullOrWhiteSpace (Token);
 		}
 	}
 }
