@@ -221,7 +221,7 @@ namespace SimpleAuth
 			{
 				Android.Webkit.CookieSyncManager.CreateInstance(this.activity);
 				var cookies = CookieManager.Instance.GetCookie (url);
-				var cookiePairs = cookies?.Split('&') ?? new string[0];
+				var cookiePairs = cookies?.Split('!') ?? new string[0];
 
 				return cookiePairs.Select(x =>
 				{
@@ -231,8 +231,8 @@ namespace SimpleAuth
 					try{
 						return new Cookie
 						{
-							Name = parts[0],
-							Value = parts[1],
+							Name = parts[0]?.Trim(),
+							Value = parts[1]?.Trim(),
 						};
 					}
 					catch(Exception ex)
