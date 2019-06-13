@@ -32,7 +32,8 @@ namespace SimpleAuth
 					vault.Remove(pass);
 			}
 			catch { }
-			vault.Add(new Windows.Security.Credentials.PasswordCredential(ResourceIdentifier, $"{clientId}-{id}-{service}", value));
+            if (!string.IsNullOrEmpty(value))
+			    vault.Add(new Windows.Security.Credentials.PasswordCredential(ResourceIdentifier, $"{clientId}-{id}-{service}", value));
 		}
 	}
 }
