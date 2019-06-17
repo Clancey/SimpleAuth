@@ -11,7 +11,8 @@ namespace Sample.Forms
 {
 	public class App : Application
 	{
-		public App ()
+        GoogleApi _googleApi;
+        public App ()
 		{
 
 			//Hook up our Forms login page for Basic Auth
@@ -26,31 +27,60 @@ namespace Sample.Forms
 			string GoogleClientId = "992461286651-k3tsbcreniknqptanrugsetiimt0lkvo.apps.googleusercontent.com";
 			string GoogleSecret = "avrYAIxweNZwcHpsBlIzTp04";
 #endif
-			// The root page of your application
-			MainPage = new NavigationPage(new ContentPage
+            _googleApi = new GoogleApi("google", GoogleClientId, GoogleSecret)
+            {
+                Scopes = new[]
+                                {
+                                "https://www.googleapis.com/auth/userinfo.email",
+                                "https://www.googleapis.com/auth/userinfo.profile"
+                                },
+            };
+
+            var logoutButton = new Button()
+            {
+                Text = "Logout"
+            };
+            logoutButton.Clicked += (sender, args) =>
+            {
+                if (_googleApi != null)
+                {
+                    _googleApi.Logout();
+                }
+            };
+
+
+            // The root page of your application
+            MainPage = new NavigationPage(new ContentPage
             {
                 Content = new StackLayout
                 {
                     VerticalOptions = LayoutOptions.Center,
                     Children = {
-                        CreateApiButton( new GoogleApi("google", GoogleClientId,GoogleSecret)
-						{
-                            Scopes =  new[]
-                                {
-								"https://www.googleapis.com/auth/userinfo.email",
-								"https://www.googleapis.com/auth/userinfo.profile"
-                                },
-                        }),
+                        CreateApiButton(_googleApi),
+                        //CreateApiButton( new GoogleApi("google", GoogleClientId,GoogleSecret)
+                        //{
+                        //    Scopes =  new[]
+                        //        {
+                        //        "https://www.googleapis.com/auth/userinfo.email",
+                        //        "https://www.googleapis.com/auth/userinfo.profile"
+                        //        },
+                        //}),
                         CreateApiButton(new FacebookApi("facebook","","")),
                         CreateApiButton(new OAuthPasswordApi ("myapi", "clientid", "clientsecret",
                                         "https://serverurl.com",
                                         "https://tokenurl.com",
                                         "https://refreshurl.com")),
-
+                        logoutButton
                     }
                 }
             });
         }
+
+        private void LogoutButton_Clicked(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         Button CreateApiButton(AuthenticatedApi api)
         {
             var button = new Button
