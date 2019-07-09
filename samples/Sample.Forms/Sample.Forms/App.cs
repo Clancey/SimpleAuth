@@ -45,8 +45,6 @@ namespace Sample.Forms
                 {
                     _sourceApi.Logout();
                     _sourceApi = null;
-
-                    await Windows.UI.Xaml.Controls.WebView.ClearTemporaryWebDataAsync();
                 }
             };
 
