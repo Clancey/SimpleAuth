@@ -12,7 +12,6 @@ namespace Sample.Forms
 	public class App : Application
 	{
         AuthenticatedApi _sourceApi;
-
         public App ()
 		{
 
