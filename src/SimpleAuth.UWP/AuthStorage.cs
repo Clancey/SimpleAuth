@@ -28,9 +28,16 @@ namespace SimpleAuth
 			try
 			{
 				var pass = vault.Retrieve(ResourceIdentifier, $"{clientId}-{id}-{service}");
-				if (pass != null)
-					vault.Remove(pass);
-			}
+                if (pass != null)
+                {
+                    vault.Remove(pass);
+
+                    // This clears the WebView cache which is used for Instagram
+                    #pragma warning disable 4014
+                    Windows.UI.Xaml.Controls.WebView.ClearTemporaryWebDataAsync();
+                    #pragma warning restore 4014
+                }
+            }
 			catch { }
             if (!string.IsNullOrEmpty(value))
 			    vault.Add(new Windows.Security.Credentials.PasswordCredential(ResourceIdentifier, $"{clientId}-{id}-{service}", value));

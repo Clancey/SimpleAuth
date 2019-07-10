@@ -147,7 +147,9 @@ namespace SimpleAuth.Mac
 					}
 				}
 			}
-			Authenticator.OnError (error.LocalizedDescription);
+            // Ignore the ""NSURLErrorDomain -999" authentication error with Dropbox. Issue #76.
+            if (error.Code != -999)
+			    Authenticator.OnError (error.LocalizedDescription);
 		}
 
 		[Export ("webView:willPerformClientRedirectToURL:delay:fireDate:forFrame:")]

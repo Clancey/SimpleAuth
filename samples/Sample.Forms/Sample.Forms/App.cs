@@ -11,7 +11,7 @@ namespace Sample.Forms
 {
 	public class App : Application
 	{
-        GoogleApi _googleApi;
+        AuthenticatedApi _sourceApi;
         public App ()
 		{
 
@@ -20,31 +20,30 @@ namespace Sample.Forms
 				MainPage.Navigation.PushModalAsync (new LoginPage (obj));
 			};
 
+            string FacebookClientId = "528997441203195";
+            string FacebookSecret = "db801dd6f6bc40702ebbd70ecdef4d4e";
+
+            string InstagramClientId = "f2c421d810824581ac758861e56e5340";
+            string InstagramSecret = "2465b93d4cc44355a4ccf32f3eca707a";
+
 #if __ANDROID__
 			string GoogleClientId = "646679266669-quj4b4frm8gi4knn6269me7ss9cefj7c.apps.googleusercontent.com";
 			string GoogleSecret = GoogleApi.NativeClientSecret; //"uzj06SA8A66Y9mOA1rSjmQH7";
 #else
-			string GoogleClientId = "992461286651-k3tsbcreniknqptanrugsetiimt0lkvo.apps.googleusercontent.com";
+            string GoogleClientId = "992461286651-k3tsbcreniknqptanrugsetiimt0lkvo.apps.googleusercontent.com";
 			string GoogleSecret = "avrYAIxweNZwcHpsBlIzTp04";
 #endif
-            _googleApi = new GoogleApi("google", GoogleClientId, GoogleSecret)
-            {
-                Scopes = new[]
-                                {
-                                "https://www.googleapis.com/auth/userinfo.email",
-                                "https://www.googleapis.com/auth/userinfo.profile"
-                                },
-            };
 
             var logoutButton = new Button()
             {
                 Text = "Logout"
             };
-            logoutButton.Clicked += (sender, args) =>
+            logoutButton.Clicked += async (sender, args) =>
             {
-                if (_googleApi != null)
+                if (_sourceApi != null)
                 {
-                    _googleApi.Logout();
+                    _sourceApi.Logout();
+                    _sourceApi = null;
                 }
             };
 
@@ -56,16 +55,16 @@ namespace Sample.Forms
                 {
                     VerticalOptions = LayoutOptions.Center,
                     Children = {
-                        CreateApiButton(_googleApi),
-                        //CreateApiButton( new GoogleApi("google", GoogleClientId,GoogleSecret)
-                        //{
-                        //    Scopes =  new[]
-                        //        {
-                        //        "https://www.googleapis.com/auth/userinfo.email",
-                        //        "https://www.googleapis.com/auth/userinfo.profile"
-                        //        },
-                        //}),
-                        CreateApiButton(new FacebookApi("facebook","","")),
+                        CreateApiButton( new GoogleApi("google", GoogleClientId, GoogleSecret)
+                        {
+                            Scopes =  new[]
+                                {
+                                "https://www.googleapis.com/auth/userinfo.email",
+                                "https://www.googleapis.com/auth/userinfo.profile"
+                                },
+                        }),
+                        CreateApiButton(new FacebookApi("facebook", FacebookClientId, FacebookSecret)),
+                        CreateApiButton(new InstagramApi("instagram" ,InstagramClientId, InstagramSecret)),
                         CreateApiButton(new OAuthPasswordApi ("myapi", "clientid", "clientsecret",
                                         "https://serverurl.com",
                                         "https://tokenurl.com",
@@ -76,11 +75,6 @@ namespace Sample.Forms
             });
         }
 
-        private void LogoutButton_Clicked(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         Button CreateApiButton(AuthenticatedApi api)
         {
             var button = new Button
@@ -89,16 +83,18 @@ namespace Sample.Forms
             };
             button.Clicked += async (sender, args) =>
             {
-				try {
-					var account = await api.Authenticate ();
-					Console.WriteLine (account.Identifier);
-					MainPage.DisplayAlert ("Success!", "User is logged in", "Ok");
+                try
+                {
+                    _sourceApi = api;
+                    var account = await api.Authenticate () as OAuthAccount;
+					Console.WriteLine (account.Identifier + " : " + account.Token);
+					await MainPage.DisplayAlert ("Success!", "User is logged in", "Ok");
 				} catch (TaskCanceledException) {
 					Console.WriteLine ("Canceled");
-					MainPage.DisplayAlert ("Error", "User Canceled", "Ok");
+					await MainPage.DisplayAlert ("Error", "User Canceled", "Ok");
 				} catch (Exception ex) {
 					Console.WriteLine (ex);
-					MainPage.DisplayAlert ("Error", ex.Message,"Ok");
+					await MainPage.DisplayAlert ("Error", ex.Message,"Ok");
 				}
             };
             return button;
