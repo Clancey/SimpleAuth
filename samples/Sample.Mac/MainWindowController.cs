@@ -11,7 +11,7 @@ namespace Sample.Mac
 	public partial class MainWindowController : NSWindowController
 	{
 
-		GoogleApi api;
+		InstagramApi api;
 		public MainWindowController(IntPtr handle)
 			: base(handle)
 		{
@@ -40,7 +40,7 @@ namespace Sample.Mac
 				"https://www.googleapis.com/auth/userinfo.email",
 				"https://www.googleapis.com/auth/userinfo.profile"
 			};
-			api = new GoogleApi("google",
+			api = new InstagramApi("instagram",
 				ClientId,
 				ClientSecret)
 			{
@@ -63,7 +63,7 @@ namespace Sample.Mac
 			try
 			{
 				var account = await api.Authenticate();
-				var info = await api.GetUserInfo();
+				//var info = await api.GetUserInfo();
 				Console.WriteLine(account.Identifier);
 			}
 			catch (TaskCanceledException ex)
