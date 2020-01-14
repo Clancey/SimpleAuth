@@ -147,7 +147,9 @@ namespace SimpleAuth.Mac
         [Foundation.Export("webView:didFailLoadWithError:forFrame:")]
         public void FailedLoadWithError(WebView sender, NSError error, WebFrame forFrame)
         {
-            Authenticator.OnError(error.LocalizedDescription);
+            // Ignore the ""NSURLErrorDomain -999" authentication error with Instagram. Issue #98.
+            if (error.Code != -999)
+                Authenticator.OnError(error.LocalizedDescription);
         }
 
         [Foundation.Export("webView:didFailProvisionalLoadWithError:forFrame:")]
