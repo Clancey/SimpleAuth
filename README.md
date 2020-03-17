@@ -177,7 +177,7 @@ public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options
 
 ## Native Google Support via iOS SDK
 
-[Clancey.SimpleAuth.Facebook.iOS](https://www.nuget.org/packages/Clancey.SimpleAuth.Facebook.iOS/)
+[Clancey.SimpleAuth.Google.iOS](https://www.nuget.org/packages/Clancey.SimpleAuth.Google.iOS/)
 
 The Google SDK can do Cross-Client Login.  This allows you to get tokens for the server, with one login.
 
