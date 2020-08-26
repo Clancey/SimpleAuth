@@ -143,10 +143,6 @@
       <IsAppExtension>False</IsAppExtension>
       <IsWatchApp>False</IsWatchApp>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\src\SimpleAuth.OnePassword.iOS\SimpleAuth.OnePassword.iOS.csproj">
-      <Project>{3978F9A7-1AD2-4550-A0FE-86793CA912CD}</Project>
-      <Name>SimpleAuth.OnePassword.iOS</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\src\SimpleAuth.Facebook.iOS\SimpleAuth.Facebook.iOS.csproj">
       <Project>{C5138A14-061F-4251-9AEA-2401E9578CDA}</Project>
       <Name>SimpleAuth.Facebook.iOS</Name>
