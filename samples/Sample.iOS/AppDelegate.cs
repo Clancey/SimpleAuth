@@ -27,9 +27,7 @@ namespace Sample.iOS
 		ADFSApi azureApi;
         public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-			SimpleAuth.OnePassword.Activate ();
-			SimpleAuth.NativeSafariAuthenticator.Activate ();
-			SimpleAuth.Providers.Google.Init ();
+			//SimpleAuth.Providers.Google.Init ();
 
 			googleApi = new GoogleApi ("google", "419855213697-t0usvf1n0j1vd9glogcp33b4d2fnfjhn.apps.googleusercontent.com") {
 				ServerClientId = "419855213697-uq56vcune334omgqi51ou7jg08i3dnb1.apps.googleusercontent.com",
@@ -40,7 +38,6 @@ namespace Sample.iOS
 					"https://www.googleapis.com/auth/userinfo.profile"
 				}
 			};
-			googleApi.ResetData ();
 			apiKeyApi = new ApiKeyApi ("myapikey", "api_key", AuthLocation.Query) {
 				BaseAddress = new Uri ("http://petstore.swagger.io/v2"),
 			};

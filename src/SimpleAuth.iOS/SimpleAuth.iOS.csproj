@@ -40,12 +40,10 @@
   <ItemGroup>
     <Compile Include="BasicAuthController.cs" />
     <Compile Include="TypeForwarded.cs" />
-    <Compile Include="WebAuthenticatorViewController.cs" />
     <Compile Include="AuthStorage.cs" />
     <Compile Include="NativeSafariAuthenticator.cs" />
     <Compile Include="Native.cs" />
     <Compile Include="Twitter.cs" />
-    <Compile Include="WebAuthenticatorWindow.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
