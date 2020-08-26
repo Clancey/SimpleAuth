@@ -11,11 +11,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace SimpleAuth
-{
-	public class Api
-	{
-		public delegate void ApiExceptionEventHandler(object sender, Exception e);
+namespace SimpleAuth {
+	public class Api {
+		public delegate void ApiExceptionEventHandler (object sender, Exception e);
 		public static event ApiExceptionEventHandler UnhandledException;
 
 		public Converter Converter { get; set; } = new JsonConverter ();
@@ -44,16 +42,13 @@ namespace SimpleAuth
 		public readonly HttpMessageHandler Handler;
 
 		string userAgent;
-		public string UserAgent
-		{
-			get
-			{
+		public string UserAgent {
+			get {
 				return userAgent;
 			}
-			set
-			{
+			set {
 				userAgent = value;
-				Client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+				Client.DefaultRequestHeaders.Add ("User-Agent", UserAgent);
 			}
 		}
 
@@ -65,17 +60,16 @@ namespace SimpleAuth
 		/// <param name="identifier">This is used to store and look up credentials/cookies for the API</param>
 		/// <param name="encryptionKey">Encryption key used to store information.</param>
 		/// <param name="handler">Handler.</param>
-		public Api(string identifier, string encryptionKey, HttpMessageHandler handler = null)
+		public Api (string identifier, string encryptionKey, HttpMessageHandler handler = null)
 		{
 			Identifier = identifier;
 			Handler = handler;
 			ClientId = identifier;
 			ClientSecret = encryptionKey;
-			Client = handler == null ? new HttpClient() : new HttpClient(handler);
+			Client = handler == null ? new HttpClient () : new HttpClient (handler);
 		}
 
-		public Uri BaseAddress
-		{
+		public Uri BaseAddress {
 			get { return Client.BaseAddress; }
 			set { Client.BaseAddress = value; }
 		}
@@ -83,48 +77,46 @@ namespace SimpleAuth
 
 		public string DeviceId { get; set; }
 
-		protected virtual Task OnAccountUpdated(Account account)
+		protected virtual Task OnAccountUpdated (Account account)
 		{
-			return Task.FromResult(true);
+			return Task.FromResult (true);
 		}
-		public virtual IAuthStorage AuthStorage
-		{
-			get
-			{
-				return Resolver.GetObject<IAuthStorage>();
+		public virtual IAuthStorage AuthStorage {
+			get {
+				return Resolver.GetObject<IAuthStorage> ();
 			}
 		}
 		protected bool CalledReset = false;
-		public virtual void ResetData()
+		public virtual void ResetData ()
 		{
 			CalledReset = true;
-			AuthStorage.SetSecured(Identifier, "", ClientId, ClientSecret, SharedGroupAccess);
+			AuthStorage.SetSecured (Identifier, "", ClientId, ClientSecret, SharedGroupAccess);
 		}
 
-		public virtual void Logout()
+		public virtual void Logout ()
 		{
-			ResetData();
+			ResetData ();
 		}
 
-		public virtual async Task PrepareClient(HttpClient client)
+		public virtual async Task PrepareClient (HttpClient client)
 		{
-			await VerifyCredentials();
-			if (!string.IsNullOrWhiteSpace(UserAgent))
-				client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+			await VerifyCredentials ();
+			if (!string.IsNullOrWhiteSpace (UserAgent))
+				client.DefaultRequestHeaders.Add ("User-Agent", UserAgent);
 		}
 
-		public virtual Task ResetClient(HttpClient client)
+		public virtual Task ResetClient (HttpClient client)
 		{
-			client.DefaultRequestHeaders.Clear();
-			return Task.FromResult(true);
+			client.DefaultRequestHeaders.Clear ();
+			return Task.FromResult (true);
 		}
 
-		public async virtual Task<Stream> GetUrlStream(string path, bool authenticated = true)
+		public async virtual Task<Stream> GetUrlStream (string path, bool authenticated = true)
 		{
 			if (authenticated)
-				await VerifyCredentials();
-			path = await PrepareUrl(path, authenticated);
-			return await Client.GetStreamAsync(new Uri(path));
+				await VerifyCredentials ();
+			path = await PrepareUrl (path, authenticated);
+			return await Client.GetStreamAsync (new Uri (path));
 		}
 
 		public virtual Task<string> Get (string path = null, Dictionary<string, string> queryParameters = null,
@@ -229,211 +221,193 @@ namespace SimpleAuth
 
 		public virtual async Task<T> SendObjectMessage<T> (string path, HttpContent content, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			if (string.IsNullOrWhiteSpace(path))
-			{
-				path = GetType().GetMethods().Where(x => x.Name == methodName).Select(x => GetValueFromAttribute<PathAttribute>(x)).Where(x => !string.IsNullOrWhiteSpace(x)).FirstOrDefault();
+			if (string.IsNullOrWhiteSpace (path)) {
+				path = GetType ().GetMethods ().Where (x => x.Name == methodName).Select (x => GetValueFromAttribute<PathAttribute> (x)).Where (x => !string.IsNullOrWhiteSpace (x)).FirstOrDefault ();
 			}
 
-			if (string.IsNullOrWhiteSpace(path))
-				throw new Exception("Missing Path Attribute");
+			if (string.IsNullOrWhiteSpace (path))
+				throw new Exception ("Missing Path Attribute");
 
 			if (queryParameters != null)
-				path = CombineUrl(path, queryParameters);
+				path = CombineUrl (path, queryParameters);
 
 			//Merge attributes with passed in headers.
 			//Passed in headers overwrite attributes
-			var attributeHeaders = GetType().GetMethods().Where(x => x.Name == methodName).Select(x => GetHeadersFromMethod(x)).Where(x => x?.Any() ?? false).FirstOrDefault();
-			if (attributeHeaders?.Any() ?? false)
-			{
+			var attributeHeaders = GetType ().GetMethods ().Where (x => x.Name == methodName).Select (x => GetHeadersFromMethod (x)).Where (x => x?.Any () ?? false).FirstOrDefault ();
+			if (attributeHeaders?.Any () ?? false) {
 				if (headers != null)
-					foreach (var header in headers)
-					{
-						attributeHeaders[header.Key] = header.Value;
+					foreach (var header in headers) {
+						attributeHeaders [header.Key] = header.Value;
 					}
 				headers = attributeHeaders;
 			}
 
 
-			var message = await SendMessage(path, content, method, headers, authenticated);
-			if (message.StatusCode == System.Net.HttpStatusCode.Unauthorized)
-			{
+			var message = await SendMessage (path, content, method, headers, authenticated);
+			if (message.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
 				if (!authenticated)
-					throw new Exception($"{method} calls to {path} require authorization");
+					throw new Exception ($"{method} calls to {path} require authorization");
 				//Lets refresh auth and try again
-				await InvalidateCredentials();
-				await VerifyCredentials();
-				message = await SendMessage(path, content, method, headers, authenticated);
+				await InvalidateCredentials ();
+				await VerifyCredentials ();
+				message = await SendMessage (path, content, method, headers, authenticated);
 			}
 
 			var data = await Converter.Deserialize<T> (message);
 			try {
 				if (EnsureApiStatusCode)
-					message.EnsureSuccessStatusCode();
-			}
-			catch (Exception ex)
-			{
-				ex.Data["HttpContent"] = data;
-				ex.Data["StatusCode"] = message?.StatusCode;
+					message.EnsureSuccessStatusCode ();
+			} catch (Exception ex) {
+				ex.Data ["HttpContent"] = data;
+				ex.Data ["StatusCode"] = message?.StatusCode;
 				throw ex;
 			}
 			return data;
 		}
 
 
-		public async Task<HttpResponseMessage> SendMessage(string path, HttpContent content, HttpMethod method, Dictionary<string, string> headers = null, bool authenticated = true, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+		public async Task<HttpResponseMessage> SendMessage (string path, HttpContent content, HttpMethod method, Dictionary<string, string> headers = null, bool authenticated = true, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
 		{
 			if (authenticated)
-				await VerifyCredentials();
-			path = await PrepareUrl(path, authenticated);
-			var uri = BaseAddress != null ? new Uri(BaseAddress, path.TrimStart('/')) : new Uri(path);
-			var request = new HttpRequestMessage
-			{
+				await VerifyCredentials ();
+			path = await PrepareUrl (path, authenticated);
+			var uri = BaseAddress != null ? new Uri (BaseAddress, path.TrimStart ('/')) : new Uri (path);
+			var request = new HttpRequestMessage {
 				Method = method,
 				RequestUri = uri,
 				Content = content,
 			};
 
-			MergeHeaders(request.Headers, headers);
+			MergeHeaders (request.Headers, headers);
 
-			return await SendMessage(request, authenticated, completionOption);
+			return await SendMessage (request, authenticated, completionOption);
 		}
 
-		public async virtual Task<HttpResponseMessage> SendMessage(HttpRequestMessage message, bool authenticated = true, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
+		public async virtual Task<HttpResponseMessage> SendMessage (HttpRequestMessage message, bool authenticated = true, HttpCompletionOption completionOption = HttpCompletionOption.ResponseContentRead)
 		{
 			if (authenticated)
-				await VerifyCredentials();
-			return await Client.SendAsync(message, completionOption);
+				await VerifyCredentials ();
+			return await Client.SendAsync (message, completionOption);
 		}
 
-		protected virtual Task VerifyCredentials()
+		protected virtual Task VerifyCredentials ()
 		{
-			return Task.FromResult(true);
+			return Task.FromResult (true);
 		}
 
-		protected virtual Task InvalidateCredentials()
+		protected virtual Task InvalidateCredentials ()
 		{
-			return Task.FromResult(true);
+			return Task.FromResult (true);
 		}
 
-		protected virtual Task<string> PrepareUrl(string path, bool authenticated = true)
+		protected virtual Task<string> PrepareUrl (string path, bool authenticated = true)
 		{
-			return Task.FromResult(path);
+			return Task.FromResult (path);
 		}
 
-		protected virtual T Deserialize<T>(string data)
+		protected virtual T Deserialize<T> (string data)
 		{
-			try
-			{
-				return data.ToObject<T>();
+			try {
+				return data.ToObject<T> ();
+			} catch (Exception ex) {
+				OnException (this, ex);
 			}
-			catch (Exception ex)
-			{
-				OnException(this, ex);
-			}
-			return default(T);
+			return default (T);
 		}
-		protected virtual T Deserialize<T>(string data, object inObject)
+		protected virtual T Deserialize1<T> (string data, object inObject)
 		{
-			try
-			{
+			try {
 				if (data == null)
-					return Deserialize<T>(data);
-				return data.ToObject<T>(inObject);
+					return Deserialize<T> (data);
+				return data.ToObject<T> (inObject);
+			} catch (Exception ex) {
+				OnException (this, ex);
 			}
-			catch (Exception ex)
-			{
-				OnException(this, ex);
-			}
-			return default(T);
+			return default (T);
 		}
 
-		protected virtual string SerializeObject(object obj)
+		protected virtual string SerializeObject (object obj)
 		{
-			return obj.ToJson();
+			return obj.ToJson ();
 		}
 
-		public virtual string CombineUrl(string url, Dictionary<string, string> queryParameters)
+		public virtual string CombineUrl (string url, Dictionary<string, string> queryParameters)
 		{
-			if (queryParameters?.Any() != true)
+			if (queryParameters?.Any () != true)
 				return url;
 
-			var uri = BaseAddress != null ? new Uri(BaseAddress, url.TrimStart('/')) : new Uri(url);
+			var uri = BaseAddress != null ? new Uri (BaseAddress, url.TrimStart ('/')) : new Uri (url);
 
 			var query = uri.Query;
-			var simplePath = string.IsNullOrWhiteSpace(query) ? url : url.Replace(query, "");
+			var simplePath = string.IsNullOrWhiteSpace (query) ? url : url.Replace (query, "");
 
-			var parameters = HttpUtility.ParseQueryString(query);
+			var parameters = HttpUtility.ParseQueryString (query);
 
-			foreach (var queryParameter in queryParameters)
-			{
+			foreach (var queryParameter in queryParameters) {
 				var pathKey = "{" + queryParameter.Key + "}";
-				if (simplePath.Contains(pathKey))
-					simplePath = simplePath.Replace(pathKey, queryParameter.Value);
+				if (simplePath.Contains (pathKey))
+					simplePath = simplePath.Replace (pathKey, queryParameter.Value);
 				else
-					parameters[queryParameter.Key] = queryParameter.Value;
+					parameters [queryParameter.Key] = queryParameter.Value;
 			}
-			var newQuery = parameters.ToString();
+			var newQuery = parameters.ToString ();
 			var newPath = $"{simplePath}?{newQuery}";
 			return newPath;
 		}
 
-		public virtual Dictionary<string, string> GetHeadersFromMethod(MethodInfo method)
+		public virtual Dictionary<string, string> GetHeadersFromMethod (MethodInfo method)
 		{
-			var headers = new Dictionary<string, string>();
+			var headers = new Dictionary<string, string> ();
 			if (method == null)
 				return headers;
-			var accepts = GetValueFromAttribute<AcceptsAttribute>(method);
-			if (!string.IsNullOrWhiteSpace(accepts))
-				headers["Accept"] = accepts;
-			else if (!string.IsNullOrWhiteSpace(DefaultAccepts))
-				headers["Accept"] = DefaultAccepts;
-			var contentType = GetValueFromAttribute<ContentTypeAttribute>(method);
-			if (!string.IsNullOrWhiteSpace(contentType))
-				headers["Content-Type"] = contentType;
+			var accepts = GetValueFromAttribute<AcceptsAttribute> (method);
+			if (!string.IsNullOrWhiteSpace (accepts))
+				headers ["Accept"] = accepts;
+			else if (!string.IsNullOrWhiteSpace (DefaultAccepts))
+				headers ["Accept"] = DefaultAccepts;
+			var contentType = GetValueFromAttribute<ContentTypeAttribute> (method);
+			if (!string.IsNullOrWhiteSpace (contentType))
+				headers ["Content-Type"] = contentType;
 			return headers;
 		}
 
-		public string GetValueFromAttribute<T>(MethodInfo method) where T : StringValueAttribute
+		public string GetValueFromAttribute<T> (MethodInfo method) where T : StringValueAttribute
 		{
-			return method?.GetCustomAttributes(true).OfType<T>().FirstOrDefault()?.Value;
+			return method?.GetCustomAttributes (true).OfType<T> ().FirstOrDefault ()?.Value;
 		}
 
-		public static void MergeHeaders(HttpRequestHeaders inHeaders, Dictionary<string, string> newHeaders)
+		public static void MergeHeaders (HttpRequestHeaders inHeaders, Dictionary<string, string> newHeaders)
 		{
 			if (newHeaders == null)
 				return;
-			foreach (var header in newHeaders)
-			{
+			foreach (var header in newHeaders) {
 				if (header.Key == "Content-Type")
 					continue;
-				inHeaders.Add(header.Key, header.Value);
+				inHeaders.Add (header.Key, header.Value);
 			}
 		}
 
-		public virtual async Task<bool> Ping(string url)
+		public virtual async Task<bool> Ping (string url)
 		{
-			try
-			{
-				var request = new HttpRequestMessage(HttpMethod.Get, url);
-				await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+			try {
+				var request = new HttpRequestMessage (HttpMethod.Get, url);
+				await Client.SendAsync (request, HttpCompletionOption.ResponseHeadersRead);
 				return true;
-			}
-			catch (Exception ex)
-			{
-				OnException(this, ex);
+			} catch (Exception ex) {
+				OnException (this, ex);
 			}
 			return false;
 		}
 
-		public Task<bool> Ping()
+		public Task<bool> Ping ()
 		{
-			return Ping(BaseAddress.AbsoluteUri);
+			return Ping (BaseAddress.AbsoluteUri);
 		}
 
-		public virtual void OnException(object sender, Exception ex)
+		public virtual void OnException (object sender, Exception ex)
 		{
-			Console.WriteLine(ex);
-			UnhandledException?.Invoke(sender, ex);
+			Console.WriteLine (ex);
+			UnhandledException?.Invoke (sender, ex);
 		}
 	}
 }
