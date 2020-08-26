@@ -6,13 +6,11 @@ using SimpleAuth.Providers;
 using System.Threading.Tasks;
 using SimpleAuth;
 
-namespace Sample.iOS
-{
+namespace Sample.iOS {
 	// The UIApplicationDelegate for the application. This class is responsible for launching the
 	// User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
 	[Register ("AppDelegate")]
-	public class AppDelegate : UIApplicationDelegate
-	{
+	public class AppDelegate : UIApplicationDelegate {
 		// class-level declarations
 
 		public override UIWindow Window {
@@ -23,11 +21,11 @@ namespace Sample.iOS
 		ApiKeyApi apiKeyApi;
 		BasicAuthApi basicApi = new BasicAuthApi ("github", "encryptionstring", "https://api.github.com") { UserAgent = "SimpleAuthDemo" };
 
-        FitBitApi fitBitApi = new FitBitApi("fitbit", "fitbitClientId", "", true, "SimpleAuthScheme://local");
+		FitBitApi fitBitApi = new FitBitApi ("fitbit", "fitbitClientId", "", true, "SimpleAuthScheme://local");
 		ADFSApi azureApi;
-        public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
+		public override bool FinishedLaunching (UIApplication application, NSDictionary launchOptions)
 		{
-			//SimpleAuth.Providers.Google.Init ();
+			SimpleAuth.Providers.Google.Init ();
 
 			googleApi = new GoogleApi ("google", "419855213697-t0usvf1n0j1vd9glogcp33b4d2fnfjhn.apps.googleusercontent.com") {
 				ServerClientId = "419855213697-uq56vcune334omgqi51ou7jg08i3dnb1.apps.googleusercontent.com",
@@ -43,7 +41,7 @@ namespace Sample.iOS
 			};
 			string azureTennant = "";
 			string azureClientId = "";
-			azureApi = new ADFSApi("Azure", azureClientId,
+			azureApi = new ADFSApi ("Azure", azureClientId,
 								   $"https://login.microsoftonline.com/{azureTennant}/oauth2/authorize",
 								   $"https://login.microsoftonline.com/{azureTennant}/oauth2/token", "");
 			Api.UnhandledException += (sender, e) => {
@@ -52,61 +50,61 @@ namespace Sample.iOS
 			// create a new window instance based on the screen size
 			Window = new UIWindow (UIScreen.MainScreen.Bounds);
 
-            Window.RootViewController = new DialogViewController(new RootElement("Simple Auth") {
-                new Section("Google Api"){
-                    new StringElement("Authenticate", async() => {
-                        try{
-                        var account = await googleApi.Authenticate();
-                        ShowAlert("Success","Authenticate");
-                        }
-                        catch(TaskCanceledException){
-                            ShowAlert("Canceled","");
-                        }
-                        catch(Exception ex)
-                        {
-                            ShowAlert("Error",ex.ToString());
-                        }
-                    }),
-                    new StringElement("Log out", () => {
-                        googleApi.ResetData();
-                        ShowAlert ("Success", "Logged out");
-                    }),
-                },
-                new Section("Api Key Api")
-                {
-                    new StringElement("Get", async () => await RunWithSpinner ("Querying", async () => {
-                        var account = await apiKeyApi.Get ("http://petstore.swagger.io/v2/store/inventory?test=test1");
-                        ShowAlert ("Success", "Querying");
-                    })),
-                },
-                new Section("Basic Auth"){
-                    new StringElement("Login to Github", async () => {
-                        var account = await basicApi.Authenticate();
-                        ShowAlert ("Success", "Authenticated");
-                    }),
-                    new StringElement("Log out", () => {
-                        basicApi.ResetData();
-                        ShowAlert ("Success", "Logged out");
-                    }),
-                },
-                new Section("Fitbit")
-                {
-                    new StringElement("Login to server", async () =>
-                    {
-                        fitBitApi.Scopes = new []{"profile", "settings"};
-                        var account = await fitBitApi.Authenticate();
-                        ShowAlert ("Success", "Authenticated");
-                    }),
-                    new StringElement("Call Api", async ()=>
-                    {
-                        var devices = await fitBitApi.Get("https://api.fitbit.com/1/user/-/devices.json");
-                        ShowAlert("Success", devices);
-                    }),
-                    new StringElement("Log out", () => {
-                        fitBitApi.ResetData();
-                        ShowAlert("Success", "Logged Out");
-                    })
-                },
+			Window.RootViewController = new DialogViewController (new RootElement ("Simple Auth") {
+				new Section("Google Api"){
+					new StringElement("Authenticate", async() => {
+						try{
+						var account = await googleApi.Authenticate();
+						ShowAlert("Success","Authenticate");
+						}
+						catch(TaskCanceledException){
+							ShowAlert("Canceled","");
+						}
+						catch(Exception ex)
+						{
+							ShowAlert("Error",ex.ToString());
+						}
+					}),
+					new StringElement("Log out", () => {
+						googleApi.ResetData();
+						ShowAlert ("Success", "Logged out");
+					}),
+				},
+				new Section("Api Key Api")
+				{
+					new StringElement("Get", async () => await RunWithSpinner ("Querying", async () => {
+						var account = await apiKeyApi.Get ("http://petstore.swagger.io/v2/store/inventory?test=test1");
+						ShowAlert ("Success", "Querying");
+					})),
+				},
+				new Section("Basic Auth"){
+					new StringElement("Login to Github", async () => {
+						var account = await basicApi.Authenticate();
+						ShowAlert ("Success", "Authenticated");
+					}),
+					new StringElement("Log out", () => {
+						basicApi.ResetData();
+						ShowAlert ("Success", "Logged out");
+					}),
+				},
+				new Section("Fitbit")
+				{
+					new StringElement("Login to server", async () =>
+					{
+						fitBitApi.Scopes = new []{"profile", "settings"};
+						var account = await fitBitApi.Authenticate();
+						ShowAlert ("Success", "Authenticated");
+					}),
+					new StringElement("Call Api", async ()=>
+					{
+						var devices = await fitBitApi.Get("https://api.fitbit.com/1/user/-/devices.json");
+						ShowAlert("Success", devices);
+					}),
+					new StringElement("Log out", () => {
+						fitBitApi.ResetData();
+						ShowAlert("Success", "Logged Out");
+					})
+				},
 				new Section("Azure AD")
 				{
 					new StringElement("Login", async () => {
@@ -128,7 +126,7 @@ namespace Sample.iOS
 		}
 		public override bool OpenUrl (UIApplication app, NSUrl url, NSDictionary options)
 		{
-			if(Native.OpenUrl (app,url,options))
+			if (Native.OpenUrl (app, url, options))
 				return true;
 			return false;
 		}
