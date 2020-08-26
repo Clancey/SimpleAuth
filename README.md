@@ -81,21 +81,6 @@ public virtual Task AddPet(Pet body) {
 }
 ```
 
-## Webview Authentication
-
-The webview is automatically displayed for you.  If you want to handle displaying it your self you can!
-
-```cs
-Api.ShowAuthenticator = (authenticator) =>
-{
-	var invoker = new Foundation.NSObject();
-	invoker.BeginInvokeOnMainThread(() =>
-	{
-		var vc = new iOS.WebAuthenticator(authenticator);
-		//TODO: Present View Controller
-	});
-};
-```
 
 # iOS/Mac Specific
 
@@ -225,12 +210,6 @@ Under the iOS Build Signing, Custom Entitlements: make sure an entitlement.plist
 SFSafariViewController Allows users to use Safari to login, instead of embedded webviews.
 
 Google now requires this mode and is enabled by default for Google Authentication on iOS/MacOS.
-
-Then call the following line in your iOS AppDelegate FinishedLaunching method;
-
-```cs
-SimpleAuth.NativeSafariAuthenticator.Activate ();
-```
 
 To use the Native Safari Authenticator, you are required to add the following snippet in your AppDelegate (**iOS Only**)
 
