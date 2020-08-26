@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Facebook.Login.Android">
-      <Version>4.38.0</Version>
+      <Version>7.1.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

@@ -87,8 +87,8 @@
     <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="BTProgressHUD" Version="1.2.0.6" />
     <PackageReference Include="Xamarin.Google.iOS.SignIn" Version="4.4.0" />
+    <PackageReference Include="BTProgressHUD" Version="1.3.2" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />

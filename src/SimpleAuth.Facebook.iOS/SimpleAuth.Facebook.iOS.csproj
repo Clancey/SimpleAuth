@@ -30,7 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Facebook.LoginKit.iOS">
-      <Version>4.39.1</Version>
+      <Version>7.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

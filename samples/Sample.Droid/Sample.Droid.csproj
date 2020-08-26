@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="60.1142.1" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Auth" Version="71.1600.4" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />

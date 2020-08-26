@@ -5,6 +5,7 @@ using Task = System.Threading.Tasks.Task;
 using UIKit;
 using Foundation;
 using System.Linq;
+using Facebook.LoginKit;
 
 namespace SimpleAuth.Providers
 {
@@ -44,7 +45,7 @@ namespace SimpleAuth.Providers
 			var fbAuth = authenticator as FacebookAuthenticator;
 			try
 			{
-				fb.CoreKit.Settings.AppID = fbAuth.ClientId;
+				fb.CoreKit.Settings.AppId = fbAuth.ClientId;
 				var loginManager = new fb.LoginKit.LoginManager();
 				var window = UIKit.UIApplication.SharedApplication.KeyWindow;
 				var root = window.RootViewController;
@@ -56,7 +57,15 @@ namespace SimpleAuth.Providers
 						current = current.PresentedViewController;
 					}
 
-					var resp = await loginManager.LogInWithReadPermissionsAsync(authenticator.Scope.ToArray(),current);
+					var tcs = new TaskCompletionSource<LoginManagerLoginResult> ();
+					loginManager.LogIn (authenticator.Scope.ToArray (), current, (LoginManagerLoginResult result, NSError error) => {
+						if (error != null)
+							tcs.TrySetException (new Exception (error.ToString ()));
+						else
+							tcs.SetResult (result);
+					});
+
+					var resp = await tcs.Task;
 					if (resp.IsCancelled)
 					{
 						authenticator.OnCancelled();
