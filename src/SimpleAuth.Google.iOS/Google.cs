@@ -19,16 +19,14 @@ using SimpleAuth;
 using UIKit;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-namespace SimpleAuth.Providers
-{
-	public static class Google
-	{
+namespace SimpleAuth.Providers {
+	public static class Google {
 		public static void Init ()
 		{
 			GoogleApi.IsUsingNative = true;
 			GoogleApi.GoogleShowAuthenticator = Login;
 			GoogleApi.OnLogOut = LogOut;
-			Native.RegisterCallBack ("google",OpenUrl);
+			Native.RegisterCallBack ("google", OpenUrl);
 		}
 
 		public static Action<SignIn, UIViewController> PresentViewController;
@@ -57,38 +55,44 @@ namespace SimpleAuth.Providers
 
 			} catch (TaskCanceledException) {
 				authenticator?.OnCancelled ();
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				Console.WriteLine (ex);
 				authenticator.OnError (ex.Message);
 			}
 		}
 		static async void LogOut (string clientId, string clientsecret)
 		{
-			SignIn.SharedInstance.ClientID = clientId;
+			SignIn.SharedInstance.ClientId = clientId;
 			SignIn.SharedInstance.SignOutUser ();
 		}
 
 
 
 
-		class NativeHandler : SignInDelegate,ISignInUIDelegate
-		{
+		class NativeHandler : SignInDelegate {
 			WeakReference authenticatorReference;
 
-			public readonly SignIn SignIn = new SignIn ();
+			public readonly SignIn SignIn = SignIn.SharedInstance;
 			TaskCompletionSource<GoogleUser> tcs = new TaskCompletionSource<GoogleUser> ();
 			public async Task<GoogleUser> Authenticate (GoogleAuthenticator authenticator)
 			{
 				authenticatorReference = new WeakReference (authenticator);
-				SignIn.ClientID = GoogleAuthenticator.GetGoogleClientId (authenticator.ClientId);
-                if (!string.IsNullOrWhiteSpace(authenticator.ServerClientId))
-                {
-                    SignIn.ServerClientID = GoogleAuthenticator.GetGoogleClientId(authenticator.ServerClientId);
-                }
+				SignIn.ClientId = GoogleAuthenticator.GetGoogleClientId (authenticator.ClientId);
+				if (!string.IsNullOrWhiteSpace (authenticator.ServerClientId)) {
+					SignIn.ServerClientId = GoogleAuthenticator.GetGoogleClientId (authenticator.ServerClientId);
+				}
+
+
+				var window = UIApplication.SharedApplication.KeyWindow;
+				var root = window.RootViewController;
+				UIViewController vc = root;
+				while (vc.PresentedViewController != null) {
+					vc = vc.PresentedViewController;
+				}
+
+				SignIn.PresentingViewController = vc;
 				SignIn.Scopes = authenticator.Scope.ToArray ();
 				SignIn.Delegate = this;
-				SignIn.UIDelegate = this;
 				SignIn.SignInUser ();
 				return await tcs.Task;
 			}
@@ -102,65 +106,8 @@ namespace SimpleAuth.Providers
 				if (user != null && error == null) {
 					tcs?.TrySetResult (user);
 				} else {
-					tcs.TrySetException (new Exception (error.Description));
+					tcs.TrySetException (new Exception (error.LocalizedDescription));
 				}
-			}
-			public override void DidDisconnect (SignIn signIn, GoogleUser user, NSError error)
-			{
-				base.DidDisconnect (signIn, user, error);
-			}
-
-			[Export ("signInWillDispatch:error:")]
-			public void WillDispatch (SignIn signIn, NSError error)
-			{
-				
-			}
-
-			[Export ("signIn:presentViewController:")]
-			public void PresentViewController (SignIn signIn, UIViewController viewController)
-			{
-				if (Google.PresentViewController != null) {
-					Google.PresentViewController (SignIn, viewController);
-					return;
-				}
-
-				var window = UIApplication.SharedApplication.KeyWindow;
-				var root = window.RootViewController;
-				if (root != null) {
-					var current = root;
-					while (current.PresentedViewController != null) {
-						current = current.PresentedViewController;
-					}
-					var authenticator = (authenticatorReference.Target as GoogleAuthenticator);
-					viewController.Title = authenticator.Title;
-					if (authenticator.AllowsCancel) {
-						viewController.NavigationItem.LeftBarButtonItem = new UIBarButtonItem (
-							UIBarButtonSystemItem.Cancel,
-							delegate {
-								Cancel ();
-								viewController.DismissViewController (true,null);
-							});
-					}
-					current.PresentViewControllerAsync (new UIKit.UINavigationController (viewController), true);
-				}
-			}
-
-			[Export ("signIn:dismissViewController:")]
-			public void DismissViewController (SignIn signIn, UIViewController viewController)
-			{
-				if (Google.DismissViewController != null) {
-					Google.DismissViewController (SignIn, viewController);
-					return;
-				}
-
-				viewController.DismissViewController (true,null);
-			}
-			protected override void Dispose (bool disposing)
-			{
-				if (disposing) {
-					SignIn.Dispose ();
-				}
-				base.Dispose (disposing);
 			}
 		}
 	}

@@ -60,7 +60,7 @@ namespace SimpleAuth.Providers
 					var tcs = new TaskCompletionSource<LoginManagerLoginResult> ();
 					loginManager.LogIn (authenticator.Scope.ToArray (), current, (LoginManagerLoginResult result, NSError error) => {
 						if (error != null)
-							tcs.TrySetException (new Exception (error.ToString ()));
+							tcs.TrySetException (new Exception (error.LocalizedDescription));
 						else
 							tcs.SetResult (result);
 					});
