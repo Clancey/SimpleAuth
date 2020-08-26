@@ -45,5 +45,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\Github.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BasicAuth\IBasicAuthenicator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Providers\FitBitApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\Converter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\JsonConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Converters\" />
   </ItemGroup>
 </Project>

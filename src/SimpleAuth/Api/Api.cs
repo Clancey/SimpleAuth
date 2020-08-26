@@ -18,6 +18,8 @@ namespace SimpleAuth
 		public delegate void ApiExceptionEventHandler(object sender, Exception e);
 		public static event ApiExceptionEventHandler UnhandledException;
 
+		public Converter Converter { get; set; } = new JsonConverter ();
+
 		public bool Verbose { get; set; } = false;
 
 		public string Identifier { get; private set; }
@@ -28,7 +30,10 @@ namespace SimpleAuth
 
 		public bool EnsureApiStatusCode { get; set; } = true;
 
-		public string DefaultMediaType { get; set; } = "application/json";
+		public string DefaultMediaType {
+			get => Converter.MediaType;
+			set => Converter.MediaType = value;
+		}
 
 		protected string ClientSecret;
 
@@ -122,160 +127,107 @@ namespace SimpleAuth
 			return await Client.GetStreamAsync(new Uri(path));
 		}
 
-		public virtual Task<string> Get(string path = null, Dictionary<string, string> queryParameters = null,
-			Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
+		public virtual Task<string> Get (string path = null, Dictionary<string, string> queryParameters = null,
+			Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+				SendObjectMessage (path, null, HttpMethod.Get, queryParameters, headers, authenticated, methodName);
 
-			return SendObjectMessage(path, null, HttpMethod.Get, queryParameters, headers, authenticated, methodName);
-		}
-		public virtual async Task<T> Get<T>(string path = null, Dictionary<string, string> queryParameters = null,
-			Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Get(path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data);
-		}
+		public virtual Task<T> Get<T> (string path = null, Dictionary<string, string> queryParameters = null,
+			Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+				SendObjectMessage<T> (path, null, HttpMethod.Get, queryParameters, headers, authenticated, methodName);
 
+		public virtual Task<T> Post<T> (object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<T> (path, body, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
+		
+		
+		public virtual Task<string> Post (object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage (path, body, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
 
-		public virtual async Task<T> Post<T>(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Post(body, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data, body);
-		}
-		public virtual Task<string> Post(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			return SendObjectMessage(path, body, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
-		}
+		public virtual Task<T> Post<T> (HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<T> (path, content, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
+		
 
-		public virtual async Task<T> Post<T>(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Post(content, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data);
-		}
-
-		public virtual Task<string> Post(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null,
+		public virtual Task<string> Post (HttpContent content, string path = null, Dictionary<string, string> queryParameters = null,
 			Dictionary<string, string> headers = null, bool authenticated = true,
 			[System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+			=> SendObjectMessage (path, content, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
+
+		public virtual Task<T> Put<T> (HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<T> (path, content, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
+
+		public virtual Task<string> Put (HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
-			return SendObjectMessage(path, content, HttpMethod.Post, queryParameters, headers, authenticated, methodName);
+			return SendObjectMessage (path, content, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
 		}
 
+		public virtual Task<T> Put<T> (object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<T> (path, body, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
 
-		public virtual async Task<T> Put<T>(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Put(content, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data);
-		}
-
-		public virtual Task<string> Put(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			return SendObjectMessage(path, content, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
-		}
-
-		public virtual async Task<T> Put<T>(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Put(body, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data, body);
-		}
+		public virtual Task<string> Put (object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage (path, body, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
 
 
-		public virtual Task<string> Put(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			return SendObjectMessage(path, body, HttpMethod.Put, queryParameters, headers, authenticated, methodName);
-		}
+		public virtual Task<T> Delete<T> (object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<T> (path, body, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
 
-		public virtual async Task<T> Delete<T>(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Delete(body, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data, body);
-		}
+		public virtual Task<T> Delete<T> (HttpContent content = null, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<T> (path, content, HttpMethod.Delete, queryParameters, headers, authenticated, methodName); 
+		
 
-		public virtual async Task<T> Delete<T>(HttpContent content = null, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Delete(content, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data);
-		}
+		public virtual Task<string> Delete (HttpContent content = null, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage (path, content, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
 
-		public virtual Task<string> Delete(HttpContent content = null, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			return SendObjectMessage(path, content, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
-		}
+		public virtual Task<string> Delete (object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage (path, body, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
+	
+		public virtual Task<T> Patch<T> (object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<T> (path, body, new HttpMethod ("PATCH"), queryParameters, headers, authenticated, methodName);
 
-		public virtual Task<string> Delete(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			return SendObjectMessage(path, body, HttpMethod.Delete, queryParameters, headers, authenticated, methodName);
-		}
-		public virtual async Task<T> Patch<T>(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Patch(body, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data, body);
-		}
-		public virtual Task<string> Patch(object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			return SendObjectMessage(path, body, new HttpMethod("PATCH"), queryParameters, headers, authenticated, methodName);
-		}
+		public virtual Task<string> Patch (object body, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage (path, body, new HttpMethod ("PATCH"), queryParameters, headers, authenticated, methodName);	
 
-		public virtual async Task<T> Patch<T>(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			var data = await Patch(content, path, queryParameters, headers, authenticated, methodName).ConfigureAwait(false);
-			return Deserialize<T>(data);
-		}
+		public virtual Task<T> Patch<T> (HttpContent content, string path = null, Dictionary<string, string> queryParameters = null, Dictionary<string, string> headers = null, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<T> (path, content, new HttpMethod ("PATCH"), queryParameters, headers, authenticated, methodName);
 
-		public virtual Task<string> Patch(HttpContent content, string path = null, Dictionary<string, string> queryParameters = null,
+		public virtual Task<string> Patch (HttpContent content, string path = null, Dictionary<string, string> queryParameters = null,
 			Dictionary<string, string> headers = null, bool authenticated = true,
-			[System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+			[System.Runtime.CompilerServices.CallerMemberName] string methodName = "") => 
+				SendObjectMessage (path, content, new HttpMethod ("PATCH"), queryParameters, headers, authenticated, methodName);
+		
+		public virtual async Task<string> PostUrl (string path, string content, string mediaType = "", bool authenticated = true)
 		{
-			return SendObjectMessage(path, content, new HttpMethod("PATCH"), queryParameters, headers, authenticated, methodName);
-		}
-		public virtual async Task<string> PostUrl(string path, string content, string mediaType = "", bool authenticated = true)
-		{
-			var dataType = string.IsNullOrWhiteSpace(mediaType) ? DefaultMediaType : mediaType;
-			var message = await PostMessage(path, new StringContent(content, System.Text.Encoding.UTF8, dataType), authenticated);
-			return await message.Content.ReadAsStringAsync();
-		}
-
-		public virtual async Task<T> Post<T>(string path, string content, bool authenticated = true)
-		{
-			if (Verbose)
-				Console.WriteLine("{0} - {1}", path, content);
-			var data = await PostUrl(path, content, authenticated: authenticated).ConfigureAwait(false);
-			if (Verbose)
-				Console.WriteLine(data);
-			return Deserialize<T>(data);
-
-		}
-		public virtual async Task<T> Post<T>(string path, HttpContent content, bool authenticated = true)
-		{
-			if (Verbose)
-				Console.WriteLine("{0} - {1}", path, await content.ReadAsStringAsync());
-			var resp = await PostMessage(path, content, authenticated).ConfigureAwait(false);
-			var data = await resp.Content.ReadAsStringAsync().ConfigureAwait(false);
-			if (Verbose)
-				Console.WriteLine(data);
-			return Deserialize<T>(data);
-
-		}
-		public async Task<HttpResponseMessage> PostMessage(string path, HttpContent content, bool authenticated = true)
-		{
-			return await SendMessage(path, content, HttpMethod.Post, authenticated: authenticated);
+			var dataType = string.IsNullOrWhiteSpace (mediaType) ? DefaultMediaType : mediaType;
+			var message = await PostMessage (path, new StringContent (content, System.Text.Encoding.UTF8, dataType), authenticated);
+			return await message.Content.ReadAsStringAsync ();
 		}
 
-		public async Task<HttpResponseMessage> PutMessage(string path, HttpContent content, bool authenticated = true)
-		{
-			return await SendMessage(path, content, HttpMethod.Put, authenticated: authenticated);
-		}
-		public virtual Task<string> SendObjectMessage(string path, object body, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
-		{
-			string mediaType = null;
-			if (!(headers?.TryGetValue("Content-Type", out mediaType) ?? false))
-				mediaType = DefaultMediaType;
+		public virtual Task<T> Post<T> (string path, string content, bool authenticated = true) =>
+			this.Post<T> (body: content, path: path, authenticated: authenticated);
 
-			var bodyJson = SerializeObject(body);
-			var content = new StringContent(bodyJson, System.Text.Encoding.UTF8, mediaType);
+		public virtual Task<T> Post<T> (string path, HttpContent content, bool authenticated = true) =>
+			this.Post<T> (content: content, path: path, authenticated: authenticated);
 
-			return SendObjectMessage(path, content, method, queryParameters, headers, authenticated, methodName);
+		public async Task<HttpResponseMessage> PostMessage (string path, HttpContent content, bool authenticated = true)
+		{
+			return await SendMessage (path, content, HttpMethod.Post, authenticated: authenticated);
 		}
 
-		public virtual async Task<string> SendObjectMessage(string path, HttpContent content, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		public async Task<HttpResponseMessage> PutMessage (string path, HttpContent content, bool authenticated = true)
+		{
+			return await SendMessage (path, content, HttpMethod.Put, authenticated: authenticated);
+		}
+		public virtual Task<string> SendObjectMessage (string path, object body, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<string> (path, body, method, queryParameters, headers, authenticated, methodName);
+		
+		public virtual async Task<T> SendObjectMessage<T> (string path, object body, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
+		{
+			var content = await Converter.Serialize (body);
+			return await SendObjectMessage<T> (path, content, method, queryParameters, headers, authenticated, methodName);
+		}
+
+		public virtual Task<string> SendObjectMessage (string path, HttpContent content, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "") =>
+			SendObjectMessage<string> (path, content, method, queryParameters, headers, authenticated, methodName);
+
+		public virtual async Task<T> SendObjectMessage<T> (string path, HttpContent content, HttpMethod method, Dictionary<string, string> queryParameters, Dictionary<string, string> headers, bool authenticated = true, [System.Runtime.CompilerServices.CallerMemberName] string methodName = "")
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
@@ -313,9 +265,8 @@ namespace SimpleAuth
 				message = await SendMessage(path, content, method, headers, authenticated);
 			}
 
-			var data = await message.Content.ReadAsStringAsync();
-			try
-			{
+			var data = await Converter.Deserialize<T> (message);
+			try {
 				if (EnsureApiStatusCode)
 					message.EnsureSuccessStatusCode();
 			}
