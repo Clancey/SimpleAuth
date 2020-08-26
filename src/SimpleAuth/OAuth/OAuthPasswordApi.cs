@@ -8,11 +8,9 @@ using Foundation;
 using UIKit;
 #endif
 
-namespace SimpleAuth
-{
+namespace SimpleAuth {
 
-	public class OAuthPasswordApi : OAuthApi
-	{
+	public class OAuthPasswordApi : OAuthApi {
 		public OAuthPasswordApi (string identifier, string clientId, string clientSecret, string serverUrl, string tokenUrl, string refreshUrl) : base (identifier, clientId, clientSecret, tokenUrl, refreshUrl)
 		{
 			BaseAddress = new Uri (serverUrl);
@@ -20,7 +18,7 @@ namespace SimpleAuth
 
 			CurrentShowAuthenticator = (WebAuthenticator obj) => {
 				var auth = obj as IBasicAuthenicator;
-				if(auth != null)
+				if (auth != null)
 					BasicAuthApi.ShowAuthenticator (auth);
 			};
 		}
@@ -50,8 +48,7 @@ namespace SimpleAuth
 		}
 	}
 
-	public class OAuthPasswordAuthenticator : WebAuthenticator, IBasicAuthenicator
-	{
+	public class OAuthPasswordAuthenticator : WebAuthenticator, IBasicAuthenicator {
 		public override string BaseUrl { get; set; }
 
 		public override Uri RedirectUrl { get; set; }
@@ -86,8 +83,7 @@ namespace SimpleAuth
 			}
 			return false;
 		}
-		public class AuthTokenClass
-		{
+		public class AuthTokenClass {
 
 			[JsonProperty ("access_token")]
 			public string AccessToken { get; set; }
@@ -116,7 +112,7 @@ namespace SimpleAuth
 
 		public Task<bool> SignUp (string username, string password)
 		{
-			return Task.FromResult(false);
+			return Task.FromResult (false);
 		}
 	}
 }

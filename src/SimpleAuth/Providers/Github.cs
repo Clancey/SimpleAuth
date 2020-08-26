@@ -3,12 +3,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace SimpleAuth.Providers
-{
-	public class GithubApi : OAuthApi
-	{
-		public static class AvailableApiScopes
-		{
+namespace SimpleAuth.Providers {
+	public class GithubApi : OAuthApi {
+		public static class AvailableApiScopes {
 
 			/// <summary>
 			/// Grants read-only access to public information (includes public user profile info, public repository info, and gists)
@@ -158,8 +155,7 @@ namespace SimpleAuth.Providers
 			return Get<GitHubUser> ();
 		}
 
-		public class Plan
-		{
+		public class Plan {
 
 			[JsonProperty ("name")]
 			public string Name { get; set; }
@@ -174,8 +170,7 @@ namespace SimpleAuth.Providers
 			public int Collaborators { get; set; }
 		}
 
-		public class GitHubUser
-		{
+		public class GitHubUser {
 
 			[JsonProperty ("login")]
 			public string Login { get; set; }

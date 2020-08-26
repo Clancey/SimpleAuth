@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SimpleAuth
-{
-    public class OAuthAccount : Account
-    {
+namespace SimpleAuth {
+	public class OAuthAccount : Account {
 		string tokenType;
-		public string TokenType
-		{
-			get
-			{
+		public string TokenType {
+			get {
 				return tokenType;
 			}
-			set
-			{
+			set {
 				if (value == "bearer")
 					value = "Bearer";
 				tokenType = value;
@@ -30,22 +25,22 @@ namespace SimpleAuth
 		//UTC Datetime created
 		public DateTime Created { get; set; }
 
-		public string[] Scope { get; set; } = new string [0];
+		public string [] Scope { get; set; } = new string [0];
 
 		public string ClientId { get; set; }
 
 		public CookieHolder [] Cookies { get; set; }
 
-	    public override bool IsValid()
-	    {
-			if (string.IsNullOrWhiteSpace(Token))
+		public override bool IsValid ()
+		{
+			if (string.IsNullOrWhiteSpace (Token))
 				return false;
 			// This allows you to specify -1 for never expires
-		    if (ExpiresIn <= 0)
-			    return true;
-			if(string.IsNullOrWhiteSpace(RefreshToken))
+			if (ExpiresIn <= 0)
+				return true;
+			if (string.IsNullOrWhiteSpace (RefreshToken))
 				return false;
-			var expireTime = Created.AddSeconds(ExpiresIn);
+			var expireTime = Created.AddSeconds (ExpiresIn);
 			return expireTime > DateTime.UtcNow;
 		}
 
@@ -55,5 +50,5 @@ namespace SimpleAuth
 			ExpiresIn = 1;
 			Token = null;
 		}
-    }
+	}
 }

@@ -4,27 +4,23 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleAuth
-{
-    public class BasicAuthApi : AuthenticatedApi
-	{
+namespace SimpleAuth {
+	public class BasicAuthApi : AuthenticatedApi {
 		protected string LoginUrl { get; set; }
-		static BasicAuthApi()
+		static BasicAuthApi ()
 		{
 
 			//Setup default ShowAuthenticator
-			#if __IOS__
-			ShowAuthenticator = (auth) =>
-		    {
-				var invoker = new Foundation.NSObject();
-				invoker.BeginInvokeOnMainThread(() =>
-				{
-					var controller = new BasicAuthController(auth);
-					controller.Show();
+#if __IOS__
+			ShowAuthenticator = (auth) => {
+				var invoker = new Foundation.NSObject ();
+				invoker.BeginInvokeOnMainThread (() => {
+					var controller = new BasicAuthController (auth);
+					controller.Show ();
 				});
-				
-            };
-			#endif
+
+			};
+#endif
 		}
 
 		/// <summary>
@@ -34,18 +30,18 @@ namespace SimpleAuth
 		/// <param name="encryptionKey">Encryption key used to store information.</param>
 		/// <param name="loginUrl">Login URL for the credentials to be tested against.</param>
 		/// <param name="handler">Handler.</param>
-	    public BasicAuthApi(string identifier,string encryptionKey,string loginUrl, HttpMessageHandler handler = null) : base(identifier,encryptionKey, handler)
-	    {
-		    LoginUrl = loginUrl;
-			authenticator = new BasicAuthAuthenticator(Client,loginUrl);
+		public BasicAuthApi (string identifier, string encryptionKey, string loginUrl, HttpMessageHandler handler = null) : base (identifier, encryptionKey, handler)
+		{
+			LoginUrl = loginUrl;
+			authenticator = new BasicAuthAuthenticator (Client, loginUrl);
 			ClientSecret = encryptionKey;
 			ClientId = identifier;
 
-	    }
+		}
 
-	    protected BasicAuthAuthenticator authenticator;
+		protected BasicAuthAuthenticator authenticator;
 
-		protected virtual BasicAuthAuthenticator CreateAuthenticator()
+		protected virtual BasicAuthAuthenticator CreateAuthenticator ()
 		{
 			return authenticator;
 		}
@@ -53,39 +49,37 @@ namespace SimpleAuth
 		public BasicAuthAccount CurrentBasicAccount => CurrentAccount as BasicAuthAccount;
 		public static Action<IBasicAuthenicator> ShowAuthenticator { get; set; }
 		public Action<IBasicAuthenicator> CurrentShowAuthenticator { get; set; }
-		protected override async Task<Account> PerformAuthenticate()
-	    {
-			var account = CurrentBasicAccount ?? GetAccount<BasicAuthAccount>(Identifier);
-			if (account?.IsValid() == true)
-		    {
-			    return CurrentAccount = account;
-		    }
+		protected override async Task<Account> PerformAuthenticate ()
+		{
+			var account = CurrentBasicAccount ?? GetAccount<BasicAuthAccount> (Identifier);
+			if (account?.IsValid () == true) {
+				return CurrentAccount = account;
+			}
 
-			authenticator = CreateAuthenticator();
+			authenticator = CreateAuthenticator ();
 			await authenticator.PrepareAuthenticator ();
 
-			if(CurrentShowAuthenticator != null)
-				CurrentShowAuthenticator(authenticator);
+			if (CurrentShowAuthenticator != null)
+				CurrentShowAuthenticator (authenticator);
 			else
-				ShowAuthenticator(authenticator);
+				ShowAuthenticator (authenticator);
 
-			var token = await authenticator.GetAuthCode();
-			if (string.IsNullOrEmpty(token))
-			{
-				throw new Exception("Null token");
+			var token = await authenticator.GetAuthCode ();
+			if (string.IsNullOrEmpty (token)) {
+				throw new Exception ("Null token");
 			}
-			account = new BasicAuthAccount {Key = token};
+			account = new BasicAuthAccount { Key = token };
 			account.Identifier = Identifier;
-			SaveAccount(account);
+			SaveAccount (account);
 			CurrentAccount = account;
 			return account;
 		}
 
-	    protected override Task<bool> RefreshAccount(Account account)
-	    {
+		protected override Task<bool> RefreshAccount (Account account)
+		{
 			//This should never be called. Basic auth never expires;
-			return Task.FromResult(true);
-	    }
+			return Task.FromResult (true);
+		}
 
 		public override async Task PrepareClient (HttpClient client)
 		{

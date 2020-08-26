@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SimpleAuth.Providers
-{
-	public class ADFSApi : OAuthApi
-	{
+namespace SimpleAuth.Providers {
+	public class ADFSApi : OAuthApi {
 		private string AuthorizeUrl { get; set; }
 		private string Resource { get; set; }
 		private string RedirectUrl { get; set; }
 		bool UsesClientSecret;
-		public ADFSApi(string identifier, string clientId, string authorizeUrl,
+		public ADFSApi (string identifier, string clientId, string authorizeUrl,
 					   string tokenUrl, string resource, string redirectUrl = "http://localhost", HttpMessageHandler handler = null)
-			: base(identifier, clientId, clientId, handler) // ADFS doesn't need to use client_secret (so just use client_id)
+			: base (identifier, clientId, clientId, handler) // ADFS doesn't need to use client_secret (so just use client_id)
 		{
 			UsesClientSecret = false;
 			this.AuthorizeUrl = authorizeUrl;
@@ -22,9 +20,9 @@ namespace SimpleAuth.Providers
 			this.RedirectUrl = redirectUrl;
 		}
 
-		public ADFSApi(string identifier, string clientId,string clientSecret, string authorizeUrl,
+		public ADFSApi (string identifier, string clientId, string clientSecret, string authorizeUrl,
 					   string tokenUrl, string resource, string redirectUrl = "http://localhost", HttpMessageHandler handler = null)
-			: base(identifier, clientId,clientSecret, handler)
+			: base (identifier, clientId, clientSecret, handler)
 		{
 			UsesClientSecret = true;
 			this.AuthorizeUrl = authorizeUrl;
@@ -33,10 +31,9 @@ namespace SimpleAuth.Providers
 			this.RedirectUrl = redirectUrl;
 		}
 
-		protected override WebAuthenticator CreateAuthenticator()
+		protected override WebAuthenticator CreateAuthenticator ()
 		{
-			return new ADFSAuthenticator(ClientId, AuthorizeUrl, TokenUrl, Resource, RedirectUrl)
-			{
+			return new ADFSAuthenticator (ClientId, AuthorizeUrl, TokenUrl, Resource, RedirectUrl) {
 				UsesClientSecret = UsesClientSecret
 #if __IOS__
 					&& !NativeSafariAuthenticator.IsActivated
@@ -44,30 +41,27 @@ namespace SimpleAuth.Providers
 			};
 		}
 
-		protected override async Task<Account> PerformAuthenticate()
+		protected override async Task<Account> PerformAuthenticate ()
 		{
-			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount>(Identifier);
+			var account = CurrentOAuthAccount ?? GetAccount<OAuthAccount> (Identifier);
 
-			if (account != null && !string.IsNullOrWhiteSpace(account.RefreshToken))
-			{
-				var valid = account.IsValid();
-				if (!valid || ForceRefresh)
-				{
-					if (!(await Ping(TokenUrl)))
+			if (account != null && !string.IsNullOrWhiteSpace (account.RefreshToken)) {
+				var valid = account.IsValid ();
+				if (!valid || ForceRefresh) {
+					if (!(await Ping (TokenUrl)))
 						return account;
 
-					await RefreshAccount(account);
+					await RefreshAccount (account);
 				}
 
-				if (account.IsValid())
-				{
-					SaveAccount(account);
+				if (account.IsValid ()) {
+					SaveAccount (account);
 					CurrentAccount = account;
 					return account;
 				}
 			}
 
-			authenticator = CreateAuthenticator();
+			authenticator = CreateAuthenticator ();
 			authenticator.Cookies = account?.Cookies;
 
 			await authenticator.PrepareAuthenticator ();
@@ -77,38 +71,36 @@ namespace SimpleAuth.Providers
 			else
 				ShowAuthenticator (authenticator);
 
-			string token = await authenticator.GetAuthCode();
+			string token = await authenticator.GetAuthCode ();
 
-			if (string.IsNullOrEmpty(token))
-			{
-				throw new Exception("Null token");
+			if (string.IsNullOrEmpty (token)) {
+				throw new Exception ("Null token");
 			}
 
-			account = await GetAccountFromAuthCode(authenticator, Identifier);
+			account = await GetAccountFromAuthCode (authenticator, Identifier);
 			account.Identifier = Identifier;
-			SaveAccount(account);
+			SaveAccount (account);
 			CurrentAccount = account;
 			return account;
 		}
-		public override async Task<Dictionary<string, string>> GetRefreshTokenPostData(Account account)
+		public override async Task<Dictionary<string, string>> GetRefreshTokenPostData (Account account)
 		{
-			var data = await base.GetRefreshTokenPostData(account);
-			if(!UsesClientSecret && data.ContainsKey("client_secret"))
-				data.Remove("client_secret");
+			var data = await base.GetRefreshTokenPostData (account);
+			if (!UsesClientSecret && data.ContainsKey ("client_secret"))
+				data.Remove ("client_secret");
 			return data;
 		}
 	}
 
-	class ADFSAuthenticator : OAuthAuthenticator
-	{
+	class ADFSAuthenticator : OAuthAuthenticator {
 		private string Resource { get; set; }
 		public bool UsesClientSecret { get; set; }
 
-		public ADFSAuthenticator(string clientId,
+		public ADFSAuthenticator (string clientId,
 								 string authorizeUrl,
 								 string tokenUrl,
 								 string resource,
-								 string redirectUrl) : base(authorizeUrl,
+								 string redirectUrl) : base (authorizeUrl,
 															tokenUrl,
 															redirectUrl,
 															clientId,
@@ -117,21 +109,21 @@ namespace SimpleAuth.Providers
 			this.Resource = resource;
 		}
 
-		public override Dictionary<string, string> GetInitialUrlQueryParameters()
+		public override Dictionary<string, string> GetInitialUrlQueryParameters ()
 		{
-			var parameters = base.GetInitialUrlQueryParameters();
-			if (!UsesClientSecret && parameters.ContainsKey("client_secret"))
-				parameters.Remove("client_secret");
-			parameters["resource"] = Resource;
+			var parameters = base.GetInitialUrlQueryParameters ();
+			if (!UsesClientSecret && parameters.ContainsKey ("client_secret"))
+				parameters.Remove ("client_secret");
+			parameters ["resource"] = Resource;
 			return parameters;
 		}
 
-		public override async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
+		public override async Task<Dictionary<string, string>> GetTokenPostData (string clientSecret)
 		{
-			var data = await base.GetTokenPostData(clientSecret);
-			data["redirect_uri"] = RedirectUrl.OriginalString;
-			if (!UsesClientSecret && data.ContainsKey("client_secret"))
-				data.Remove("client_secret");
+			var data = await base.GetTokenPostData (clientSecret);
+			data ["redirect_uri"] = RedirectUrl.OriginalString;
+			if (!UsesClientSecret && data.ContainsKey ("client_secret"))
+				data.Remove ("client_secret");
 			return data;
 		}
 	}

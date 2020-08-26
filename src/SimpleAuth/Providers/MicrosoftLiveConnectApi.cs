@@ -5,48 +5,44 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Linq;
 
-namespace SimpleAuth.Providers
-{
-	public class MicrosoftLiveConnectApi : OAuthApi
-	{
+namespace SimpleAuth.Providers {
+	public class MicrosoftLiveConnectApi : OAuthApi {
 		public string RedirectUrl { get; set; }
 
-		public MicrosoftLiveConnectApi(string identifier, string clientId, string clientSecret, string redirectUrl = "http://localhost/", HttpMessageHandler handler = null) : base(identifier, clientId, clientSecret, handler)
+		public MicrosoftLiveConnectApi (string identifier, string clientId, string clientSecret, string redirectUrl = "http://localhost/", HttpMessageHandler handler = null) : base (identifier, clientId, clientSecret, handler)
 		{
 			RedirectUrl = redirectUrl;
 			TokenUrl = "https://login.live.com/oauth20_token.srf";
 		}
 
-		protected override WebAuthenticator CreateAuthenticator()
+		protected override WebAuthenticator CreateAuthenticator ()
 		{
-			return new MicrosoftLiveConnectAuthenticator(ClientId, ClientSecret, RedirectUrl)
-			{
-				Scope = Scopes.ToList(),
+			return new MicrosoftLiveConnectAuthenticator (ClientId, ClientSecret, RedirectUrl) {
+				Scope = Scopes.ToList (),
 
 			};
 		}
 	}
-	class MicrosoftLiveConnectAuthenticator : OAuthAuthenticator
-	{
-		public MicrosoftLiveConnectAuthenticator(string clientId, string clientSecret, string redirectUrl = "http://localhost/") : base("https://login.live.com/oauth20_authorize.srf", "https://login.live.com/oauth20_token.srf", redirectUrl, clientId, clientSecret)
+	class MicrosoftLiveConnectAuthenticator : OAuthAuthenticator {
+		public MicrosoftLiveConnectAuthenticator (string clientId, string clientSecret, string redirectUrl = "http://localhost/") : base ("https://login.live.com/oauth20_authorize.srf", "https://login.live.com/oauth20_token.srf", redirectUrl, clientId, clientSecret)
 		{
 
 		}
 
-		public override Dictionary<string, string> GetInitialUrlQueryParameters()
+		public override Dictionary<string, string> GetInitialUrlQueryParameters ()
 		{
-			var parameters = base.GetInitialUrlQueryParameters();
+			var parameters = base.GetInitialUrlQueryParameters ();
 #if !__PCL__ && !WINDOWS_UWP && !NETSTANDARD1_4
-			parameters["locale"] = Thread.CurrentThread.CurrentCulture?.TwoLetterISOLanguageName;
+			parameters ["locale"] = Thread.CurrentThread.CurrentCulture?.TwoLetterISOLanguageName;
 #endif
-            parameters["display"] = "touch";
+			parameters ["display"] = "touch";
 			return parameters;
 		}
 
-		public override async Task<Dictionary<string, string>> GetTokenPostData(string clientSecret)
+		public override async Task<Dictionary<string, string>> GetTokenPostData (string clientSecret)
 		{
-			var data = await base.GetTokenPostData(clientSecret);
-			data["redirect_uri"] = RedirectUrl.OriginalString;
+			var data = await base.GetTokenPostData (clientSecret);
+			data ["redirect_uri"] = RedirectUrl.OriginalString;
 			return data;
 		}
 	}

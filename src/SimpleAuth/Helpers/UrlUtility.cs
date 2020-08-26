@@ -5,10 +5,8 @@ using System.Text;
 using System.Web;
 using System.Linq;
 
-namespace SimpleAuth
-{
-	public static class UrlUtility
-	{
+namespace SimpleAuth {
+	public static class UrlUtility {
 		public static Uri AddParameters (this Uri url, string name, string value)
 		{
 			return url.AddParameters (new Dictionary<string, string>

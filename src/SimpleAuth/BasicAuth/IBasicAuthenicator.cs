@@ -15,10 +15,8 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SimpleAuth
-{
-	public interface IBasicAuthenicator
-	{
+namespace SimpleAuth {
+	public interface IBasicAuthenicator {
 		Task<bool> VerifyCredentials (string username, string password);
 		void OnCancelled ();
 		void OnError (string error);

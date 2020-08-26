@@ -14,10 +14,8 @@ using Foundation;
 #elif WINDOWS_UWP
 using Windows.Security.Authentication.Web;
 #endif
-namespace SimpleAuth.Providers
-{
-	public class GoogleApi : OAuthApi
-	{
+namespace SimpleAuth.Providers {
+	public class GoogleApi : OAuthApi {
 
 		/// <summary>
 		/// Optional value that is used to get a server token when used with Native iOS. 
@@ -74,7 +72,7 @@ namespace SimpleAuth.Providers
                 authenticator.CheckUrl(new Uri(codeString), new System.Net.Cookie[0]);
             };
 #endif
-            if (GoogleShowAuthenticator != null)
+			if (GoogleShowAuthenticator != null)
 				CurrentShowAuthenticator = GoogleShowAuthenticator;
 			CheckNative ();
 		}
@@ -115,10 +113,10 @@ namespace SimpleAuth.Providers
 				IsUsingNative = IsUsingNative,
 				ServerClientId = ServerClientId,
 			};
-			var redirect = authenticator.GetRedirectUrl();
-			if(!string.IsNullOrWhiteSpace(redirect))
-				authenticator.RedirectUrl = new Uri(redirect);
-            return authenticator;
+			var redirect = authenticator.GetRedirectUrl ();
+			if (!string.IsNullOrWhiteSpace (redirect))
+				authenticator.RedirectUrl = new Uri (redirect);
+			return authenticator;
 		}
 		public static Action<string, string> OnLogOut { get; set; }
 		protected override Task<OAuthAccount> GetAccountFromAuthCode (WebAuthenticator authenticator, string identifier)
@@ -151,7 +149,7 @@ namespace SimpleAuth.Providers
 			string userInfoJson;
 			if (forceRefresh || CurrentAccount == null || !CurrentAccount.UserData.TryGetValue ("userInfo", out userInfoJson)) {
 				userInfoJson = await Get ("https://www.googleapis.com/oauth2/v1/userinfo?alt=json");
-				CurrentAccount.UserData["userInfo"] = userInfoJson;
+				CurrentAccount.UserData ["userInfo"] = userInfoJson;
 				SaveAccount (CurrentAccount);
 			}
 
@@ -165,8 +163,7 @@ namespace SimpleAuth.Providers
 		}
 	}
 
-	public class GoogleAuthenticator : OAuthAuthenticator
-	{
+	public class GoogleAuthenticator : OAuthAuthenticator {
 		/// <summary>
 		/// Optional, used to get the ServerTokens. The server token will be added to account.UserData["ServerToken"]
 		/// </summary>
@@ -176,7 +173,7 @@ namespace SimpleAuth.Providers
 			get;
 			set;
 		} = "https://accounts.google.com/o/oauth2/auth";
-        
+
 
 		public override async Task<Dictionary<string, string>> GetTokenPostData (string clientSecret)
 		{
@@ -257,8 +254,7 @@ namespace SimpleAuth.Providers
 #if __MOBILE__
 	[Preserve (AllMembers = true)]
 #endif
-	public class GoogleUserProfile
-	{
+	public class GoogleUserProfile {
 		[JsonProperty ("id")]
 		public string Id {
 			get;

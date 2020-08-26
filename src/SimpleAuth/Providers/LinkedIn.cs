@@ -16,20 +16,18 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace SimpleAuth.Providers
-{
-	public class LinkedInApi : OAuthApi
-	{
-		public LinkedInApi(string identifier, string clientId, string clientSecret, string redirectUrl = "http://localhost", HttpMessageHandler handler = null) : base(identifier, new OAuthAuthenticator("https://www.linkedin.com/uas/oauth2/authorization", "https://www.linkedin.com/uas/oauth2/accessToken", redirectUrl, clientId, clientSecret), handler)
+namespace SimpleAuth.Providers {
+	public class LinkedInApi : OAuthApi {
+		public LinkedInApi (string identifier, string clientId, string clientSecret, string redirectUrl = "http://localhost", HttpMessageHandler handler = null) : base (identifier, new OAuthAuthenticator ("https://www.linkedin.com/uas/oauth2/authorization", "https://www.linkedin.com/uas/oauth2/accessToken", redirectUrl, clientId, clientSecret), handler)
 		{
-			BaseAddress = new Uri("https://api.linkedin.com/v1/");
-			Scopes = new string[] { "r_basicprofile" };
+			BaseAddress = new Uri ("https://api.linkedin.com/v1/");
+			Scopes = new string [] { "r_basicprofile" };
 		}
 
-		[Path("people")]
-		public Task<string> GetProfile()
+		[Path ("people")]
+		public Task<string> GetProfile ()
 		{
-			return Get();
+			return Get ();
 		}
 	}
 }
