@@ -8,11 +8,11 @@
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Native Facebook support for SimpleAuth</description>
-        <releaseNotes>Now properly logs out</releaseNotes>
+        <releaseNotes>Updated dependencies</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-            <dependency id="Clancey.SimpleAuth" version="1.0.49"/>
-            <dependency id="Xamarin.Facebook.Android" version="4.26.0"/>
+            <dependency id="Clancey.SimpleAuth" version="1.0.52"/>
+            <dependency id="Xamarin.Facebook.Android" version="7.1.0"/>
         </dependencies>
     </metadata>
     <files>

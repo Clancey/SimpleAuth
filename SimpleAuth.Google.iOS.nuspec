@@ -12,11 +12,11 @@
 SimpleAuth.Providers.Google.Init();
 Required Callbacks:
 SimpleAuth.Native.OpenUrl(application, url, options);</summary>
-        <releaseNotes>Updated Dependencies</releaseNotes>
+        <releaseNotes>Updated dependencies</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-            <dependency id="Clancey.SimpleAuth" version="1.0.49"/>
-            <dependency id="Xamarin.Google.iOS.SignIn" version="4.1.1"/>
+            <dependency id="Clancey.SimpleAuth" version="1.0.52"/>
+            <dependency id="Xamarin.Google.iOS.SignIn" version="5.0.2.1"/>
         </dependencies>
     </metadata>
     <files>

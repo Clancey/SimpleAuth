@@ -8,11 +8,11 @@
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Native Google support for SimpleAuth</description>
-        <releaseNotes>Fixed login.</releaseNotes>
+        <releaseNotes>Updated dependencies</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-			<dependency id="Clancey.SimpleAuth" version="1.0.49"/>
-			<dependency id="Xamarin.GooglePlayServices.Auth" version="60.1142.1"/>
+			<dependency id="Clancey.SimpleAuth" version="1.0.52"/>
+			<dependency id="Xamarin.GooglePlayServices.Auth" version="71.1600.4"/>
         </dependencies>
     </metadata>
     <files>
