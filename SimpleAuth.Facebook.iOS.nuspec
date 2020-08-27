@@ -15,7 +15,7 @@ SimpleAuth.Native.OpenUrl(application, url, options);</summary>
         <releaseNotes>Updated Dependencies</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-            <dependency id="Clancey.SimpleAuth" version="1.0.52"/>
+            <dependency id="Clancey.SimpleAuth" version="1.0.53"/>
             <dependency id="Xamarin.Facebook.iOS" version="7.1.1"/>
         </dependencies>
     </metadata>

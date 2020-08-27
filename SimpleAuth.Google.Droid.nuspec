@@ -11,7 +11,7 @@
         <releaseNotes>Updated dependencies</releaseNotes>
         <copyright>James Clancey</copyright>
         <dependencies>
-			<dependency id="Clancey.SimpleAuth" version="1.0.52"/>
+			<dependency id="Clancey.SimpleAuth" version="1.0.53"/>
 			<dependency id="Xamarin.GooglePlayServices.Auth" version="71.1600.4"/>
         </dependencies>
     </metadata>
