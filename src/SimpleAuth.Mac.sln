@@ -11,8 +11,6 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SimpleAuth", "SimpleAuth\Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Portable", "SimpleAuth.Portable\SimpleAuth.Portable.csproj", "{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.OnePassword.iOS", "SimpleAuth.OnePassword.iOS\SimpleAuth.OnePassword.iOS.csproj", "{3978F9A7-1AD2-4550-A0FE-86793CA912CD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Mac", "SimpleAuth.Mac\SimpleAuth.Mac.csproj", "{6457641D-D20D-479B-AA3B-30A9C88B96DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Facebook.Droid", "SimpleAuth.Facebook.Droid\SimpleAuth.Facebook.Droid.csproj", "{FEC3608B-E1BD-457B-8596-B8CBDA34945E}"
@@ -51,10 +49,6 @@ Global
 		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3978F9A7-1AD2-4550-A0FE-86793CA912CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3978F9A7-1AD2-4550-A0FE-86793CA912CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3978F9A7-1AD2-4550-A0FE-86793CA912CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3978F9A7-1AD2-4550-A0FE-86793CA912CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6457641D-D20D-479B-AA3B-30A9C88B96DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6457641D-D20D-479B-AA3B-30A9C88B96DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6457641D-D20D-479B-AA3B-30A9C88B96DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
