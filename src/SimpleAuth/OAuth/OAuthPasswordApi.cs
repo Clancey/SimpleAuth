@@ -67,7 +67,7 @@ namespace SimpleAuth {
 			}
 		}
 
-		public async Task<bool> VerifyCredentials (string username, string password)
+		public virtual async Task<bool> VerifyCredentials (string username, string password)
 		{
 			Api.EnsureApiStatusCode = false;
 			var tokenString = await Api.Post (new FormUrlEncodedContent (new Dictionary<string, string> {
