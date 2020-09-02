@@ -14,7 +14,7 @@ namespace SimpleAuth {
 			//Setup default ShowAuthenticator
 #if __IOS__
 			//We are changing the Native Authenticator to be the default!
-			NativeSafariAuthenticator.Activate ();
+			OAuthApi.ShowAuthenticator = WebAuthenticatorWindow.PresentAuthenticator;
 
 #elif __ANDROID__
 			OAuthApi.ShowAuthenticator = (authenticator) => {
