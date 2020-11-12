@@ -221,14 +221,13 @@ namespace SimpleAuth.iOS {
 							
 					}
 				}
-				base.DecidePolicy (webView, navigationAction, preferences, decisionHandler);
+				decisionHandler (WKNavigationActionPolicy.Allow, preferences);
 			}
 			public override void DidCommitNavigation (WKWebView webView, WKNavigation navigation)
 			{
 
 				Controller.activity.StartAnimating ();
 				webView.UserInteractionEnabled = false;
-				base.DidCommitNavigation (webView, navigation);
 			}
 			public override void DidFailProvisionalNavigation (WKWebView webView, WKNavigation navigation, NSError error)
 			{
@@ -241,7 +240,6 @@ namespace SimpleAuth.iOS {
 
 				Controller.Authenticator.OnError (error.LocalizedDescription);
 
-				base.DidFailProvisionalNavigation (webView, navigation, error);
 			}
 
 			public override void DidFinishNavigation (WKWebView webView, WKNavigation navigation)
@@ -255,7 +253,6 @@ namespace SimpleAuth.iOS {
 					lastUrl = url;
 					Controller.Authenticator.CheckUrl (url, GetCookies (url));
 				}
-				base.DidFinishNavigation (webView, navigation);
 			}
 
 			private Cookie [] GetCookies (Uri url)
