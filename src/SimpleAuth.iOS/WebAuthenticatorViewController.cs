@@ -208,7 +208,7 @@ namespace SimpleAuth.iOS {
 				this.Controller = controller;
 			}
 
-			public override void DecidePolicy (WKWebView webView, WKNavigationAction navigationAction, WKWebpagePreferences preferences, Action<WKNavigationActionPolicy, WKWebpagePreferences> decisionHandler)
+			public override async void DecidePolicy (WKWebView webView, WKNavigationAction navigationAction, WKWebpagePreferences preferences, Action<WKNavigationActionPolicy, WKWebpagePreferences> decisionHandler)
 			{
 				var request = navigationAction.Request;
 				var nsUrl = request.Url;
@@ -216,8 +216,10 @@ namespace SimpleAuth.iOS {
 				if (nsUrl != null && !Controller.Authenticator.HasCompleted) {
 					Uri url;
 					if (Uri.TryCreate (nsUrl.AbsoluteString, UriKind.Absolute, out url)) {
-						if (Controller.Authenticator.CheckUrl (url, GetCookies (url)))
+						if (Controller.Authenticator.CheckUrl (url, await GetCookies (url))) {
 							decisionHandler (WKNavigationActionPolicy.Cancel, preferences);
+							return;
+						}
 							
 					}
 				}
@@ -242,7 +244,7 @@ namespace SimpleAuth.iOS {
 
 			}
 
-			public override void DidFinishNavigation (WKWebView webView, WKNavigation navigation)
+			public override async void DidFinishNavigation (WKWebView webView, WKNavigation navigation)
 			{
 				Controller.activity.StopAnimating ();
 
@@ -251,14 +253,14 @@ namespace SimpleAuth.iOS {
 				var url = new Uri (webView.Url.AbsoluteString);
 				if (url != lastUrl && !Controller.Authenticator.HasCompleted) {
 					lastUrl = url;
-					Controller.Authenticator.CheckUrl (url, GetCookies (url));
+					Controller.Authenticator.CheckUrl (url, await GetCookies (url));
 				}
 			}
 
-			private Cookie [] GetCookies (Uri url)
+			private async Task<Cookie []> GetCookies (Uri url)
 			{
-				var store = NSHttpCookieStorage.SharedStorage;
-				var cookies = store.CookiesForUrl (new NSUrl (url.AbsoluteUri)).Select (x => new Cookie (x.Name, x.Value, x.Path, x.Domain)).ToArray ();
+				var rawCookies = await WKWebsiteDataStore.DefaultDataStore.HttpCookieStore.GetAllCookiesAsync ();
+				var cookies = rawCookies.Select (x => new Cookie (x.Name, x.Value, x.Path, x.Domain)).ToArray ();
 				return cookies;
 			}
 		}
