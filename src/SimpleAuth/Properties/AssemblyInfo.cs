@@ -1,4 +1,4 @@
-﻿#if !NETSTANDARD2_0
+﻿#if !NETSTANDARD2_0 && !NET6_0
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;

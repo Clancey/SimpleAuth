@@ -499,67 +499,76 @@ namespace SimpleAuth.Google.Droid
 			public static int line3 = 2131034147;
 			
 			// aapt resource value: 0x7F050024
-			public static int media_actions = 2131034148;
+			public static int loginButton = 2131034148;
 			
 			// aapt resource value: 0x7F050025
-			public static int none = 2131034149;
+			public static int media_actions = 2131034149;
 			
 			// aapt resource value: 0x7F050026
-			public static int normal = 2131034150;
+			public static int none = 2131034150;
 			
 			// aapt resource value: 0x7F050027
-			public static int notification_background = 2131034151;
+			public static int normal = 2131034151;
 			
 			// aapt resource value: 0x7F050028
-			public static int notification_main_column = 2131034152;
+			public static int notification_background = 2131034152;
 			
 			// aapt resource value: 0x7F050029
-			public static int notification_main_column_container = 2131034153;
+			public static int notification_main_column = 2131034153;
 			
 			// aapt resource value: 0x7F05002A
-			public static int right = 2131034154;
+			public static int notification_main_column_container = 2131034154;
 			
 			// aapt resource value: 0x7F05002B
-			public static int right_icon = 2131034155;
+			public static int password = 2131034155;
 			
 			// aapt resource value: 0x7F05002C
-			public static int right_side = 2131034156;
+			public static int right = 2131034156;
 			
 			// aapt resource value: 0x7F05002D
-			public static int standard = 2131034157;
+			public static int right_icon = 2131034157;
 			
 			// aapt resource value: 0x7F05002E
-			public static int start = 2131034158;
+			public static int right_side = 2131034158;
 			
 			// aapt resource value: 0x7F05002F
-			public static int status_bar_latest_event_content = 2131034159;
+			public static int standard = 2131034159;
 			
 			// aapt resource value: 0x7F050030
-			public static int tag_transition_group = 2131034160;
+			public static int start = 2131034160;
 			
 			// aapt resource value: 0x7F050031
-			public static int tag_unhandled_key_event_manager = 2131034161;
+			public static int status_bar_latest_event_content = 2131034161;
 			
 			// aapt resource value: 0x7F050032
-			public static int tag_unhandled_key_listeners = 2131034162;
+			public static int tag_transition_group = 2131034162;
 			
 			// aapt resource value: 0x7F050033
-			public static int text = 2131034163;
+			public static int tag_unhandled_key_event_manager = 2131034163;
 			
 			// aapt resource value: 0x7F050034
-			public static int text2 = 2131034164;
+			public static int tag_unhandled_key_listeners = 2131034164;
 			
 			// aapt resource value: 0x7F050035
-			public static int time = 2131034165;
+			public static int text = 2131034165;
 			
 			// aapt resource value: 0x7F050036
-			public static int title = 2131034166;
+			public static int text2 = 2131034166;
 			
 			// aapt resource value: 0x7F050037
-			public static int top = 2131034167;
+			public static int time = 2131034167;
 			
 			// aapt resource value: 0x7F050038
-			public static int wide = 2131034168;
+			public static int title = 2131034168;
+			
+			// aapt resource value: 0x7F050039
+			public static int top = 2131034169;
+			
+			// aapt resource value: 0x7F05003A
+			public static int username = 2131034170;
+			
+			// aapt resource value: 0x7F05003B
+			public static int wide = 2131034171;
 			
 			static Id()
 			{
@@ -597,49 +606,52 @@ namespace SimpleAuth.Google.Droid
 		{
 			
 			// aapt resource value: 0x7F070000
-			public static int notification_action = 2131165184;
+			public static int login = 2131165184;
 			
 			// aapt resource value: 0x7F070001
-			public static int notification_action_tombstone = 2131165185;
+			public static int notification_action = 2131165185;
 			
 			// aapt resource value: 0x7F070002
-			public static int notification_media_action = 2131165186;
+			public static int notification_action_tombstone = 2131165186;
 			
 			// aapt resource value: 0x7F070003
-			public static int notification_media_cancel_action = 2131165187;
+			public static int notification_media_action = 2131165187;
 			
 			// aapt resource value: 0x7F070004
-			public static int notification_template_big_media = 2131165188;
+			public static int notification_media_cancel_action = 2131165188;
 			
 			// aapt resource value: 0x7F070005
-			public static int notification_template_big_media_custom = 2131165189;
+			public static int notification_template_big_media = 2131165189;
 			
 			// aapt resource value: 0x7F070006
-			public static int notification_template_big_media_narrow = 2131165190;
+			public static int notification_template_big_media_custom = 2131165190;
 			
 			// aapt resource value: 0x7F070007
-			public static int notification_template_big_media_narrow_custom = 2131165191;
+			public static int notification_template_big_media_narrow = 2131165191;
 			
 			// aapt resource value: 0x7F070008
-			public static int notification_template_custom_big = 2131165192;
+			public static int notification_template_big_media_narrow_custom = 2131165192;
 			
 			// aapt resource value: 0x7F070009
-			public static int notification_template_icon_group = 2131165193;
+			public static int notification_template_custom_big = 2131165193;
 			
 			// aapt resource value: 0x7F07000A
-			public static int notification_template_lines_media = 2131165194;
+			public static int notification_template_icon_group = 2131165194;
 			
 			// aapt resource value: 0x7F07000B
-			public static int notification_template_media = 2131165195;
+			public static int notification_template_lines_media = 2131165195;
 			
 			// aapt resource value: 0x7F07000C
-			public static int notification_template_media_custom = 2131165196;
+			public static int notification_template_media = 2131165196;
 			
 			// aapt resource value: 0x7F07000D
-			public static int notification_template_part_chronometer = 2131165197;
+			public static int notification_template_media_custom = 2131165197;
 			
 			// aapt resource value: 0x7F07000E
-			public static int notification_template_part_time = 2131165198;
+			public static int notification_template_part_chronometer = 2131165198;
+			
+			// aapt resource value: 0x7F07000F
+			public static int notification_template_part_time = 2131165199;
 			
 			static Layout()
 			{
@@ -655,64 +667,70 @@ namespace SimpleAuth.Google.Droid
 		{
 			
 			// aapt resource value: 0x7F080000
-			public static int common_google_play_services_enable_button = 2131230720;
-			
-			// aapt resource value: 0x7F080001
-			public static int common_google_play_services_enable_text = 2131230721;
+			public static int ApplicationName = 2131230720;
 			
 			// aapt resource value: 0x7F080002
-			public static int common_google_play_services_enable_title = 2131230722;
+			public static int common_google_play_services_enable_button = 2131230722;
 			
 			// aapt resource value: 0x7F080003
-			public static int common_google_play_services_install_button = 2131230723;
+			public static int common_google_play_services_enable_text = 2131230723;
 			
 			// aapt resource value: 0x7F080004
-			public static int common_google_play_services_install_text = 2131230724;
+			public static int common_google_play_services_enable_title = 2131230724;
 			
 			// aapt resource value: 0x7F080005
-			public static int common_google_play_services_install_title = 2131230725;
+			public static int common_google_play_services_install_button = 2131230725;
 			
 			// aapt resource value: 0x7F080006
-			public static int common_google_play_services_notification_channel_name = 2131230726;
+			public static int common_google_play_services_install_text = 2131230726;
 			
 			// aapt resource value: 0x7F080007
-			public static int common_google_play_services_notification_ticker = 2131230727;
+			public static int common_google_play_services_install_title = 2131230727;
 			
 			// aapt resource value: 0x7F080008
-			public static int common_google_play_services_unknown_issue = 2131230728;
+			public static int common_google_play_services_notification_channel_name = 2131230728;
 			
 			// aapt resource value: 0x7F080009
-			public static int common_google_play_services_unsupported_text = 2131230729;
+			public static int common_google_play_services_notification_ticker = 2131230729;
 			
 			// aapt resource value: 0x7F08000A
-			public static int common_google_play_services_update_button = 2131230730;
+			public static int common_google_play_services_unknown_issue = 2131230730;
 			
 			// aapt resource value: 0x7F08000B
-			public static int common_google_play_services_update_text = 2131230731;
+			public static int common_google_play_services_unsupported_text = 2131230731;
 			
 			// aapt resource value: 0x7F08000C
-			public static int common_google_play_services_update_title = 2131230732;
+			public static int common_google_play_services_update_button = 2131230732;
 			
 			// aapt resource value: 0x7F08000D
-			public static int common_google_play_services_updating_text = 2131230733;
+			public static int common_google_play_services_update_text = 2131230733;
 			
 			// aapt resource value: 0x7F08000E
-			public static int common_google_play_services_wear_update_text = 2131230734;
+			public static int common_google_play_services_update_title = 2131230734;
 			
 			// aapt resource value: 0x7F08000F
-			public static int common_open_on_phone = 2131230735;
+			public static int common_google_play_services_updating_text = 2131230735;
 			
 			// aapt resource value: 0x7F080010
-			public static int common_signin_button_text = 2131230736;
+			public static int common_google_play_services_wear_update_text = 2131230736;
 			
 			// aapt resource value: 0x7F080011
-			public static int common_signin_button_text_long = 2131230737;
+			public static int common_open_on_phone = 2131230737;
 			
 			// aapt resource value: 0x7F080012
-			public static int library_name = 2131230738;
+			public static int common_signin_button_text = 2131230738;
 			
 			// aapt resource value: 0x7F080013
-			public static int status_bar_notification_info_overflow = 2131230739;
+			public static int common_signin_button_text_long = 2131230739;
+			
+			// aapt resource value: 0x7F080001
+			public static int Hello = 2131230721;
+			
+			// aapt resource value: 0x7F080014
+			public static int library_name = 2131230740;
+			
+			// aapt resource value: 0x7F080015
+			public static int status_bar_notification_info_overflow = 2131230741;
 			
 			static String()
 			{

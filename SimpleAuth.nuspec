@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Clancey.SimpleAuth</id>
-        <version>1.0.55</version>
+        <version>1.0.56</version>
         <authors>Clancey</authors>
         <licenseUrl>https://github.com/Clancey/SimpleAuth/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/clancey/SimpleAuth</projectUrl>
@@ -34,5 +34,13 @@
         <file src="src\SimpleAuth.UWP\bin\Debug\SimpleAuth.pdb" target="lib\uap\SimpleAuth.pdb" />
      	<file src="src\SimpleAuth.Mac\bin\Debug\SimpleAuth.dll" target="lib\Xamarin.Mac20\SimpleAuth.dll" />
      	<file src="src\SimpleAuth.Mac\bin\Debug\SimpleAuth.pdb" target="lib\Xamarin.Mac20\SimpleAuth.pdb" />
+
+
+        <file src="src/SimpleAuth.Net6/bin/Debug/net6.0-ios/SimpleAuth.dll" target="lib/net6.0-ios13.6/SimpleAuth.dll"/>
+        <file src="src/SimpleAuth.Net6/bin/Debug/net6.0-ios/SimpleAuth.pdb" target="lib/net6.0-ios13.6/SimpleAuth.pdb"/>
+        <file src="src/SimpleAuth.Net6/bin/Debug/net6.0-android/SimpleAuth.dll" target="lib/net6.0-android30.0/SimpleAuth.dll"/>
+        <file src="src/SimpleAuth.Net6/bin/Debug/net6.0-android/SimpleAuth.pdb" target="lib/net6.0-android30.0/SimpleAuth.pdb"/>
+        <file src="src/SimpleAuth.Net6/bin/Debug/net6.0-maccatalyst/SimpleAuth.dll" target="lib/net6.0-maccatalyst13.5/SimpleAuth.dll"/>
+        <file src="src/SimpleAuth.Net6/bin/Debug/net6.0-maccatalyst/SimpleAuth.pdb" target="lib/net6.0-maccatalyst13.5/SimpleAuth.pdb"/>
     </files>
 </package>
