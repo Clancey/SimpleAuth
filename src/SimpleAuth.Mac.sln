@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Droid", "SimpleA
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SimpleAuth", "SimpleAuth\SimpleAuth.shproj", "{9FDA9BD4-3D55-4132-9055-98986C50E0A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Portable", "SimpleAuth.Portable\SimpleAuth.Portable.csproj", "{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Mac", "SimpleAuth.Mac\SimpleAuth.Mac.csproj", "{6457641D-D20D-479B-AA3B-30A9C88B96DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Facebook.Droid", "SimpleAuth.Facebook.Droid\SimpleAuth.Facebook.Droid.csproj", "{FEC3608B-E1BD-457B-8596-B8CBDA34945E}"
@@ -22,6 +20,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Tests", "SimpleAuth.Tests\SimpleAuth.Tests.csproj", "{7360F7D9-8C03-4144-8041-4D6ADFB73164}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net45", "SimpleAuth.Net45\SimpleAuth.Net45.csproj", "{45A98478-4435-4505-BAF3-37F854AC671B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth", "SimpleAuth\SimpleAuth.csproj", "{59248C00-4319-4CD0-A858-8744874E7788}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -45,10 +45,6 @@ Global
 		{5B44ED27-DAD7-43FA-8A06-BA2469A1AF9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B44ED27-DAD7-43FA-8A06-BA2469A1AF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B44ED27-DAD7-43FA-8A06-BA2469A1AF9E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9AFE645-9D2C-4D04-98AC-96990D9BA60E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6457641D-D20D-479B-AA3B-30A9C88B96DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6457641D-D20D-479B-AA3B-30A9C88B96DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6457641D-D20D-479B-AA3B-30A9C88B96DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,10 @@ Global
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45A98478-4435-4505-BAF3-37F854AC671B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59248C00-4319-4CD0-A858-8744874E7788}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59248C00-4319-4CD0-A858-8744874E7788}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59248C00-4319-4CD0-A858-8744874E7788}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59248C00-4319-4CD0-A858-8744874E7788}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

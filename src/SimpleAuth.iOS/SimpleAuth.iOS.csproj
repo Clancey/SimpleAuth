@@ -35,17 +35,7 @@
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="BasicAuthController.cs" />
-    <Compile Include="TypeForwarded.cs" />
-    <Compile Include="AuthStorage.cs" />
-    <Compile Include="NativeSafariAuthenticator.cs" />
-    <Compile Include="Native.cs" />
-    <Compile Include="Twitter.cs" />
-    <Compile Include="WebAuthenticatorViewController.cs" />
-    <Compile Include="WebAuthenticatorWindow.cs" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -54,10 +44,33 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="Entitlements.plist" />
+    <None Include="Info.plist" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SimpleAuth\Platforms\iOS\WebAuthenticatorViewController.cs">
+      <Link>iOS\WebAuthenticatorViewController.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\iOS\NativeSafariAuthenticator.cs">
+      <Link>iOS\NativeSafariAuthenticator.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\iOS\Native.cs">
+      <Link>iOS\Native.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\iOS\WebAuthenticatorWindow.cs">
+      <Link>iOS\WebAuthenticatorWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\iOS\AuthStorage.cs">
+      <Link>iOS\AuthStorage.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\iOS\BasicAuthController.cs">
+      <Link>iOS\BasicAuthController.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\iOS\Twitter.cs">
+      <Link>iOS\Twitter.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="..\SimpleAuth\SimpleAuth.projitems" Label="Shared" Condition="Exists('..\SimpleAuth\SimpleAuth.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

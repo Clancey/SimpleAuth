@@ -36,7 +36,7 @@
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -48,21 +48,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActivityStateRepository.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
-    <Compile Include="AuthStorage.cs" />
     <Compile Include="TypeForwarded.cs" />
-    <Compile Include="WebAuthenticatorActivity.cs" />
-    <Compile Include="LoginActvity.cs" />
-    <Compile Include="Native.cs" />
+    <Compile Include="..\SimpleAuth\Platforms\Android\ActivityStateRepository.cs">
+      <Link>Android\ActivityStateRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\Android\Native.cs">
+      <Link>Android\Native.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\Android\AuthStorage.cs">
+      <Link>Android\AuthStorage.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\Android\WebAuthenticatorActivity.cs">
+      <Link>Android\WebAuthenticatorActivity.cs</Link>
+    </Compile>
+    <Compile Include="..\SimpleAuth\Platforms\Android\LoginActvity.cs">
+      <Link>Android\LoginActvity.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="Resources\AboutResources.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\Values\Strings.xml" />
-    <AndroidResource Include="Resources\layout\login.axml" />
+    <None Include="..\SimpleAuth\Platforms\Android\App.config">
+      <Link>Android\App.config</Link>
+    </None>
   </ItemGroup>
   <Import Project="..\SimpleAuth\SimpleAuth.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
@@ -75,5 +83,19 @@
   -->
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Resources\layout\" />
+    <Folder Include="Resources\Values\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\SimpleAuth\Platforms\Android\Resources\layout\login.axml">
+      <Link>Resources\layout\login.axml</Link>
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="..\SimpleAuth\Platforms\Android\Resources\Values\Strings.xml">
+      <Link>Resources\Values\Strings.xml</Link>
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
 </Project>
