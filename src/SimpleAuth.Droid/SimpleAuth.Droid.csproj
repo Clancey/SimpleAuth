@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
@@ -83,19 +84,21 @@
   -->
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="Resources\layout\" />
-    <Folder Include="Resources\Values\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="..\SimpleAuth\Platforms\Android\Resources\layout\login.axml">
       <Link>Resources\layout\login.axml</Link>
-      <SubType></SubType>
-      <Generator></Generator>
+      <SubType>
+      </SubType>
+      <Generator>
+      </Generator>
     </AndroidResource>
     <AndroidResource Include="..\SimpleAuth\Platforms\Android\Resources\Values\Strings.xml">
       <Link>Resources\Values\Strings.xml</Link>
-      <SubType></SubType>
-      <Generator></Generator>
+      <SubType>
+      </SubType>
+      <Generator>
+      </Generator>
     </AndroidResource>
   </ItemGroup>
 </Project>
