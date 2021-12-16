@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,7 +35,7 @@ namespace SimpleAuth
 
                     // This clears the WebView cache which is used for Instagram
                     #pragma warning disable 4014
-                    Windows.UI.Xaml.Controls.WebView.ClearTemporaryWebDataAsync();
+                   //WebView2.ClearTemporaryWebDataAsync();
                     #pragma warning restore 4014
                 }
             }

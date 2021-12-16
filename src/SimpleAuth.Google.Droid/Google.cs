@@ -92,7 +92,7 @@ namespace SimpleAuth.Providers
 					{
 						accessToken = await Task.Run(() =>
 						{
-							return Android.Gms.Auth.GoogleAuthUtil.GetToken(currentActivity, result?.SignInAccount?.Email, tokenScopes);
+							return GoogleAuthUtil.GetToken(currentActivity, result?.SignInAccount?.Email, tokenScopes);
 						});
 					}
 					else

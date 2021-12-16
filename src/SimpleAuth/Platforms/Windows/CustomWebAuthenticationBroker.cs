@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using System;
 using System.Threading.Tasks;
 using Windows.Security.Authentication.Web;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace SimpleAuth.UWP
 {
@@ -33,13 +33,13 @@ namespace SimpleAuth.UWP
             dialog = new ContentDialog();
 
             var grid = new Grid();
-            grid.RowDefinitions.Add(new RowDefinition() { Height = Windows.UI.Xaml.GridLength.Auto });
-            grid.RowDefinitions.Add(new RowDefinition() { Height = new Windows.UI.Xaml.GridLength(1, Windows.UI.Xaml.GridUnitType.Star) });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = Microsoft.UI.Xaml.GridLength.Auto });
+            grid.RowDefinitions.Add(new RowDefinition() { Height = new Microsoft.UI.Xaml.GridLength(1, Microsoft.UI.Xaml.GridUnitType.Star) });
 
             var label = new TextBlock();
             label.Text = "Connect to a service"; // Probably need to get localized versions of this.
-            label.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Left;
-            label.Margin = new Windows.UI.Xaml.Thickness(0);
+            label.HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Left;
+            label.Margin = new Microsoft.UI.Xaml.Thickness(0);
             grid.Children.Add(label);
 
             var closeButton = new Button();
@@ -47,11 +47,11 @@ namespace SimpleAuth.UWP
             closeButton.Content = "";
             closeButton.FontFamily = new FontFamily("Segoe UI Symbol");
             closeButton.FontSize = 12;
-            closeButton.Foreground = new SolidColorBrush(Windows.UI.Colors.Gray);
+            closeButton.Foreground = new SolidColorBrush(Microsoft.UI.Colors.Gray);
             closeButton.BorderBrush = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
             closeButton.Background = new SolidColorBrush(Windows.UI.Color.FromArgb(0, 0, 0, 0));
-            closeButton.Margin = new Windows.UI.Xaml.Thickness(0);
-            closeButton.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Right;
+            closeButton.Margin = new Microsoft.UI.Xaml.Thickness(0);
+            closeButton.HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Right;
             closeButton.ClickMode = ClickMode.Press; // Release doesn't work!
             closeButton.Click += (s, e) =>
             {
@@ -61,41 +61,45 @@ namespace SimpleAuth.UWP
 
             grid.Children.Add(closeButton);
 
-            var webView = new WebView(WebViewExecutionMode.SameThread) { Source = requestUri };
+            var webView = new WebView2() { Source = requestUri };
             webView.AllowFocusOnInteraction = true;
             webView.SetValue(Grid.RowProperty, 1);
-            webView.NavigationStarting += WebView_NavigationStarting;
-            webView.NavigationFailed += WebView_NavigationFailed;
+            webView.NavigationStarting += WebView_NavigationStarting; ;
+            webView.NavigationCompleted += WebView_NavigationCompleted; ;
             webView.MinWidth = 480;
             webView.MinHeight = 600;
 
             grid.Children.Add(webView);
 
             dialog.Content = grid;
-            dialog.GotFocus += (s, e) => { webView.Focus(Windows.UI.Xaml.FocusState.Programmatic); };
+            dialog.GotFocus += (s, e) => { webView.Focus(Microsoft.UI.Xaml.FocusState.Programmatic); };
 
             var res = await dialog.ShowAsync();
 
             return new WebAuthenticationResult(code, errorCode, errorCode > 0 ? WebAuthenticationStatus.ErrorHttp : string.IsNullOrEmpty(code) ? WebAuthenticationStatus.UserCancel : WebAuthenticationStatus.Success);
         }
 
-        private static void WebView_NavigationFailed(object sender, WebViewNavigationFailedEventArgs e)
+
+        private static void WebView_NavigationCompleted(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs args)
         {
-            errorCode = (uint)e.WebErrorStatus;
-            dialog.Hide();
+            if (!args.IsSuccess)
+            {
+                errorCode = (uint)args.WebErrorStatus;
+                dialog.Hide();
+            }
         }
 
-        private static void WebView_NavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        private static void WebView_NavigationStarting(WebView2 sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationStartingEventArgs args)
         {
             if (args.Uri.ToString().StartsWith(redirectUri.ToString()))
             {
-                var querySegs = args.Uri.Query.Substring(1).Split('&');
+                var querySegs =  new Uri(args.Uri).Query.Substring(1).Split('&');
 
                 foreach (string seg in querySegs)
                 {
                     if (seg.StartsWith("code="))
                     {
-                        code = args.Uri.ToString();
+                        code = args.Uri;
                         break;
                     }
                 }

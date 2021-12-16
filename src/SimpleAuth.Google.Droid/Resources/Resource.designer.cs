@@ -14,7 +14,7 @@ namespace SimpleAuth.Google.Droid
 {
 	
 	
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "12.1.99.123")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "12.1.99.81")]
 	public partial class Resource
 	{
 		

@@ -1,11 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net6.0;net6.0-ios;net6.0-android;net6.0-maccatalyst;</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <LangVersion>latest</LangVersion> 
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net6.0-ios;net6.0-android;net6.0-maccatalyst;</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows')) and '$(MSBuildRuntimeType)' == 'Full'">$(TargetFrameworks);net6.0-windows10.0.19041</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+	<ItemGroup Condition="$(TargetFramework.Contains('-windows'))">
+		<!-- Required - WinUI does not yet have buildTransitive for everything -->
+		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Platforms\Windows\" />
+	</ItemGroup>
 </Project>
