@@ -23,9 +23,15 @@ namespace SimpleAuth
 
 			s.ValueData = NSData.FromString(value);
 
-			if (!string.IsNullOrWhiteSpace (sharedGroupId) && ObjCRuntime.Runtime.Arch != ObjCRuntime.Arch.SIMULATOR) {
+#if __MACCATALYST__
+			if (!string.IsNullOrWhiteSpace (sharedGroupId)) {
 				s.AccessGroup = sharedGroupId;
 			}
+#else
+            if (!string.IsNullOrWhiteSpace (sharedGroupId) && ObjCRuntime.Runtime.Arch != ObjCRuntime.Arch.SIMULATOR) {
+				s.AccessGroup = sharedGroupId;
+			}
+#endif
 			var err = SecKeyChain.Add(s);
 			Console.WriteLine (err);
 		}
