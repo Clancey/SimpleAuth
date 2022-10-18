@@ -31,7 +31,14 @@ jobs:
       run: |
         & dotnet workload install maui `
           --skip-sign-check `
-          
+
+    - name: install Xamarin
+      shell: pwsh
+      run: |
+        dotnet tool install --global boots
+        boots Xamarin.iOS
+        boots Xamarin.Mac
+
     - name: Build
       run: msbuild /r src/SimpleAuth.sln
       
