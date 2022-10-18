@@ -15,9 +15,17 @@
   <PropertyGroup>
    <LangVersion>preview</LangVersion>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CreatePackage>false</CreatePackage>
+    <EnableCodeSigning>false</EnableCodeSigning>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <CreatePackage>false</CreatePackage>
+    <EnableCodeSigning>false</EnableCodeSigning>
+  </PropertyGroup>
   <Import Project="..\SimpleAuth\SimpleAuth.projitems" Label="Shared" Condition="Exists('..\SimpleAuth\SimpleAuth.projitems')" />
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
    
   <ItemGroup Condition="$(TargetFramework.StartsWith('Xamarin.iOS')) == true OR $(TargetFramework.StartsWith('net6.0-ios')) == true OR $(TargetFramework.StartsWith('net6.0-maccatalyst')) == true ">

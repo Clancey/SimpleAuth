@@ -34,9 +34,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.Droid", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.iOS", "SimpleAuth.Google.iOS\SimpleAuth.Google.iOS.csproj", "{08277D36-1FC1-4FC6-8891-384707ABF688}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAuth.Net", "SimpleAuth.Net\SimpleAuth.Net.csproj", "{78B056CA-A0E6-440D-9259-F377C61BCD93}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net", "SimpleAuth.Net\SimpleAuth.Net.csproj", "{78B056CA-A0E6-440D-9259-F377C61BCD93}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Droid.CustomTabs", "SimpleAuth.Droid.CustomTabs\SimpleAuth.Droid.CustomTabs.csproj", "{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth-net6", "SimpleAuth.Net6\SimpleAuth-net6.csproj", "{3EF20BD1-8FB4-424C-A552-F275E81493E5}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -255,6 +257,22 @@ Global
 		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|x64.Build.0 = Release|Any CPU
 		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|x86.ActiveCfg = Release|Any CPU
 		{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}.Release|x86.Build.0 = Release|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Debug|ARM.Build.0 = Debug|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Debug|x64.Build.0 = Debug|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Debug|x86.Build.0 = Debug|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Release|ARM.ActiveCfg = Release|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Release|ARM.Build.0 = Release|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Release|x64.ActiveCfg = Release|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Release|x64.Build.0 = Release|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Release|x86.ActiveCfg = Release|Any CPU
+		{3EF20BD1-8FB4-424C-A552-F275E81493E5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

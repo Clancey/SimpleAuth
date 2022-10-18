@@ -22,6 +22,7 @@
     <CodesignKey>iPhone Developer</CodesignKey>
     <DeviceSpecificBuild>true</DeviceSpecificBuild>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <EnableCodeSigning>false</EnableCodeSigning>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -33,9 +34,10 @@
     <ConsolePause>false</ConsolePause>
     <CodesignKey>iPhone Developer</CodesignKey>
     <IpaIncludeArtwork>true</IpaIncludeArtwork>
+    <EnableCodeSigning>false</EnableCodeSigning>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicAuthController.cs" />

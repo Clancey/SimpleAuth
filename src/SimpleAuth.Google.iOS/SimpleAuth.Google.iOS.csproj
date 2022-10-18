@@ -31,6 +31,7 @@
     </MtouchLink>
     <MtouchHttpClientHandler>
     </MtouchHttpClientHandler>
+    <EnableCodeSigning>false</EnableCodeSigning>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,6 +46,7 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchHttpClientHandler>
     </MtouchHttpClientHandler>
+    <EnableCodeSigning>false</EnableCodeSigning>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

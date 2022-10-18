@@ -25,6 +25,13 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
       with:
         vs-prerelease: true
+
+    - name: Install Maui Workload
+      shell: pwsh
+      run: |
+        & dotnet workload install maui `
+          --skip-sign-check `
+          
     - name: Build
       run: msbuild /r src/SimpleAuth.sln
       
