@@ -53,7 +53,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Mac" />
     <Reference Include="System.Web.Services" />
-    <Reference Include="System.Net.Http"/>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

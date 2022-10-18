@@ -39,12 +39,6 @@
     <Compile Include="OAuth\OAuthApiTests.cs" />
     <Compile Include="OAuth\OAuthData.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SimpleAuth.Net45\SimpleAuth.Net45.csproj">
-      <Project>{45A98478-4435-4505-BAF3-37F854AC671B}</Project>
-      <Name>SimpleAuth.Net45</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

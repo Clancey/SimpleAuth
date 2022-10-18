@@ -23,9 +23,6 @@
     <files>
         <file src="src\SimpleAuth.Droid\bin\Debug\SimpleAuth.dll" target="lib\MonoAndroid\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Droid\bin\Debug\SimpleAuth.pdb" target="lib\MonoAndroid\SimpleAuth.pdb" />
-        <file src="src\SimpleAuth.Net45\bin\Debug\SimpleAuth.dll" target="lib\net45\SimpleAuth.dll" />
-        <file src="src\SimpleAuth.Net45\bin\Debug\SimpleAuth.pdb" target="lib\net45\SimpleAuth.pdb" />
-        <file src="src\SimpleAuth.Portable\bin\Debug\SimpleAuth.dll" target="lib\Portable-Net45+WinRT45+WP8+WPA81\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Net\bin\Debug\netstandard2.0\SimpleAuth.dll" target="lib\netstandard2.0\SimpleAuth.dll" />
         <file src="src\SimpleAuth.Net\bin\Debug\netstandard2.0\SimpleAuth.pdb" target="lib\netstandard2.0\SimpleAuth.pdb" />
         <file src="src\SimpleAuth.iOS\bin\iPhone\Debug\SimpleAuth.dll" target="lib\Xamarin.iOS10\SimpleAuth.dll" />
