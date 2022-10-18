@@ -52,6 +52,8 @@
     <ProjectReference Include="..\SimpleAuth.iOS\SimpleAuth.iOS.csproj">
       <Project>{2C2264A6-2534-485E-8772-623D1ABEEFFF}</Project>
       <Name>SimpleAuth.iOS</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

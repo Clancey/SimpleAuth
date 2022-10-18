@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32505.426
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.iOS", "SimpleAuth.iOS\SimpleAuth.iOS.csproj", "{2C2264A6-2534-485E-8772-623D1ABEEFFF}"
 EndProject
@@ -30,22 +30,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.Droid", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Google.iOS", "SimpleAuth.Google.iOS\SimpleAuth.Google.iOS.csproj", "{08277D36-1FC1-4FC6-8891-384707ABF688}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Net", "SimpleAuth.Net\SimpleAuth.Net.csproj", "{78B056CA-A0E6-440D-9259-F377C61BCD93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAuth.Net", "SimpleAuth.Net\SimpleAuth.Net.csproj", "{78B056CA-A0E6-440D-9259-F377C61BCD93}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.Droid.CustomTabs", "SimpleAuth.Droid.CustomTabs\SimpleAuth.Droid.CustomTabs.csproj", "{86747A6E-D7F3-4E77-96AF-765B1EDAA13E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth-net6", "SimpleAuth.Net6\SimpleAuth-net6.csproj", "{3EF20BD1-8FB4-424C-A552-F275E81493E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleAuth-net6", "SimpleAuth.Net6\SimpleAuth-net6.csproj", "{3EF20BD1-8FB4-424C-A552-F275E81493E5}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SimpleAuth\SimpleAuth.projitems*{2c2264a6-2534-485e-8772-623d1abeefff}*SharedItemsImports = 4
-		SimpleAuth\SimpleAuth.projitems*{45a98478-4435-4505-baf3-37f854ac671b}*SharedItemsImports = 4
-		SimpleAuth\SimpleAuth.projitems*{5b44ed27-dad7-43fa-8a06-ba2469a1af9e}*SharedItemsImports = 4
-		SimpleAuth\SimpleAuth.projitems*{6457641d-d20d-479b-aa3b-30a9c88b96de}*SharedItemsImports = 4
-		SimpleAuth\SimpleAuth.projitems*{9b2c5b7f-5ee1-4099-9146-6fda74d3eb9c}*SharedItemsImports = 4
-		SimpleAuth\SimpleAuth.projitems*{9fda9bd4-3d55-4132-9055-98986c50e0a4}*SharedItemsImports = 13
-		SimpleAuth\SimpleAuth.projitems*{a9afe645-9d2c-4d04-98ac-96990d9ba60e}*SharedItemsImports = 4
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -252,5 +243,13 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E2D49B8D-6B7B-4AAB-AE97-66D6C1F0B92E}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SimpleAuth\SimpleAuth.projitems*{2c2264a6-2534-485e-8772-623d1abeefff}*SharedItemsImports = 4
+		SimpleAuth\SimpleAuth.projitems*{3ef20bd1-8fb4-424c-a552-f275e81493e5}*SharedItemsImports = 5
+		SimpleAuth\SimpleAuth.projitems*{5b44ed27-dad7-43fa-8a06-ba2469a1af9e}*SharedItemsImports = 4
+		SimpleAuth\SimpleAuth.projitems*{6457641d-d20d-479b-aa3b-30a9c88b96de}*SharedItemsImports = 4
+		SimpleAuth\SimpleAuth.projitems*{78b056ca-a0e6-440d-9259-f377c61bcd93}*SharedItemsImports = 5
+		SimpleAuth\SimpleAuth.projitems*{9fda9bd4-3d55-4132-9055-98986c50e0a4}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
