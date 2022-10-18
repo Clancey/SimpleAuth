@@ -36,8 +36,8 @@ jobs:
       shell: pwsh
       run: |
         dotnet tool install --global boots
-        boots Xamarin.iOS
-        boots Xamarin.Mac
+        boots --stable Xamarin.iOS
+        boots --stable Xamarin.Mac
 
     - name: Build
       run: msbuild /r src/SimpleAuth.sln
