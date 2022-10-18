@@ -47,6 +47,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Providers\FitBitApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Converter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\JsonConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Providers\AzureB2CApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Converters\" />
