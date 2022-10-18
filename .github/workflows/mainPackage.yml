@@ -1,0 +1,48 @@
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build SimpleAuth Nuget
+    env:
+        NUPKG_MAJOR: 0.2
+        BASE: 334
+        NUPKG_SUFFIX: -alpha
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-prerelease: true
+    - name: Restore dependencies
+      run: msbuild /r src/SimpleAuth.sln
+    - name: Build
+      run: msbuild src/SimpleAuth.sln
+      
+    - name: Nuget Pack step
+      shell: bash
+      run: |
+        MINOR_VERSION=$(( $BASE + $GITHUB_RUN_NUMBER ))
+        VERSION=$NUPKG_MAJOR.$MINOR_VERSION$NUPKG_SUFFIX
+        echo "PACKAGE VERSION: $VERSION"
+        nuget pack SimpleAuth.nuspec -version $VERSION -Symbols -SymbolPackageFormat snupkg
+        
+    - uses: actions/upload-artifact@v2
+      name: Upload Nuget Artifact
+      with:
+        name: nuget-artifact.${{env.GITHUB_RUN_NUMBER}}
+        path: |
+          **\*.nupkg
+          **\*.snupkg
+          **\*.symbols.nupkg
