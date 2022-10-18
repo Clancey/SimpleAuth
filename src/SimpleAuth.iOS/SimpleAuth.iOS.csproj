@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Net.Http"/>
   </ItemGroup>
   <ItemGroup>
